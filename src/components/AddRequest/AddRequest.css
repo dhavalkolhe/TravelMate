@@ -1,0 +1,91 @@
+.addReq__container {
+  width: 100%;
+  height: 100vh;
+  margin-bottom: 30px;
+}
+
+.wavesDesign {
+  width: 100%;
+  height: 100vh;
+  margin-top: -170px;
+}
+
+.title {
+  font-weight: 500;
+  margin: 10px 0 20px;
+}
+
+.table__form {
+  margin: 5px 0;
+}
+
+.form__container {
+  width: 40%;
+  height: fit-content;
+  margin: 1rem 2rem;
+  padding: 10px 22px 20px;
+  border-radius: 10px;
+  background: #dfdff0;
+}
+
+td > p {
+  font-weight: 500;
+  font-size: 14px;
+  margin-right: 25px;
+  padding: 5px 0;
+}
+
+td {
+  vertical-align: top;
+  margin-right: 20px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  display: inline-block;
+  margin: 5px 0;
+  outline: none;
+  border: none;
+}
+
+select {
+  width: 108%;
+}
+
+textarea {
+  resize: none;
+}
+
+.btn {
+  border-radius: 10px;
+  padding: 10px;
+  outline: none;
+  border: none;
+  margin-right: 10px;
+  width: 49%;
+  font-weight: 500;
+  cursor: pointer;
+  background: white;
+}
+
+.blue__btn {
+  background: #001963;
+  color: white;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  margin-top: 14px;
+}
+
+button {
+  outline: none;
+  border: none;
+}
+
+button > text__icon {
+  width: 64px;
+}

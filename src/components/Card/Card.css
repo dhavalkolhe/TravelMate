@@ -1,0 +1,80 @@
+.card__container {
+  min-width: 243px;
+  width: 243px;
+  height: max-content;
+  background: #e5e5f3;
+  padding: 10px 15px 12px;
+  border-radius: 10px;
+  margin: 0 10px 30px;
+  font-size: 14px;
+}
+
+.user__icon {
+  width: fit-content;
+  height: fit-content;
+}
+
+.user__icon > img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.user__name {
+  display: flex;
+  align-items: center;
+}
+
+.card__icon > img {
+  width: 15px;
+  height: 15px;
+}
+
+.user__data {
+  margin: 10px 0;
+  line-height: 2rem;
+}
+
+.user__icon,
+.card__icon {
+  padding-right: 8px;
+}
+
+.desc__btn {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.arrow__icon {
+  margin-left: 8px;
+}
+
+.arrow__icon > img {
+  width: 10px;
+  height: 10px;
+}
+
+.send__container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.send-btn {
+  border-radius: 10px;
+  padding: 8px 17px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.desc__none {
+  display: none;
+}
+.desc__display {
+  display: block;
+  padding: 5px 0 0 7px;
+}
