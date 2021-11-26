@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
-import gsap from "gsap";
+// import gsap from "gsap";
 import {
   Box,
   Grid,
@@ -16,6 +16,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  IconButton,
+  ButtonBase,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PersonAdd from "@mui/icons-material/PersonAdd";
@@ -123,7 +125,11 @@ export const Nav = () => {
               }}
             >
               <Tooltip title={"Chat"}>
-                <img src={chatIconDot} alt="Chat Icon" />
+                <ButtonBase
+                  sx={{ borderRadius: "25px", height: "120%", width: "110%" }}
+                >
+                  <img src={chatIconDot} alt="Chat Icon" />
+                </ButtonBase>
               </Tooltip>
             </Box>
 

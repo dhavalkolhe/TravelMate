@@ -1,8 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./HomeComponents.css";
 
 import illustation1 from "../../resources/images/illustration1.svg";
 import bgvector1 from "../../resources/images/bgVector1.svg";
+import locationIcon from "../../resources/icons/locationIcon.svg";
+import destinationIcon from "../../resources/icons/destinationIcon.svg";
+import dateIcon from "../../resources/icons/dateIcon.svg";
 
 import {
   Box,
@@ -13,8 +17,17 @@ import {
   Card,
   CardContent,
   Typography,
+  FormControl,
+  Input,
+  TextField,
+  InputAdornment,
+  OutlinedInput,
+  IconButton,
 } from "@mui/material";
+import DatePicker from "@mui/lab/DatePicker";
+
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import step1 from "../../resources/images/step1.svg";
 import step2 from "../../resources/images/step2.svg";
@@ -41,6 +54,8 @@ export function SearchSection() {
           sx={{
             fontSize: "1.5rem",
             marginLeft: "20vw",
+            marginTop: "2rem",
+            marginBottom: "1rem",
             texAlign: "left",
             letterSpacing: "0.03em",
             textTransform: "uppercase",
@@ -51,6 +66,7 @@ export function SearchSection() {
         </Typography>
         <Stack
           direction="column"
+          spacing={4}
           sx={{
             backgroundColor: "#DFDFF0",
             borderRadius: "10px",
@@ -58,13 +74,133 @@ export function SearchSection() {
               md: "50vw",
             },
             height: {
-              md: "200px",
+              md: "170px",
             },
             marginLeft: "20vw",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Stack direction="row">
-            <Stack></Stack>
+          <Stack direction="column" spacing={4}>
+            <Stack direction="row">
+              <FormControl variant="outlined" sx={{ zIndex: "1" }}>
+                <Stack direction={"row"} spacing={2} alignItems="flex-end">
+                  <Box>
+                    <Typography class="textfieldHead">
+                      Traveling from
+                    </Typography>
+                    <TextField
+                      size="small"
+                      placeholder="Enter Location"
+                      sx={{
+                        width: "190px",
+                        backgroundColor: "white",
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IconButton edge="start">
+                              <img src={locationIcon} alt={"logo"} />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Box>
+
+                  <Box>
+                    <Typography class="textfieldHead">Destination</Typography>
+                    <TextField
+                      size="small"
+                      placeholder="Enter Location"
+                      sx={{
+                        width: "190px",
+                        backgroundColor: "white",
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IconButton edge="start">
+                              <img src={destinationIcon} alt={"logo"} />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Box>
+                  <Box>
+                    <Typography class="textfieldHead">Date</Typography>
+                    {/* <TextField
+                      size="small"
+                      placeholder="DD-MM-YYYY"
+                      sx={{
+                        width: "160px",
+                        backgroundColor: "white",
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IconButton edge="start">
+                              <img src={dateIcon} alt={"logo"} />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    /> */}
+
+                    <DatePicker
+                      openTo="day"
+                      views={["month", "day"]}
+                      // value={value}
+                      // onChange={(newValue) => {
+                      //   setValue(newValue);
+                      // }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          size="small"
+                          // placeholder="DD-MM-YYYY"
+                          sx={{
+                            width: "160px",
+                            backgroundColor: "white",
+                          }}
+                          // InputProps={{
+                          //   startAdornment: (
+                          //     <InputAdornment position="start">
+                          //       <IconButton edge="start">
+                          //         <img src={dateIcon} alt={"logo"} />
+                          //       </IconButton>
+                          //     </InputAdornment>
+                          //   ),
+                          // }}
+                        />
+                      )}
+                    />
+                  </Box>
+
+                  <Button
+                    variant="contained"
+                    startIcon={<SearchOutlinedIcon />}
+                    sx={{
+                      backgroundColor: "#001963",
+                      "&:hover": {
+                        backgroundColor: "#062580",
+                      },
+                      height: "40px",
+                      width: "150px",
+                    }}
+                  >
+                    Search
+                  </Button>
+                </Stack>
+              </FormControl>
+            </Stack>
+            <Box display="flex" justifyContent="space-between">
+              <Typography class="redText">Add request</Typography>
+              <Typography class="redText">
+                <u>Help?!</u>
+              </Typography>
+            </Box>
           </Stack>
         </Stack>
       </Container>
@@ -90,72 +226,99 @@ export function SearchSection() {
   );
 }
 
-const Step = ({ image, num, data }) => {
-  return (
-    <Stack
-      display="flex"
-      flexFlow="column nowrap"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <img src={image} alt={num} />
-      <Box>Step {num}</Box>
-      <Box>{data}</Box>
-    </Stack>
-  );
-};
-
 export function StepsInfo() {
-  return (
-    <Stack
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexFlow="column nowrap"
-      marginTop="100vh"
-    >
-      <Box>
-        <h2>How it Works</h2>
-      </Box>
-      <Stack flexFlow="row nowrap" spacing={4}>
-        <Step image={step1} num={"1"} data={"lorem ipsum"} />
-        <Step image={step2} num={"2"} data={"lorem ipsum"} />
-        <Step image={step3} num={"3"} data={"lorem ipsum"} />
-        <Step image={step4} num={"4"} data={"lorem ipsum"} />
-        <Step image={step5} num={"5"} data={"lorem ipsum"} />
+  const Step = ({ image, num, data }) => {
+    return (
+      <Stack
+        display="flex"
+        flexFlow="column nowrap"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <img src={image} alt={num} />
+        <Typography class="stepsInfoHead">Step {num}</Typography>
+        <Typography class="stepsInfoData">{data}</Typography>
       </Stack>
-    </Stack>
+    );
+  };
+  return (
+    <>
+      <Stack
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexFlow="column nowrap"
+        sx={{
+          marginTop: "65vh",
+        }}
+      >
+        <Box>
+          <Typography variant="h5">How it Works</Typography>
+        </Box>
+        <Stack direction="row" spacing={4} sx={{ margin: "5rem 0" }}>
+          <Step
+            image={step1}
+            num={"1"}
+            data={
+              "Search for relevent results if nothing comes up add a request"
+            }
+          />
+          <Step
+            image={step2}
+            num={"2"}
+            data={"Go through the results and send a request"}
+          />
+          <Step
+            image={step3}
+            num={"3"}
+            data={"Chat with the person and discuss "}
+          />
+          <Step
+            image={step4}
+            num={"4"}
+            data={"Remove the request if you find someone"}
+          />
+          <Step image={step5} num={"5"} data={"Travel Safe.\nTravel Mate."} />
+        </Stack>
+      </Stack>
+    </>
   );
 }
 
-const ArticleCard = ({ link, website, title }) => {
-  return (
-    <Card sx={{ minWidth: 275 }} componenet={Link} to={link}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="#000000" gutterBottom>
-          {website}
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} color="#000000" gutterBottom>
-          {title}
-        </Typography>
-        <Button
-          variant="contained"
-          endIcon={<KeyboardArrowRightIcon />}
-          sx={{
-            backgroundColor: "#001963",
-            "&:hover": {
-              backgroundColor: "#062580",
-            },
-          }}
-        >
-          Read More
-        </Button>
-      </CardContent>
-    </Card>
-  );
-};
-
 export function Article() {
+  const ArticleCard = ({ link, website, title }) => {
+    return (
+      <Card
+        componenet={Link}
+        to={link}
+        sx={{
+          width: "50%",
+          backgroundColor: "#DFDFF0",
+        }}
+      >
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="#000000" gutterBottom>
+            {website}
+          </Typography>
+          <Typography sx={{ fontSize: 14 }} color="#000000" gutterBottom>
+            {title}
+          </Typography>
+          <Button
+            variant="contained"
+            endIcon={<KeyboardArrowRightIcon />}
+            sx={{
+              backgroundColor: "#001963",
+              "&:hover": {
+                backgroundColor: "#062580",
+              },
+            }}
+          >
+            Read More
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  };
   return (
     <Stack
       display="flex"
@@ -164,9 +327,9 @@ export function Article() {
       flexFlow="column nowrap"
     >
       <Box>
-        <h2>Travelling Safe</h2>
+        <Typography variant="h5">Travelling Safe</Typography>
       </Box>
-      <Stack direction="row" spacing={4}>
+      <Stack direction="row" spacing={4} sx={{ margin: "5rem 0" }}>
         <ArticleCard
           link={"https://www.cnbc.com/world/?region=world"}
           website={"www.cnbc.com"}

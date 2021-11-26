@@ -1,0 +1,19 @@
+.textfieldHead {
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  color: #2b2c34;
+  margin-bottom: 0.8rem;
+}
+
+.redText {
+  color: #e45858;
+}
+
+/* StepsInfo */
+.stepsInfoHead {
+}
+
+.stepsInfoData {
+  width: 80%;
+  text-align: center;
+}
