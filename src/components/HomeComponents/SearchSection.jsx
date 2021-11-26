@@ -6,7 +6,7 @@ import illustation1 from "../../resources/images/illustration1.svg";
 import bgvector1 from "../../resources/images/bgVector1.svg";
 import locationIcon from "../../resources/icons/locationIcon.svg";
 import destinationIcon from "../../resources/icons/destinationIcon.svg";
-import dateIcon from "../../resources/icons/dateIcon.svg";
+// import dateIcon from "../../resources/icons/dateIcon.svg";
 
 import {
   Box,
@@ -18,10 +18,10 @@ import {
   CardContent,
   Typography,
   FormControl,
-  Input,
+  // Input,
   TextField,
   InputAdornment,
-  OutlinedInput,
+  // OutlinedInput,
   IconButton,
 } from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";

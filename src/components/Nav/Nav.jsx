@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
@@ -16,10 +16,10 @@ import {
   List,
   ListItem,
   ListItemText,
-  IconButton,
+  // IconButton,
   ButtonBase,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
