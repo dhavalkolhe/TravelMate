@@ -1,8 +1,7 @@
 import { initializeApp } from "firebase/app";
-import * as config from "../utils/config";
 
 const firebaseConfig = {
-  apiKey: config.REACT_APP_SITE_KEY,
+  apiKey: "AIzaSyDLl5Kgb2RE4JNwhPayiVghYcca8-zi98c",
   authDomain: "travelmate-68913.firebaseapp.com",
   projectId: "travelmate-68913",
   storageBucket: "travelmate-68913.appspot.com",
