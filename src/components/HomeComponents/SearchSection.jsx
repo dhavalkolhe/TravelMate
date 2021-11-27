@@ -15,13 +15,10 @@ import {
   Stack,
   Button,
   Card,
-  CardContent,
   Typography,
   FormControl,
-  // Input,
   TextField,
   InputAdornment,
-  // OutlinedInput,
   IconButton,
 } from "@mui/material";
 import DatePicker from "@mui/lab/DatePicker";
@@ -236,7 +233,9 @@ export function StepsInfo() {
         alignItems="center"
       >
         <img src={image} alt={num} />
-        <Typography class="stepsInfoHead">Step {num}</Typography>
+        <Typography class="stepsInfoHead" variant="h4">
+          Step {num}
+        </Typography>
         <Typography class="stepsInfoData">{data}</Typography>
       </Stack>
     );
@@ -253,9 +252,9 @@ export function StepsInfo() {
         }}
       >
         <Box>
-          <Typography variant="h5">How it Works</Typography>
+          <Typography variant="h4">How it Works</Typography>
         </Box>
-        <Stack direction="row" spacing={4} sx={{ margin: "5rem 0" }}>
+        <Stack direction="row" spacing={4} sx={{ margin: "4rem 0 5rem 0" }}>
           <Step
             image={step1}
             num={"1"}
@@ -293,29 +292,49 @@ export function Article() {
         to={link}
         sx={{
           width: "50%",
+          height: "100%",
           backgroundColor: "#DFDFF0",
         }}
       >
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="#000000" gutterBottom>
-            {website}
-          </Typography>
-          <Typography sx={{ fontSize: 14 }} color="#000000" gutterBottom>
-            {title}
-          </Typography>
-          <Button
-            variant="contained"
-            endIcon={<KeyboardArrowRightIcon />}
-            sx={{
-              backgroundColor: "#001963",
-              "&:hover": {
-                backgroundColor: "#062580",
-              },
-            }}
+        <Grid container sx={{ padding: "1rem", height: "100%" }}>
+          <Grid item>
+            <Typography sx={{ fontSize: 14 }} color="#001963" gutterBottom>
+              {website}
+            </Typography>
+          </Grid>
+
+          <Grid item>
+            <Typography
+              // sx={{ fontSize: 14 }}
+              color="#2B2C34"
+              gutterBottom
+              variant="h6"
+            >
+              {title}
+            </Typography>
+          </Grid>
+
+          <Grid
+            item
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="flex-end"
+            width="100%"
           >
-            Read More
-          </Button>
-        </CardContent>
+            <Button
+              variant="contained"
+              endIcon={<KeyboardArrowRightIcon />}
+              sx={{
+                backgroundColor: "#001963",
+                "&:hover": {
+                  backgroundColor: "#062580",
+                },
+              }}
+            >
+              Read More
+            </Button>
+          </Grid>
+        </Grid>
       </Card>
     );
   };
@@ -327,9 +346,17 @@ export function Article() {
       flexFlow="column nowrap"
     >
       <Box>
-        <Typography variant="h5">Travelling Safe</Typography>
+        <Typography variant="h4">Travelling Safe</Typography>
       </Box>
-      <Stack direction="row" spacing={4} sx={{ margin: "5rem 0" }}>
+      <Stack
+        direction="row"
+        spacing={4}
+        sx={{
+          margin: "4rem 0 5rem 0",
+          height: "180px",
+          width: "100%",
+        }}
+      >
         <ArticleCard
           link={"https://www.cnbc.com/world/?region=world"}
           website={"www.cnbc.com"}
@@ -367,8 +394,19 @@ export function WebsiteInfo() {
     );
   };
   return (
-    <Box backgroundColor="#D1D1E9">
-      <Grid container direction="row">
+    <Box
+      sx={{
+        backgroundColor: "#D1D1E9",
+      }}
+    >
+      <Grid
+        container
+        direction="row"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <Item
           image={websiteInfoIcon1}
           head={"Trust who you travel with"}
