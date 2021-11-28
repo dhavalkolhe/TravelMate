@@ -7,8 +7,9 @@ import AddRequest from "./components/AddRequest/AddRequest";
 
 // Contexts
 import UserContextProvider from "./context/userContext";
-import SearchResult from "./pages/SearchResult/SearchResult";
+import ResponseContextProvider from "./context/responseContext";
 
+import SearchResult from "./pages/SearchResult/SearchResult";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
@@ -17,29 +18,31 @@ import { Home } from "./pages/Home";
 
 function App() {
   return (
-    <UserContextProvider>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Router>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
+    <ResponseContextProvider>
+      <UserContextProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Router>
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
 
-            <Route exact path="/addRequest">
-              <AddRequest />
-            </Route>
+              <Route exact path="/addRequest">
+                <AddRequest />
+              </Route>
 
-            <Route exact path="/searchRequests">
-              <SearchResult />
-            </Route>
+              <Route exact path="/searchRequests">
+                <SearchResult />
+              </Route>
 
-            <Route exact path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </Router>
-      </LocalizationProvider>
-    </UserContextProvider>
+              <Route exact path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </Router>
+        </LocalizationProvider>
+      </UserContextProvider>
+    </ResponseContextProvider>
   );
 }
 

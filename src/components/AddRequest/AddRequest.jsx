@@ -11,7 +11,6 @@ import SearchBox from '../SearchBox/SearchBox';
 import wavesDesign from '../../img/wavesDesign.svg';
 import plus from '../../img/plus.svg';
 import minus from '../../img/minus.svg';
-// import { Nav } from "../../components/Nav";
 
 
 // firebase
@@ -72,6 +71,7 @@ function AddRequest() {
                     });
                     alert("Document written with ID: ", docRef.id);
                     console.log("Document written with ID: ", docRef.id);
+                    
                 } catch (e) {
                     alert("Error adding document: ", e);
                     console.error("Error adding document: ", e);
@@ -93,7 +93,6 @@ function AddRequest() {
                         backgroundPosition: "95% 90%"
                     }
                 } >
-                    {/* <Nav /> */}
                     <div className="form__container">
                         <h2 className="title">Add Request</h2>
                         <table className="table__form">

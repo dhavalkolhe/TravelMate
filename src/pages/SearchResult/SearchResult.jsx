@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import './SearchResult.css'
-import { db } from '../../firebase/db';
-import { collection, getDocs } from "firebase/firestore";
-import Card from '../../components/Card/Card';
 import Loader from '../../components/Loader/Loader';
-// import { where, query } from "firebase/firestore";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ResponseContext } from '../../context/responseContext';
 
 function SearchResult() {
-    const [result, setResult] = useState([]);
+    const [response] = useContext(ResponseContext);
+
+    const [gender, setGender] = useState("Any");
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -15,26 +18,8 @@ function SearchResult() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const loadData = async () => {
-        // let start = new Date('2021-11-01');
-        // let end = new Date('2021-11-31');
-
-        const querySnapshot = await getDocs(collection(db, "rides"));
-        // const q = query(querySnapshot, where("date", ">", end));
-
-        const x = querySnapshot.docs.map((doc, i) => {
-            return <Card
-                key={i}
-                currentCity={doc.data().currentCity}
-                destinationCity={doc.data().destinationCity}
-                date={doc.data().date.toDate().toDateString()}
-                description={doc.data().description}
-                displayName={doc.data().displayName}
-                photoURL={doc.data().photoURL}
-            />
-        });
+    const loadData = () => {
         setLoading(false);
-        setResult(x);
     }
 
     return (
@@ -43,10 +28,73 @@ function SearchResult() {
             <div className="container">
                 <div className="filter__results">
                     <p className="secondary__title">Filter Results</p>
+                    <div className="eachFilter">
+                        <p className="tertiary__title">Date</p>
+                        <table>
+                            <tr>
+                                <td className="mr">From</td>
+                                <td>
+                                    <DatePicker
+                                        selected={startDate}
+                                        onChange={(date) => setStartDate(date)}
+                                        minDate={new Date()}
+                                        dateFormat="dd-MMM-yyyy" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="mr">To</td>
+                                <td>
+                                    <DatePicker
+                                        selected={endDate}
+                                        onChange={(date) => setEndDate(date)}
+                                        minDate={new Date()}
+                                        dateFormat="dd-MMM-yyyy" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div className="eachFilter">
+                        <p className="tertiary__title">Location</p>
+                        <table>
+                            <tr>
+                                <td className="mr">From</td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="mr">To</td>
+                                <td>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div className="eachFilter">
+                        <p className="tertiary__title">Preferred Gender</p>
+                        <table>
+                            <tr>
+                                <td className="mr">   </td>
+                                <td>
+                                    <select
+                                        name="gender"
+                                        required
+                                        defaultValue={gender}
+                                        onChange={(gender) => setGender(gender.target.value)}
+                                    >
+                                        <option value="Any">Any</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
                 </div>
                 <div className="results">
                     {loading && <Loader />}
-                    {result}
+                    {response}
                 </div>
             </div>
         </div>
