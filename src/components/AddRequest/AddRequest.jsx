@@ -11,6 +11,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import wavesDesign from '../../img/wavesDesign.svg';
 import plus from '../../img/plus.svg';
 import minus from '../../img/minus.svg';
+import { v4 as uuidv4 } from 'uuid';
 
 
 // firebase
@@ -67,11 +68,12 @@ function AddRequest() {
                         nop,
                         description,
                         displayName: data.displayName,
-                        photoURL: data.photoURL
+                        photoURL: data.photoURL,
+                        roomId: uuidv4()
                     });
                     alert("Document written with ID: ", docRef.id);
                     console.log("Document written with ID: ", docRef.id);
-                    
+
                 } catch (e) {
                     alert("Error adding document: ", e);
                     console.error("Error adding document: ", e);

@@ -2,13 +2,12 @@ import React, { useState, createContext, useEffect } from "react";
 import Card from "../components/Card/Card";
 import { db } from "../firebase/db";
 import { collection, query } from "firebase/firestore";
-
 import { onSnapshot } from "firebase/firestore";
 
 export const ResponseContext = createContext();
 
 const ResponseContextProvider = (props) => {
-  const [response, setResponse] = useState();
+  const [response, setResponse] = useState([]);
 
   useEffect(() => {
     loadData();
@@ -16,7 +15,9 @@ const ResponseContextProvider = (props) => {
   }, []);
 
   const loadData = async () => {
+    console.log("Loading response... ");
     const q = query(collection(db, "rides"));
+
     onSnapshot(q, (querySnapshot) => {
       const x = querySnapshot.docs.map((doc, i) => {
         return (
@@ -28,11 +29,13 @@ const ResponseContextProvider = (props) => {
             description={doc.data().description}
             displayName={doc.data().displayName}
             photoURL={doc.data().photoURL}
+            roomId={doc.data().roomId}
           />
         );
       });
       setResponse(x);
     });
+    console.log("Response loaded.");
   };
 
   return (

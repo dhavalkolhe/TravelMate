@@ -15,6 +15,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 // Pages
 import { Home } from "./pages/Home";
+import Chat from "./components/ChatDemo/Chat";
 
 function App() {
   return (
@@ -33,6 +34,10 @@ function App() {
 
               <Route exact path="/searchRequests">
                 <SearchResult />
+              </Route>
+
+              <Route exact path="/chat">
+                <Chat />
               </Route>
 
               <Route exact path="/">

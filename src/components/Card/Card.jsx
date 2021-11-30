@@ -5,9 +5,11 @@ import destinationLocationIcon from '../../img/destinationLocationIcon.svg'
 import dateIcon from '../../img/dateIcon.svg'
 import arrow from '../../img/arrow.svg'
 import './Card.css'
+import Chat from '../ChatDemo/Chat';
 
-function Card({ currentCity, destinationCity, date, description, displayName, photoURL }) {
+function Card({ currentCity, destinationCity, date, description, displayName, photoURL, roomId }) {
     const [descHide, setDescHide] = useState(true);
+    const [chatOpen, setChatOpen] = useState(false);
     return (
         <div className="card__container">
             <div className="user__name">
@@ -53,11 +55,13 @@ function Card({ currentCity, destinationCity, date, description, displayName, ph
                 {description}
             </p>
             <div className="send__container">
-                <button className="send-btn blue__btn">
+                <button className="send-btn blue__btn"
+                    onClick={() => { setChatOpen(true) }}>
                     Send Request
                 </button>
-            </div>
-        </div >
+            </div >
+            {chatOpen && <Chat roomId={roomId} />}
+        </div>
     )
 }
 

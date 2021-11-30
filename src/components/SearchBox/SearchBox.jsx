@@ -30,7 +30,7 @@ function SearchBox({ imgSrc, inputName, selectedCity, setSelectedCity }) {
                         onClick={() => onCitiesClick(city)}
                         key={city.id}
                     >
-                        {city.name.toUpperCase()}, {city.state.toUpperCase()}
+                        {city.name}, {city.state}
                     </li>;
                 });
 

@@ -5,13 +5,19 @@ import { UserContext } from '../../context/userContext';
 
 // firebase
 import '../../firebase/firebase';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 
 function Login() {
     const [user, setUser] = useContext(UserContext);
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log(user.uid)
+        }
+    });
 
     const signIn = () => {
         signInWithPopup(auth, provider)
