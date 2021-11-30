@@ -15,7 +15,7 @@ function Login() {
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log(user.uid)
+            // console.log(user.uid)
         }
     });
 
