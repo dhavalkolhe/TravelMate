@@ -4,7 +4,7 @@ import io from "socket.io-client"
 import './Chat.css'
 import { useParams } from 'react-router-dom';
 
-const socket = io("http://localhost:8000", {
+const socket = io("https://travelmate-backend.herokuapp.com", {
     transports: ['websocket', 'polling', 'flashsocket']
 });
 
