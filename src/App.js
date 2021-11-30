@@ -36,7 +36,7 @@ function App() {
                 <SearchResult />
               </Route>
 
-              <Route exact path="/chat">
+              <Route exact path="/chat/:roomId">
                 <Chat />
               </Route>
 

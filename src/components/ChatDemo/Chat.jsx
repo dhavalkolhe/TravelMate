@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react"
 import ScrollToBottom from "react-scroll-to-bottom";
 import io from "socket.io-client"
 import './Chat.css'
+import { useParams } from 'react-router-dom';
 
 const socket = io("http://localhost:8000", {
     transports: ['websocket', 'polling', 'flashsocket']
 });
 
-function Chat({ roomId }) {
+function Chat() {
     const [username, setUsername] = useState("");
     const [room, setRoom] = useState();
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
     const [joined, setJoined] = useState(false);
+    const { roomId } = useParams();
 
     useEffect(() => {
         socket.emit("join_room", roomId);
