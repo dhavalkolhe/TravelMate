@@ -1,28 +1,52 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../../context/userContext';
-
 // import Recaptcha from 'react-recaptcha';
 
 // firebase
 import '../../firebase/firebase';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+
+// firestore
+import { db } from '../../firebase/db';
+import { setDoc, doc, getDoc } from "firebase/firestore";
+
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
-
 
 function Login() {
     const [user, setUser] = useContext(UserContext);
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // console.log(user.uid)
+    const addUser = async (displayName, photoURL, uid) => {
+        try {
+            setDoc(doc(db, "users", uid), {
+                displayName, photoURL
+            });
+        } catch (e) {
+            console.error("Error adding user: ", e);
         }
-    });
+    }
+
+    const userExists = (uid) => {
+        const docRef = doc(db, "users", uid);
+        getDoc(docRef)
+            .then((docSnap) => {
+                if (docSnap.exists()) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            })
+            .catch((err) => {
+                console.log("Error checking user existence: ", err.message);
+            })
+    }
 
     const signIn = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
-                const { displayName, photoURL } = result.user;
+
+                const { displayName, photoURL, uid } = result.user;
                 const authorized = (result.user.accessToken) ? true : false;
 
                 setUser((prev) => ({
@@ -32,18 +56,25 @@ function Login() {
                     photoURL
                 }));
 
+                if (!userExists(uid)) {
+                    addUser(displayName, photoURL, uid);
+                }
+
             }).catch((error) => {
                 console.log(error.message);
             });
     }
 
     const logOut = () => {
-        setUser({
-            authorized: false,
-            displayName: "",
-            photoURL: "",
-        })
-
+        signOut(auth).then(() => {
+            setUser({
+                authorized: false,
+                displayName: "",
+                photoURL: "",
+            })
+        }).catch((error) => {
+            alert("Error signing out user : ", error.message);
+        });
     }
     // const [isVerfied, setIsVerified] = useState(false);
 
