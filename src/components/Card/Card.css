@@ -9,6 +9,10 @@
   font-size: 14px;
 }
 
+button[disabled] {
+  background: rgb(163, 159, 159);
+}
+
 .user__icon {
   width: fit-content;
   height: fit-content;

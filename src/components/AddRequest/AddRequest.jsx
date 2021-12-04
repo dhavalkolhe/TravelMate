@@ -16,6 +16,10 @@ import { v4 as uuidv4 } from 'uuid';
 // firebase
 import { db } from '../../firebase/db';
 import { collection, addDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
+let uid;
 
 function AddRequest() {
     const [user] = useContext(UserContext);
@@ -30,6 +34,12 @@ function AddRequest() {
 
     const localData = localStorage.getItem('user');
     const data = localData && (JSON.parse(localData));
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            uid = user.uid;
+        }
+    });
 
     const formValidation = () => {
         if (currentCity && destinationCity && date && time && gender && nop && mode)
@@ -57,8 +67,9 @@ function AddRequest() {
         e.preventDefault();
         if (formValidation()) {
             if (window.confirm("Do yo want to continue?")) {
+                setDate(date.setHours(0, 0, 0, 0));
                 try {
-                    const docRef = await addDoc(collection(db, "rides"), {
+                    await addDoc(collection(db, "rides"), {
                         currentCity,
                         destinationCity,
                         date,
@@ -68,14 +79,15 @@ function AddRequest() {
                         description,
                         displayName: data.displayName,
                         photoURL: data.photoURL,
-                        roomId: uuidv4()
+                        roomId: uuidv4(),
+                        userId: uid
                     });
-                    alert("Document written with ID: ", docRef.id);
-                    console.log("Document written with ID: ", docRef.id);
+                    alert("Document written");
+
+                    setDate(new Date())
 
                 } catch (e) {
-                    alert("Error adding document: ", e);
-                    console.error("Error adding document: ", e);
+                    console.log("Error adding document: ", e);
                 }
             }
         } else {
@@ -184,7 +196,7 @@ function AddRequest() {
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p>Preferred Gender</p>
+                                        <p>Your Gender</p>
                                     </td>
                                     <td>
                                         <div className="input__wrapper">
@@ -194,9 +206,9 @@ function AddRequest() {
                                                 defaultValue={gender}
                                                 onChange={(gender) => setGender(gender.target.value)}
                                             >
-                                                <option value="Any">Any</option>
                                                 <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
                                             </select>
                                         </div>
                                     </td>

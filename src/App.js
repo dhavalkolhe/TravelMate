@@ -8,6 +8,7 @@ import AddRequest from "./components/AddRequest/AddRequest";
 // Contexts
 import UserContextProvider from "./context/userContext";
 import ResponseContextProvider from "./context/responseContext";
+import "./firebase/firebase";
 
 import SearchResult from "./pages/SearchResult/SearchResult";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";

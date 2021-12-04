@@ -53,6 +53,10 @@ function SearchBox({ imgSrc, inputName, selectedCity, setSelectedCity }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInput, cityData, clicked])
 
+    const updateSelectedInp = (e) => {
+        setSelectedCity(e);
+        setUserInput(e.toUpperCase())
+    }
 
     useEffect(() => {
         getData()
@@ -89,7 +93,7 @@ function SearchBox({ imgSrc, inputName, selectedCity, setSelectedCity }) {
                     placeholder="Enter Location"
                     required={true}
                     autoComplete="off"
-                    onChange={e => { setUserInput(e.target.value.toUpperCase()) }}
+                    onChange={e => { updateSelectedInp(e.target.value) }}
                     value={userInput}
                 />
             </div>

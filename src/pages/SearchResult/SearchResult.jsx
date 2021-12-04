@@ -14,28 +14,76 @@ function SearchResult() {
     const [currentCity, setCurrentCity] = useState("");
     const [destinationCity, setDestinationCity] = useState("");
     const [gender, setGender] = useState("Any");
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date().setMonth(new Date().getMonth() + 6));
+    const [startDate, setStartDate] = useState(new Date().setHours(0, 0, 0, 0));
+    const [endDate, setEndDate] = useState(new Date(new Date().setMonth(new Date().getMonth() + 6)));
+
     const [loading, setLoading] = useState(true);
-    // const [filteredResponse, setFilteredResponse] = useState();
+    const [filteredResponse, setFilteredResponse] = useState();
 
     useEffect(() => {
         if (response) {
-            loadResponse();
-            setLoading(false);
+            setFilteredResponse(response);
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
         }
         // eslint-disable-next-line
     }, [response])
 
-    const loadResponse = () => {
-        // response.forEach(element => {
+    useEffect(() => {
+        let x = [];
+        let y = [];
+        let z = [];
+        let g = [];
 
-        //    console.log(element.props)
-        // });
-        // let x = response.filter(x => (x.props.currentCity === currentCity)
-        //     || (x.props.destinationCity === destinationCity));
-        // setFilteredResponse(x);
-    }
+        x = response.filter((response) =>
+        (
+            new Date(response.props.date) >= new Date(startDate)
+            &&
+            new Date(response.props.date) <= new Date(endDate)
+        )
+        )
+
+        if (currentCity !== "" && x.length) {
+            y = x.filter((response) =>
+            (
+                (response.props.currentCity.includes(currentCity))
+            ))
+        }
+        else {
+            y = [];
+        }
+
+        if (destinationCity !== "" && y.length) {
+
+            z = y.filter((response) =>
+            (
+                (response.props.destinationCity.includes(destinationCity))
+            ))
+        } else {
+            z = [];
+        }
+
+        if (gender && gender !== 'Any') {
+            if (z.length) {
+                g = z.filter((response) =>
+                    (response.props.gender === gender))
+            } else if (y.length) {
+                g = y.filter((response) =>
+                    (response.props.gender === gender))
+            } else if (x.length) {
+                g = x.filter((response) =>
+                    (response.props.gender === gender))
+            }
+        } else {
+            g = [];
+        }
+
+        (g.length) ? setFilteredResponse(g) : (z.length) ? setFilteredResponse(z) : (y.length) ? setFilteredResponse(y) : (x.length) ? setFilteredResponse(x) : setFilteredResponse([]);
+
+        // eslint-disable-next-line
+    }, [startDate, endDate, currentCity, destinationCity, gender])
+
 
 
 
@@ -118,6 +166,7 @@ function SearchResult() {
                                             <option value="Any">Any</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -130,7 +179,9 @@ function SearchResult() {
                 </div>
                 <div className="results">
                     {loading && <Loader />}
-                    {response}
+                    {filteredResponse}
+                    {/* {response} */}
+
 
                 </div>
             </div>

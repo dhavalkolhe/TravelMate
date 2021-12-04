@@ -19,7 +19,9 @@ function Login() {
     const addUser = async (displayName, photoURL, uid) => {
         try {
             setDoc(doc(db, "users", uid), {
-                displayName, photoURL
+                displayName,
+                photoURL,
+                groups: []
             });
         } catch (e) {
             console.error("Error adding user: ", e);
@@ -45,7 +47,7 @@ function Login() {
     const signIn = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
-
+                console.log(result.user)
                 const { displayName, photoURL, uid } = result.user;
                 const authorized = (result.user.accessToken) ? true : false;
 

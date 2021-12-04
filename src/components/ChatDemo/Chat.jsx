@@ -5,7 +5,8 @@ import './Chat.css'
 import { useParams } from 'react-router-dom';
 
 const socket = io(process.env.REACT_APP_BACKEND_URL, {
-    transports: ['websocket', 'polling', 'flashsocket']
+    transports: ['websocket', 'polling', 'flashsocket'],
+    SameSite: 'None'
 });
 
 function Chat() {

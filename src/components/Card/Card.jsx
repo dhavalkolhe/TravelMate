@@ -7,9 +7,25 @@ import arrow from '../../img/arrow.svg'
 import './Card.css'
 import { Link } from 'react-router-dom';
 
-function Card({ currentCity, destinationCity, date, description, displayName, photoURL, roomId }) {
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+const auth = getAuth();
+let uid;
+
+function Card({ currentCity, destinationCity, date, description, displayName, photoURL, roomId, userId }) {
+
     const [descHide, setDescHide] = useState(true);
+    const [disable, setDisable] = useState(false);
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            uid = user.uid;
+        }
+
+        (userId === uid) ? setDisable(true) : setDisable(false);
+    });
+
     return (
+
         <div className="card__container">
             <div className="user__name">
                 <i className="user__icon">
@@ -51,16 +67,16 @@ function Card({ currentCity, destinationCity, date, description, displayName, ph
                 </i>
             </button>
             <p className={descHide ? "desc__none" : "desc__display"}>
-                {description}
+                {description ? description : <span style={{ color: "gray" }}>No description available</span>}
             </p>
             <div className="send__container">
                 <Link to={`/chat/${roomId}`}>
-                    <button className="send-btn blue__btn">
+                    <button className="send-btn blue__btn" disabled={disable}>
                         Send Request
                     </button>
                 </Link>
             </div >
-        </div>
+        </div >
     )
 }
 
