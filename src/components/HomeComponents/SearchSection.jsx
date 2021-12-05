@@ -175,20 +175,22 @@ export function SearchSection() {
                     />
                   </Box>
 
-                  <Button
-                    variant="contained"
-                    startIcon={<SearchOutlinedIcon />}
-                    sx={{
-                      backgroundColor: "#001963",
-                      "&:hover": {
-                        backgroundColor: "#062580",
-                      },
-                      height: "40px",
-                      width: "150px",
-                    }}
-                  >
-                    Search
-                  </Button>
+                  <Link to="/searchRequests">
+                    <Button
+                      variant="contained"
+                      startIcon={<SearchOutlinedIcon />}
+                      sx={{
+                        backgroundColor: "#001963",
+                        "&:hover": {
+                          backgroundColor: "#062580",
+                        },
+                        height: "40px",
+                        width: "150px",
+                      }}
+                    >
+                      Search
+                    </Button>
+                  </Link>
                 </Stack>
               </FormControl>
             </Stack>

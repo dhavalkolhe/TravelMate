@@ -109,7 +109,7 @@ export const Nav = () => {
               <Grid item component={Link} to="/dashboard">
                 Dashboard
               </Grid>
-              <Grid item component={Link} to="/add">
+              <Grid item component={Link} to="/addRequest">
                 Add Request
               </Grid>
             </Grid>
@@ -127,7 +127,9 @@ export const Nav = () => {
                 <ButtonBase
                   sx={{ borderRadius: "25px", height: "120%", width: "110%" }}
                 >
-                  <img src={chatIconDot} alt="Chat Icon" />
+                  <Link to="/chat">
+                    <img src={chatIconDot} alt="Chat Icon" />
+                  </Link>
                 </ButtonBase>
               </Tooltip>
             </Box>
