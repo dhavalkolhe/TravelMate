@@ -7,7 +7,8 @@ const UserContextProvider = (props) => {
   const data = localData
     ? JSON.parse(localData)
     : {
-        authorized: false,
+        //set true for devlopment only, after changing status --> remove localstorage from browser
+        authorized: true,
         displayName: "",
         photoURL: "",
       };

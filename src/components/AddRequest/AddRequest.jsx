@@ -1,20 +1,39 @@
-import React, { useContext, useState } from 'react'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import './AddRequest.css';
-import currentLocationIcon from '../../img/currentLocationIcon.svg'
-import destinationLocationIcon from '../../img/destinationLocationIcon.svg'
-import addReqBg from '../../img/addReqBg.svg'
-import dateIcon from '../../img/dateIcon.svg'
-import { UserContext } from '../../context/userContext';
-import SearchBox from '../SearchBox/SearchBox';
-import wavesDesign from '../../img/wavesDesign.svg';
-import plus from '../../img/plus.svg';
-import minus from '../../img/minus.svg';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useContext, useState } from "react";
+import DatePicker from "@mui/lab/DatePicker";
+import "./AddRequest.css";
+import currentLocationIcon from "../../img/currentLocationIcon.svg";
+import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
+import addReqBg from "../../img/addReqBg.svg";
+import dateIcon from "../../img/dateIcon.svg";
+import { UserContext } from "../../context/userContext";
+import SearchBox from "../SearchBox/SearchBox";
+import wavesDesign from "../../img/wavesDesign.svg";
+import plus from "../../img/plus.svg";
+import minus from "../../img/minus.svg";
+import { v4 as uuidv4 } from "uuid";
+import { Nav } from "../Nav/Nav";
+import locationIcon from "../../resources/icons/locationIcon.svg";
+import destinationIcon from "../../resources/icons/destinationIcon.svg";
+import { About, MadeBy } from "../AboutUs/AboutUs";
+import { Footer } from "../Footer/Footer";
+import { WebsiteInfo } from "../../components/HomeComponents";
+
+import {
+  Box,
+  Container,
+  FormControl,
+  Stack,
+  Typography,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 // firebase
-import { db } from '../../firebase/db';
+import { db } from "../../firebase/db";
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -22,83 +41,293 @@ const auth = getAuth();
 let uid;
 
 function AddRequest() {
-    const [user] = useContext(UserContext);
-    const [currentCity, setCurrentCity] = useState("");
-    const [destinationCity, setDestinationCity] = useState("");
-    const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState("Any");
-    const [mode, setMode] = useState("Any");
-    const [gender, setGender] = useState("Any");
-    const [nop, setNop] = useState(1);
-    const [description, setDescription] = useState("");
+  const [user] = useContext(UserContext);
+  const [currentCity, setCurrentCity] = useState("");
+  const [destinationCity, setDestinationCity] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState("Any");
+  const [mode, setMode] = useState("Any");
+  const [gender, setGender] = useState("Any");
+  const [nop, setNop] = useState(1);
+  const [description, setDescription] = useState("");
 
-    const localData = localStorage.getItem('user');
-    const data = localData && (JSON.parse(localData));
+  const localData = localStorage.getItem("user");
+  const data = localData && JSON.parse(localData);
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            uid = user.uid;
-        }
-    });
-
-    const formValidation = () => {
-        if (currentCity && destinationCity && date && time && gender && nop && mode)
-            return true;
-        else
-            return false;
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      uid = user.uid;
     }
+  });
 
-    const makeDraft = (e) => {
-        e.preventDefault();
-        const draft = {
+  const formValidation = () => {
+    if (currentCity && destinationCity && date && time && gender && nop && mode)
+      return true;
+    else return false;
+  };
+
+  const makeDraft = (e) => {
+    e.preventDefault();
+    const draft = {
+      currentCity,
+      destinationCity,
+      date,
+      time,
+      mode,
+      gender,
+      nop,
+      description,
+    };
+    localStorage.setItem("draft", JSON.stringify(draft));
+  };
+
+  const addRequest = async (e) => {
+    e.preventDefault();
+    if (formValidation()) {
+      if (window.confirm("Do yo want to continue?")) {
+        setDate(date.setHours(0, 0, 0, 0));
+        try {
+          await addDoc(collection(db, "rides"), {
             currentCity,
             destinationCity,
             date,
             time,
-            mode,
             gender,
             nop,
-            description
+            description,
+            displayName: data.displayName,
+            photoURL: data.photoURL,
+            roomId: uuidv4(),
+            userId: uid,
+          });
+          alert("Document written");
+
+          setDate(new Date());
+        } catch (e) {
+          console.log("Error adding document: ", e);
         }
-        localStorage.setItem('draft', JSON.stringify(draft));
+      }
+    } else {
+      alert("Please enter all the fields!");
     }
+  };
 
-    const addRequest = async (e) => {
-        e.preventDefault();
-        if (formValidation()) {
-            if (window.confirm("Do yo want to continue?")) {
-                setDate(date.setHours(0, 0, 0, 0));
-                try {
-                    await addDoc(collection(db, "rides"), {
-                        currentCity,
-                        destinationCity,
-                        date,
-                        time,
-                        gender,
-                        nop,
-                        description,
-                        displayName: data.displayName,
-                        photoURL: data.photoURL,
-                        roomId: uuidv4(),
-                        userId: uid
-                    });
-                    alert("Document written");
+  return user.authorized ? (
+    <Box>
+      <Container maxWidth="lg">
+        <Nav />
+      </Container>
+      <Container maxWidth="xl" className="wrapper-container">
+        <Typography className="title">Add Request</Typography>
+        <Stack spacing={2}>
+          <FormControl>
+            <Stack direction="row" className="stack-item">
+              <Typography class="textfieldHead">Traveling from</Typography>
+              <TextField
+                size="small"
+                placeholder="Enter Location"
+                sx={{
+                  width: "185px",
+                  backgroundColor: "white",
+                  //   paddingLeft: "100px",
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton edge="start">
+                        <img src={locationIcon} alt={"logo"} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Stack>
 
-                    setDate(new Date())
+            <Stack direction="row" className="stack-item">
+              <Typography class="textfieldHead">Destination</Typography>
+              <TextField
+                size="small"
+                placeholder="Enter Location"
+                sx={{
+                  width: "185px",
+                  backgroundColor: "white",
+                  //   paddingLeft: "100px",
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton edge="start">
+                        <img src={destinationIcon} alt={"logo"} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Stack>
 
-                } catch (e) {
-                    console.log("Error adding document: ", e);
-                }
-            }
-        } else {
-            alert("Please enter all the fields!");
-        }
-    }
+            <Stack direction="row" className="stack-item">
+              <Typography class="textfieldHead">Date</Typography>
+              {/* <TextField
+                      size="small"
+                      placeholder="DD-MM-YYYY"
+                      sx={{
+                        width: "160px",
+                        backgroundColor: "white",
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IconButton edge="start">
+                              <img src={dateIcon} alt={"logo"} />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    /> */}
 
-    return (
-        user.authorized ? (
-            <>
-                <div className="addReq__container" style={
+              <DatePicker
+                openTo="day"
+                views={["month", "day"]}
+                // value={value}
+                // onChange={(newValue) => {
+                //   setValue(newValue);
+                // }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    size="small"
+                    // placeholder="DD-MM-YYYY"
+                    sx={{
+                      width: "185px",
+                      backgroundColor: "white",
+                      cursor: "pointer",
+                      //   paddingLeft: "100px",
+                    }}
+                    // InputProps={{
+                    //   startAdornment: (
+                    //     <InputAdornment position="start">
+                    //       <IconButton edge="start">
+                    //         <img src={dateIcon} alt={"logo"} />
+                    //       </IconButton>
+                    //     </InputAdornment>
+                    //   ),
+                    // }}
+                  />
+                )}
+              />
+            </Stack>
+
+            <Stack direction="row" className="stack-item">
+              <Typography className="textfieldHead">
+                Preffered Gender
+              </Typography>
+
+              <Select
+                id="demo-simple-select-helper"
+                value={gender}
+                onChange={(gender) => setGender(gender.target.value)}
+                sx={{
+                  width: "185px",
+                  backgroundColor: "white",
+                  height: "2.4rem",
+                }}
+              >
+                <MenuItem value="Any">
+                  <>Any</>
+                </MenuItem>
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+              </Select>
+            </Stack>
+
+            <Stack direction="row" className="stack-item">
+              <Typography className="textfieldHead">
+                No. of Passengers
+              </Typography>
+              <input
+                className="num-input"
+                type="number"
+                name="nop"
+                min={1}
+                value={nop}
+                onChange={(e) => {
+                  setNop(e.target.value);
+                }}
+                required
+              />
+              <button className="text__icon">
+                <img
+                  src={plus}
+                  alt="locationIcon"
+                  onClick={() => setNop(nop + 1)}
+                />
+              </button>
+              <button className="text__icon">
+                <img
+                  src={minus}
+                  alt="locationIcon"
+                  onClick={() => {
+                    if (nop - 1) setNop(nop - 1);
+                  }}
+                />
+              </button>
+            </Stack>
+
+            <Stack direction="row" className="stack-item">
+              <Typography className="textfieldHead">Description</Typography>
+              <Box sx={{ width: "16rem" }}>
+                <TextField
+                  varient="outline"
+                  color="secondary"
+                  multiline
+                  rows={4}
+                  fullWidth
+                  required
+                  sx={{
+                    backgroundColor: "white",
+                    fontSize: ".5rem",
+                  }}
+                ></TextField>
+              </Box>
+            </Stack>
+          </FormControl>
+
+          <Stack direction="row" className="btns-wrapper">
+            <Button onClick={addRequest} className="add-req-btn">
+              Add Request
+            </Button>
+            <Button onClick={makeDraft} className="draft-btn">
+              Draft
+            </Button>
+          </Stack>
+        </Stack>
+      </Container>
+      <Box>
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "6rem",
+            right: "5rem",
+            width: {
+              xs: "300px",
+              md: "36vw",
+            },
+          }}
+        >
+          <img src={addReqBg} alt="illus" />
+        </Box>
+      </Box>
+      <Box>
+        <img src={wavesDesign} alt="illus" />
+      </Box>
+      <WebsiteInfo />
+
+      <Container maxWidth="lg">
+        <About />
+        <MadeBy />
+      </Container>
+      <Footer />
+      {/* <div className="addReq__container" style={
                     {
                         background: `url(${addReqBg})`,
                         backgroundRepeat: "no-repeat",
@@ -263,19 +492,19 @@ function AddRequest() {
 
                         </table>
                     </div >
-                </ div >
-                <div className="wavesDesign"
+                </ div > */}
+      {/* <div className="wavesDesign"
                     style={{
                         background: `url(${wavesDesign})`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "contain",
                         backgroundPosition: "center center"
                     }}
-                ></div>
-            </>) : (
-            <div>Not authorized to search</div>
-        )
-    )
+                ></div> */}
+    </Box>
+  ) : (
+    <div>Not authorized to search</div>
+  );
 }
 
-export default AddRequest
+export default AddRequest;
