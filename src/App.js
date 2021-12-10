@@ -8,6 +8,7 @@ import AddRequest from "./components/AddRequest/AddRequest";
 // Contexts
 import UserContextProvider from "./context/userContext";
 import ResponseContextProvider from "./context/responseContext";
+import NotificationContextProvider from "./context/notificationContext";
 import "./firebase/firebase";
 
 import SearchResult from "./pages/SearchResult/SearchResult";
@@ -16,8 +17,10 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 // Pages
 import { Home } from "./pages/Home";
-import Chat from "./components/ChatDemo/Chat";
+// import Chat from "./components/ChatDemo/Chat";
+import Notification from "./components/Notification/Notification";
 import { ChatPage } from "./pages/Chat";
+import ChatList from "./components/ChatDemo/ChatList";
 
 function App() {
   return (
@@ -38,12 +41,18 @@ function App() {
                 <SearchResult />
               </Route>
 
-              <Route exact path="/chat/:roomId">
-                <Chat />
+              <Route exact path="/notifications">
+                <NotificationContextProvider>
+                  <Notification />
+                </NotificationContextProvider>
               </Route>
 
               <Route exact path="/chat">
                 <ChatPage />
+              </Route>
+
+              <Route exact path="/chatList">
+                <ChatList />
               </Route>
 
               <Route exact path="/">

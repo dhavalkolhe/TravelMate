@@ -32,6 +32,7 @@ const ResponseContextProvider = (props) => {
             roomId={doc.data().roomId}
             userId={doc.data().userId}
             gender={doc.data().gender}
+            rideId={doc.id}
           />
         );
       });

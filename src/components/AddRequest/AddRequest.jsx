@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './AddRequest.css';
@@ -16,10 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 // firebase
 import { db } from '../../firebase/db';
 import { collection, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-const auth = getAuth();
-let uid;
 
 function AddRequest() {
     const [user] = useContext(UserContext);
@@ -32,21 +28,17 @@ function AddRequest() {
     const [nop, setNop] = useState(1);
     const [description, setDescription] = useState("");
 
-    const localData = localStorage.getItem('user');
-    const data = localData && (JSON.parse(localData));
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            uid = user.uid;
-        }
-    });
-
     const formValidation = () => {
         if (currentCity && destinationCity && date && time && gender && nop && mode)
             return true;
         else
             return false;
     }
+    useEffect(() => {
+        if (!user.authorized) {
+            alert("login first")
+        }
+    }, [user.authorized])
 
     const makeDraft = (e) => {
         e.preventDefault();
@@ -77,13 +69,12 @@ function AddRequest() {
                         gender,
                         nop,
                         description,
-                        displayName: data.displayName,
-                        photoURL: data.photoURL,
+                        displayName: user.displayName,
+                        photoURL: user.photoURL,
                         roomId: uuidv4(),
-                        userId: uid
+                        userId: user.uid
                     });
                     alert("Document written");
-
                     setDate(new Date())
 
                 } catch (e) {
