@@ -36,8 +36,6 @@ const NotificationContextProvider = (props) => {
           (change) => {
             // console.log(change)
             if (change.type === "added") {
-              console.log("Added :", change.doc.data());
-
               let masterObj = {
                 reqId: change.doc.id,
                 status: change.doc.data().status,
@@ -57,15 +55,9 @@ const NotificationContextProvider = (props) => {
                     });
                 });
             }
-            if (change.type === "modified") {
-              console.log("Modified city: ", change.doc.data());
-            }
-            if (change.type === "removed") {
-              console.log("Removed city: ", change.doc.data());
-            }
           },
           (err) => {
-            console.log("updation err : ", err);
+            console.log("notification data err : ", err);
           }
         );
         // recievedReqSnap.forEach((eachReq) => {

@@ -32,12 +32,9 @@ function Notification() {
                     />
                 )
             })
-            const y = x.filter((eachX) =>
-                eachX !== undefined
-            )
-            // console.log(x)
-            setCardData(y);
-            setNotificationCount(y.length);
+
+            setCardData(x);
+            setNotificationCount(x.length);
         }
     }, [notificationData])
 
