@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import ScrollToBottom from "react-scroll-to-bottom";
 import io from "socket.io-client"
 import './Chat.css'
 import { useParams } from 'react-router-dom';
+import { UserContext } from '../../context/userContext';
+
+import { db } from "../../firebase/db";
+import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import { v4 as uuidv4 } from 'uuid';
+import Message from "./Message";
 
 const socket = io(process.env.REACT_APP_BACKEND_URL, {
     transports: ['websocket', 'polling', 'flashsocket'],
@@ -10,43 +17,73 @@ const socket = io(process.env.REACT_APP_BACKEND_URL, {
 });
 
 function Chat() {
-    const [username, setUsername] = useState("");
-    const [room, setRoom] = useState();
+    const [user] = useContext(UserContext);
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
-    const [joined, setJoined] = useState(false);
+    const [joined, setJoined] = useState(true);
     const { roomId } = useParams();
 
     useEffect(() => {
-        socket.emit("join_room", roomId);
-        setJoined(true);
+        isMemberOf().then((res) => {
+            if (res) {
+                try {
+                    const unsub = socket.emit("join_room", roomId);
+                    setJoined(true);
+                    return unsub;
+                }
+                catch (err) {
+                    console.log(err)
+                }
+            } else {
+                setJoined(false);
+            }
+        })
+        //eslint-disable-next-line
+    }, [roomId])
+
+    useEffect(() => {
+        fetchSavedMessages().then((masterArr) => {
+            console.log(masterArr);
+            setMessageList(masterArr)
+        })
         //eslint-disable-next-line
     }, [])
 
-    const joinRoom = () => {
-        if (username && room) {
-            socket.emit("join_room", room);
-        }
-        setJoined(true);
+    const fetchSavedMessages = async () => {
+        let masterArr = [];
+        const q = collection(db, "rooms", roomId, "messages");
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            masterArr.push({ ...doc.data(), time: doc.data().time.toDate() });
+        });
+        return masterArr;
+    }
+
+    const isMemberOf = async () => {
+        const roomData = await getDoc(doc(db, "rooms", roomId));
+        return (roomData.data().members).includes(user.uid)
     }
 
     const sendMessage = async () => {
         if (currentMessage !== "") {
             const messageData = {
                 room: roomId,
-                author: username,
+                msgId: uuidv4(),
+                uid: user.uid,
+                author: user.displayName,
                 message: currentMessage,
-                time:
-                    new Date(Date.now()).getHours() +
-                    ":" +
-                    new Date(Date.now()).getMinutes(),
+                time: new Date(),
             };
 
-            await socket.emit("send_message", messageData);
+            socket.emit("send_message", messageData);
+            // console.log(messageData)
             setMessageList((list) => [...list, messageData]);
             setCurrentMessage("");
         }
     };
+
+
 
     useEffect(() => {
         socket.on("receive_message", (data) => {
@@ -56,26 +93,10 @@ function Chat() {
     }, [socket]);
 
     return (
-        <div>
+        <div className="Chat">
             {(!joined) ? (
                 <div>
-                    <h1>Join a room</h1>
-
-                    <input
-                        type="text"
-                        name="username"
-                        value={username}
-                        placeholder="Username..."
-                        onChange={(e) => setUsername(e.target.value)} />
-                    <input
-                        type="text"
-                        name="room"
-                        value={room}
-                        placeholder="Room..."
-                        onChange={(e) => {
-                            setRoom(e.target.value)
-                        }} />
-                    <button onClick={joinRoom}>Join room</button>
+                    <h1>This doesn't seem correct!</h1>
                 </div>
 
             ) : (
@@ -85,23 +106,12 @@ function Chat() {
                     </div>
                     <div className="chat-body">
                         <ScrollToBottom className="message-container">
-                            {messageList.map((messageContent, i) => {
+                            {messageList.map((messageContent) => {
                                 return (
-                                    <div
-                                        key={i}
-                                        className="message"
-                                        id={username === messageContent.author ? "you" : "other"}
-                                    >
-                                        <div>
-                                            <div className="message-content">
-                                                <p>{messageContent.message}</p>
-                                            </div>
-                                            <div className="message-meta">
-                                                <p id="time">{messageContent.time}</p>
-                                                <p id="author">{messageContent.author}</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <Message
+                                        key={messageContent.msgId}
+                                        messageContent={messageContent}
+                                        roomId={roomId} />
                                 );
                             })}
                         </ScrollToBottom>

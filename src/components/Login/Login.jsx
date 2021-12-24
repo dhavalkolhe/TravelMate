@@ -43,6 +43,7 @@ function Login() {
         signInWithPopup(auth, provider)
             .then((result) => {
                 const { displayName, photoURL, uid } = result.user;
+                console.log(result.user)
                 const authorized = (result.user.accessToken) ? true : false;
 
                 setUser({

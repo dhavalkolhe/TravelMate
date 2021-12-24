@@ -29,6 +29,8 @@ function Notification() {
                         displayName={notification.displayName}
                         photoURL={notification.photoURL}
                         reqId={notification.reqId}
+                        requestorId={notification.requestorId}
+                        rideId={notification.rideId}
                     />
                 )
             })

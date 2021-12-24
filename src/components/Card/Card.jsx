@@ -11,7 +11,7 @@ import Loader from '../../components/Loader/Loader';
 import { db } from '../../firebase/db';
 import { setDoc, getDoc, doc } from "firebase/firestore";
 
-function Card({ currentCity, destinationCity, date, description, displayName, photoURL, roomId, userId, rideId }) {
+function Card({ currentCity, destinationCity, date, description, displayName, photoURL, userId, rideId }) {
 
     const [user] = useContext(UserContext);
     const [descHide, setDescHide] = useState(true);
@@ -37,8 +37,7 @@ function Card({ currentCity, destinationCity, date, description, displayName, ph
     const addReq = async () => {
         await setDoc(doc(db, "users", userId, "requests", user.uid + "-" + rideId), {
             rideId,
-            userId: user.uid,
-            roomId,
+            requestorId: user.uid,
             status: "pending"
         });
     }

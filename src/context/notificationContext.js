@@ -23,25 +23,23 @@ const NotificationContextProvider = (props) => {
   }, [user]);
 
   // useEffect(() => {
-  //     console.log(notificationData)
+  //   console.log(notificationData)
   // }, [notificationData])
 
   const fetchData = () => {
-    setNotificationData([]);
-
     onSnapshot(
       collection(db, "users", user.uid, "requests"),
       (recievedReqSnap) => {
         recievedReqSnap.docChanges().forEach(
           (change) => {
-            // console.log(change)
             if (change.type === "added") {
               let masterObj = {
                 reqId: change.doc.id,
                 status: change.doc.data().status,
+                roomId: change.doc.data().roomId,
               };
 
-              fetchRequestorData(change.doc.data().userId)
+              fetchRequestorData(change.doc.data().requestorId)
                 .then((res) => {
                   masterObj = { ...masterObj, ...res };
                 })
@@ -60,20 +58,6 @@ const NotificationContextProvider = (props) => {
             console.log("notification data err : ", err);
           }
         );
-        // recievedReqSnap.forEach((eachReq) => {
-
-        //     let masterObj = { reqId: eachReq.id, status: eachReq.data().status };
-
-        //     fetchRequestorData(eachReq.data().userId).then(res => {
-        //         masterObj = { ...masterObj, ...res };
-        //     }).then(() => {
-        //         fetchRideData(eachReq.data().rideId).then((res) => {
-        //             masterObj = { ...masterObj, ...res };
-        //         }).then(() => {
-        //             setNotificationData((prev) => ([...prev, masterObj]))
-        //         })
-        //     })
-        // })
       }
     );
   };
@@ -81,14 +65,16 @@ const NotificationContextProvider = (props) => {
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
     return {
+      rideId: rideId,
       currentCity: rideData.data().currentCity,
       destinationCity: rideData.data().destinationCity,
     };
   };
 
-  const fetchRequestorData = async (userId) => {
-    const requestorData = await getDoc(doc(db, "users", userId));
+  const fetchRequestorData = async (requestorId) => {
+    const requestorData = await getDoc(doc(db, "users", requestorId));
     return {
+      requestorId: requestorId,
       displayName: requestorData.data().displayName,
       photoURL: requestorData.data().photoURL,
     };

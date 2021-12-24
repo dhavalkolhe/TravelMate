@@ -11,7 +11,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import wavesDesign from '../../img/wavesDesign.svg';
 import plus from '../../img/plus.svg';
 import minus from '../../img/minus.svg';
-import { v4 as uuidv4 } from 'uuid';
+
 
 // firebase
 import { db } from '../../firebase/db';
@@ -71,7 +71,6 @@ function AddRequest() {
                         description,
                         displayName: user.displayName,
                         photoURL: user.photoURL,
-                        roomId: uuidv4(),
                         userId: user.uid
                     });
                     alert("Document written");

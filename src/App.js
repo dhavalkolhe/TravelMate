@@ -9,6 +9,7 @@ import AddRequest from "./components/AddRequest/AddRequest";
 import UserContextProvider from "./context/userContext";
 import ResponseContextProvider from "./context/responseContext";
 import NotificationContextProvider from "./context/notificationContext";
+import RoomsContextProvider from "./context/roomsContext";
 import "./firebase/firebase";
 
 import SearchResult from "./pages/SearchResult/SearchResult";
@@ -19,48 +20,56 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { Home } from "./pages/Home";
 // import Chat from "./components/ChatDemo/Chat";
 import Notification from "./components/Notification/Notification";
-import { ChatPage } from "./pages/Chat";
+// import { ChatPage } from "./pages/Chat";
 import ChatList from "./components/ChatDemo/ChatList";
+import Chat from "./components/ChatDemo/Chat";
 
 function App() {
   return (
     <ResponseContextProvider>
       <UserContextProvider>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Router>
-            <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
+        <NotificationContextProvider>
+          <RoomsContextProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <Router>
+                <Switch>
+                  <Route path="/login">
+                    <Login />
+                  </Route>
 
-              <Route exact path="/addRequest">
-                <AddRequest />
-              </Route>
+                  <Route exact path="/addRequest">
+                    <AddRequest />
+                  </Route>
 
-              <Route exact path="/searchRequests">
-                <SearchResult />
-              </Route>
+                  <Route exact path="/searchRequests">
+                    <SearchResult />
+                  </Route>
 
-              <Route exact path="/notifications">
-                <NotificationContextProvider>
-                  <Notification />
-                </NotificationContextProvider>
-              </Route>
+                  <Route exact path="/notifications">
+                    <Notification />
+                  </Route>
 
-              <Route exact path="/chat">
-                <ChatPage />
-              </Route>
+                  {/* <Route exact path="/chat">
+                  <ChatPage />
+                </Route>
+ */}
+                  <Route exact path="/chat">
+                    <ChatList />
+                  </Route>
 
-              <Route exact path="/chatList">
-                <ChatList />
-              </Route>
+                  <Route exact path="/chat/:roomId">
+                    <ChatList />
+                    <Chat />
+                  </Route>
 
-              <Route exact path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </Router>
-        </LocalizationProvider>
+                  <Route exact path="/">
+                    <Home />
+                  </Route>
+                </Switch>
+              </Router>
+            </LocalizationProvider>
+          </RoomsContextProvider>
+        </NotificationContextProvider>
       </UserContextProvider>
     </ResponseContextProvider>
   );
