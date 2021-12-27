@@ -10,15 +10,21 @@ const ResponseContextProvider = (props) => {
   const [response, setResponse] = useState([]);
 
   useEffect(() => {
-    loadData();
+    let unsubscribe;
+    loadData().then((res) => {
+      unsubscribe = res;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const loadData = async () => {
     console.log("Loading response... ");
     const q = query(collection(db, "rides"));
 
-    onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const x = querySnapshot.docs.map((doc, i) => {
         return (
           <Card
@@ -29,15 +35,16 @@ const ResponseContextProvider = (props) => {
             description={doc.data().description}
             displayName={doc.data().displayName}
             photoURL={doc.data().photoURL}
-            roomId={doc.data().roomId}
             userId={doc.data().userId}
             gender={doc.data().gender}
+            rideId={doc.id}
           />
         );
       });
       setResponse(x);
     });
     console.log("Response loaded.");
+    return unsubscribe;
   };
 
   return (

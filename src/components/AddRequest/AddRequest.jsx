@@ -1,3 +1,4 @@
+
 import React, { useContext, useState, useRef, useEffect } from "react";
 // import DatePicker from "@mui/lab/DatePicker";
 import DatePicker from "react-datepicker";
@@ -35,13 +36,11 @@ import {
   InputBase,
 } from "@mui/material";
 
+
+
 // firebase
 import { db } from "../../firebase/db";
 import { collection, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-const auth = getAuth();
-let uid;
 
 function AddRequest() {
   const [user] = useContext(UserContext);
@@ -54,6 +53,7 @@ function AddRequest() {
   const [nop, setNop] = useState(1);
   const [description, setDescription] = useState("");
 
+=
   const [cities, setCities] = useState(city);
   const [search, setSearch] = useState("");
   const [displaySources, setDisplaySources] = useState(false);
@@ -68,11 +68,19 @@ function AddRequest() {
     }
   });
 
-  const formValidation = () => {
-    if (currentCity && destinationCity && date && time && gender && nop && mode)
-      return true;
-    else return false;
-  };
+  
+    const formValidation = () => {
+        if (currentCity && destinationCity && date && time && gender && nop && mode)
+            return true;
+        else
+            return false;
+    }
+    useEffect(() => {
+        if (!user.authorized) {
+            alert("login first")
+        }
+    }, [user.authorized])
+
 
   const makeDraft = (e) => {
     e.preventDefault();
@@ -131,6 +139,7 @@ function AddRequest() {
       setSearch("");
     }
   };
+
 
   return user.authorized ? (
     <Box>
@@ -224,6 +233,7 @@ function AddRequest() {
                 </div>
               ) : null}
             </Stack>
+
 
             <Stack direction="row" className="stack-item">
               <Typography class="textfieldHead">Date</Typography>

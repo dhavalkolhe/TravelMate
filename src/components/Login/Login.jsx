@@ -21,46 +21,46 @@ function Login() {
             setDoc(doc(db, "users", uid), {
                 displayName,
                 photoURL,
-                groups: []
             });
         } catch (e) {
             console.error("Error adding user: ", e);
         }
     }
 
-    const userExists = (uid) => {
+    const userExists = async (uid) => {
         const docRef = doc(db, "users", uid);
-        getDoc(docRef)
-            .then((docSnap) => {
-                if (docSnap.exists()) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            })
-            .catch((err) => {
-                console.log("Error checking user existence: ", err.message);
-            })
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     const signIn = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
-                console.log(result.user)
                 const { displayName, photoURL, uid } = result.user;
+                console.log(result.user)
                 const authorized = (result.user.accessToken) ? true : false;
 
-                setUser((prev) => ({
-                    ...prev,
+                setUser({
                     authorized,
                     displayName,
-                    photoURL
-                }));
+                    photoURL,
+                    uid
+                });
 
-                if (!userExists(uid)) {
-                    addUser(displayName, photoURL, uid);
-                }
+                userExists(uid).then(res => {
+                    if (!res) {
+                        addUser(displayName, photoURL, uid);
+                    } else {
+                        console.log("User already exists!");
+                    }
+                });
+
 
             }).catch((error) => {
                 console.log(error.message);

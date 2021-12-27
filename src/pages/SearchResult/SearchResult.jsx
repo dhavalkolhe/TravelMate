@@ -60,7 +60,7 @@ function SearchResult() {
             (
                 (response.props.destinationCity.includes(destinationCity))
             ))
-        } else {
+        } else { 
             z = [];
         }
 
@@ -83,8 +83,6 @@ function SearchResult() {
 
         // eslint-disable-next-line
     }, [startDate, endDate, currentCity, destinationCity, gender])
-
-
 
 
     return (
@@ -180,8 +178,6 @@ function SearchResult() {
                 <div className="results">
                     {loading && <Loader />}
                     {filteredResponse}
-                    {/* {response} */}
-
 
                 </div>
             </div>

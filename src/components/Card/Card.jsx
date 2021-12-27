@@ -1,28 +1,71 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../../context/userContext';
 import userIcon from '../../img/user.svg';
 import currentLocationIcon from '../../img/currentLocationIcon.svg'
 import destinationLocationIcon from '../../img/destinationLocationIcon.svg'
 import dateIcon from '../../img/dateIcon.svg'
 import arrow from '../../img/arrow.svg'
 import './Card.css'
-import { Link } from 'react-router-dom';
+import Loader from '../../components/Loader/Loader';
 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-const auth = getAuth();
-let uid;
+import { db } from '../../firebase/db';
+import { setDoc, getDoc, doc } from "firebase/firestore";
 
-function Card({ currentCity, destinationCity, date, description, displayName, photoURL, roomId, userId }) {
+function Card({ currentCity, destinationCity, date, description, displayName, photoURL, userId, rideId }) {
 
+    const [user] = useContext(UserContext);
     const [descHide, setDescHide] = useState(true);
     const [disable, setDisable] = useState(false);
+    const [sendText, setSendText] = useState("Send Request");
+    const [loading, setLoading] = useState(false);
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            uid = user.uid;
+    useEffect(() => {
+        (userId === user.uid) ? setDisable(true) : setDisable(false);
+    }, [user, userId]);
+
+    const reqExists = async () => {
+        const docRef = doc(db, "users", userId, "requests", user.uid + "-" + rideId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
-        (userId === uid) ? setDisable(true) : setDisable(false);
-    });
+    const addReq = async () => {
+        await setDoc(doc(db, "users", userId, "requests", user.uid + "-" + rideId), {
+            rideId,
+            requestorId: user.uid,
+            status: "pending"
+        });
+    }
+    const sendRequest = () => {
+        if (user.authorized) {
+            setSendText("");
+            setLoading(true);
+
+            reqExists().then((res) => {
+                if (res) {
+                    setLoading(false);
+                    setSendText("Request already sent ✅");
+                    setDisable(true);
+                } else {
+                    try {
+                        addReq();
+                        setLoading(false);
+                        setSendText("Request sent ✅");
+                        setDisable(true);
+                    } catch (e) {
+                        console.error("Error sending req : ", e);
+                    }
+                }
+            })
+        } else {
+            console.log("Not authorized");
+        }
+    }
 
     return (
 
@@ -70,11 +113,13 @@ function Card({ currentCity, destinationCity, date, description, displayName, ph
                 {description ? description : <span style={{ color: "gray" }}>No description available</span>}
             </p>
             <div className="send__container">
-                <Link to={`/chat/${roomId}`}>
-                    <button className="send-btn blue__btn" disabled={disable}>
-                        Send Request
-                    </button>
-                </Link>
+                <button
+                    className="send-btn blue__btn"
+                    disabled={disable}
+                    onClick={sendRequest}>
+                    {sendText}
+                    {loading && <Loader size={20} />}
+                </button>
             </div >
         </div >
     )
