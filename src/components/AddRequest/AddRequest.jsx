@@ -1,12 +1,13 @@
-import React, { useContext, useState } from "react";
-import DatePicker from "@mui/lab/DatePicker";
+import React, { useContext, useState, useRef, useEffect } from "react";
+// import DatePicker from "@mui/lab/DatePicker";
+import DatePicker from "react-datepicker";
+import subDays from "date-fns/subDays";
 import "./AddRequest.css";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import addReqBg from "../../img/addReqBg.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import { UserContext } from "../../context/userContext";
-import SearchBox from "../SearchBox/SearchBox";
 import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
 import minus from "../../img/minus.svg";
@@ -17,6 +18,7 @@ import destinationIcon from "../../resources/icons/destinationIcon.svg";
 import { About, MadeBy } from "../AboutUs/AboutUs";
 import { Footer } from "../Footer/Footer";
 import { WebsiteInfo } from "../../components/HomeComponents";
+import city from "../../resources/states.json";
 
 import {
   Box,
@@ -30,6 +32,7 @@ import {
   Button,
   Select,
   MenuItem,
+  InputBase,
 } from "@mui/material";
 
 // firebase
@@ -50,6 +53,11 @@ function AddRequest() {
   const [gender, setGender] = useState("Any");
   const [nop, setNop] = useState(1);
   const [description, setDescription] = useState("");
+
+  const [cities, setCities] = useState(city);
+  const [search, setSearch] = useState("");
+  const [displaySources, setDisplaySources] = useState(false);
+  const [displayDestinations, setDisplayDestinations] = useState(false);
 
   const localData = localStorage.getItem("user");
   const data = localData && JSON.parse(localData);
@@ -112,6 +120,18 @@ function AddRequest() {
     }
   };
 
+  const handlelocationSelect = (type, v) => {
+    if (type == "source") {
+      setCurrentCity(v);
+      setDisplaySources(false);
+      setSearch("");
+    } else {
+      setDestinationCity(v);
+      setDisplayDestinations(false);
+      setSearch("");
+    }
+  };
+
   return user.authorized ? (
     <Box>
       <Container maxWidth="lg">
@@ -123,98 +143,103 @@ function AddRequest() {
           <FormControl>
             <Stack direction="row" className="stack-item">
               <Typography class="textfieldHead">Traveling from</Typography>
-              <TextField
-                size="small"
-                placeholder="Enter Location"
-                sx={{
-                  width: "185px",
-                  backgroundColor: "white",
-                  //   paddingLeft: "100px",
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton edge="start">
-                        <img src={locationIcon} alt={"logo"} />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              <div className="location-wrap">
+                <img
+                  src={currentLocationIcon}
+                  alt="logo"
+                  className="date-icon"
+                />
+                <input
+                  placeholder="Location"
+                  onClick={() => setDisplaySources(!displaySources)}
+                  className="location-input-field"
+                  value={currentCity}
+                  onChange={(e) => {
+                    setCurrentCity(e.target.value);
+                    setSearch(e.target.value);
+                  }}
+                />
+              </div>
+              {displaySources ? (
+                <div className="dataResult-source">
+                  {cities
+                    .filter((value) =>
+                      value.name.toLowerCase().includes(search.toLowerCase())
+                    )
+                    .map((value, key) => {
+                      return (
+                        <div
+                          className="dataItem"
+                          key={value.id}
+                          onClick={() =>
+                            handlelocationSelect("source", value.name)
+                          }
+                        >
+                          <span>{value.name}</span>
+                        </div>
+                      );
+                    })}
+                </div>
+              ) : null}
             </Stack>
 
             <Stack direction="row" className="stack-item">
               <Typography class="textfieldHead">Destination</Typography>
-              <TextField
-                size="small"
-                placeholder="Enter Location"
-                sx={{
-                  width: "185px",
-                  backgroundColor: "white",
-                  //   paddingLeft: "100px",
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton edge="start">
-                        <img src={destinationIcon} alt={"logo"} />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+              <div className="location-wrap">
+                <img
+                  src={destinationLocationIcon}
+                  alt="logo"
+                  className="date-icon"
+                />
+                <input
+                  placeholder="Location"
+                  onClick={() => setDisplayDestinations(!displayDestinations)}
+                  className="location-input-field"
+                  value={destinationCity}
+                  onChange={(e) => {
+                    setDestinationCity(e.target.value);
+                    setSearch(e.target.value);
+                  }}
+                />
+              </div>
+              {displayDestinations ? (
+                <div className="dataResult-destination">
+                  {cities
+                    .filter((value) =>
+                      value.name.toLowerCase().includes(search.toLowerCase())
+                    )
+                    .map((value, key) => {
+                      return (
+                        <div
+                          className="dataItem"
+                          key={value.id}
+                          onClick={() =>
+                            handlelocationSelect("destination", value.name)
+                          }
+                        >
+                          <span>{value.name}</span>
+                        </div>
+                      );
+                    })}
+                </div>
+              ) : null}
             </Stack>
 
             <Stack direction="row" className="stack-item">
               <Typography class="textfieldHead">Date</Typography>
-              {/* <TextField
-                      size="small"
-                      placeholder="DD-MM-YYYY"
-                      sx={{
-                        width: "160px",
-                        backgroundColor: "white",
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <IconButton edge="start">
-                              <img src={dateIcon} alt={"logo"} />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    /> */}
-
-              <DatePicker
-                openTo="day"
-                views={["month", "day"]}
-                // value={value}
-                // onChange={(newValue) => {
-                //   setValue(newValue);
-                // }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    size="small"
-                    // placeholder="DD-MM-YYYY"
-                    sx={{
-                      width: "185px",
-                      backgroundColor: "white",
-                      cursor: "pointer",
-                      //   paddingLeft: "100px",
-                    }}
-                    // InputProps={{
-                    //   startAdornment: (
-                    //     <InputAdornment position="start">
-                    //       <IconButton edge="start">
-                    //         <img src={dateIcon} alt={"logo"} />
-                    //       </IconButton>
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
-                  />
-                )}
-              />
+              <div className="date-wrap">
+                <img src={dateIcon} alt="logo" className="date-icon" />
+                <DatePicker
+                  selected={date}
+                  onChange={(date) => {
+                    setDate(date);
+                  }}
+                  closeOnScroll={true}
+                  dateFormat="dd/MM/yyyy"
+                  minDate={subDays(new Date(), 0)}
+                  className="date-picker"
+                />
+              </div>
             </Stack>
 
             <Stack direction="row" className="stack-item">
@@ -224,13 +249,14 @@ function AddRequest() {
 
               <Select
                 id="demo-simple-select-helper"
+                variant="standard"
                 value={gender}
                 onChange={(gender) => setGender(gender.target.value)}
                 sx={{
                   width: "185px",
                   backgroundColor: "white",
-                  height: "2.4rem",
                 }}
+                className="input-field"
               >
                 <MenuItem value="Any">
                   <>Any</>
@@ -275,19 +301,24 @@ function AddRequest() {
 
             <Stack direction="row" className="stack-item">
               <Typography className="textfieldHead">Description</Typography>
-              <Box sx={{ width: "16rem" }}>
-                <TextField
-                  varient="outline"
+              <Box sx={{ width: "16rem" }} className="input-field ">
+                <InputBase
+                  varient="standard"
                   color="secondary"
-                  multiline
-                  rows={4}
+                  multiline={true}
+                  rows={3}
                   fullWidth
                   required
                   sx={{
                     backgroundColor: "white",
-                    fontSize: ".5rem",
+                    fontSize: "1rem",
                   }}
-                ></TextField>
+                  value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                  className="description-field"
+                ></InputBase>
               </Box>
             </Stack>
           </FormControl>
@@ -302,7 +333,7 @@ function AddRequest() {
           </Stack>
         </Stack>
       </Container>
-      <Box>
+      <Box className="bg-container">
         <Box
           sx={{
             position: "absolute",
@@ -317,7 +348,7 @@ function AddRequest() {
           <img src={addReqBg} alt="illus" />
         </Box>
       </Box>
-      <Box>
+      <Box className="wave">
         <img src={wavesDesign} alt="illus" />
       </Box>
       <WebsiteInfo />
@@ -327,180 +358,6 @@ function AddRequest() {
         <MadeBy />
       </Container>
       <Footer />
-      {/* <div className="addReq__container" style={
-                    {
-                        background: `url(${addReqBg})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "600px",
-                        backgroundPosition: "95% 90%"
-                    }
-                } >
-                    <div className="form__container">
-                        <h2 className="title">Add Request</h2>
-                        <table className="table__form">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p>Traveling from </p>
-                                    </td>
-                                    <td>
-                                        <SearchBox
-                                            imgSrc={currentLocationIcon}
-                                            inputName="currentLocation"
-                                            selectedCity={currentCity}
-                                            setSelectedCity={setCurrentCity} />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>Destination</p>
-                                    </td>
-                                    <td>
-                                        <SearchBox
-                                            imgSrc={destinationLocationIcon} inputName="destinationLocation"
-                                            selectedCity={destinationCity}
-                                            setSelectedCity={setDestinationCity} />
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>Date</p>
-                                    </td>
-                                    <td>
-                                        <div className="input__wrapper">
-                                            <i className="text__icon">
-                                                <img src={dateIcon} alt="locationIcon" />
-                                            </i>
-                                            <DatePicker
-                                                selected={date}
-                                                onChange={(date) => setDate(date)}
-                                                minDate={new Date()}
-                                                dateFormat="dd-MMM-yyyy" />
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>Time</p>
-                                    </td>
-                                    <td>
-                                        <div className="input__wrapper">
-                                            <select
-                                                name="time"
-                                                required
-                                                defaultValue={time}
-                                                onChange={(time) => setTime(time.target.value)}
-                                            >
-                                                <option value="Any">Any</option>
-                                                <option value="Morning">Morning</option>
-                                                <option value="Afternoon">Afternoon</option>
-                                                <option value="Evening">Evening</option>
-                                                <option value="Night">Night</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>Mode of Travel</p>
-                                    </td>
-                                    <td>
-                                        <div className="input__wrapper">
-                                            <select
-                                                name="mode"
-                                                required
-                                                defaultValue={mode}
-                                                onChange={(mode) => setMode(mode.target.value)}
-                                            >
-                                                <option value="Any">Any</option>
-                                                <option value="Personal Car">Personal Car</option>
-                                                <option value="Cab">Cab</option>
-                                                <option value="Bus">Bus</option>
-                                                <option value="Train">Train</option>
-                                                <option value="Flight">Flight</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>Your Gender</p>
-                                    </td>
-                                    <td>
-                                        <div className="input__wrapper">
-                                            <select
-                                                name="gender"
-                                                required
-                                                defaultValue={gender}
-                                                onChange={(gender) => setGender(gender.target.value)}
-                                            >
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>No.of Passengers</p>
-                                    </td>
-                                    <td>
-                                        <div className="input__wrapper">
-                                            <input type="number" name="nop" min={1} value={nop}
-                                                onChange={(e) => { setNop(e.target.value) }}
-                                                required />
-                                            <button className="text__icon">
-                                                <img src={plus} alt="locationIcon"
-                                                    onClick={() => setNop(nop + 1)} />
-                                            </button>
-                                            <button className="text__icon">
-                                                <img src={minus} alt="locationIcon"
-                                                    onClick={() => { if (nop - 1) setNop(nop - 1) }} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>Description</p>
-                                    </td>
-                                    <td>
-                                        <div className="input__wrapper">
-                                            <textarea
-                                                name="description"
-                                                cols="30"
-                                                rows="5"
-                                                value={description}
-                                                onChange={(e) => { setDescription(e.target.value) }}></textarea>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <div className="buttons">
-                                            <button className="btn blue__btn"
-                                                onClick={addRequest}>Add Request</button>
-                                            <button className="btn"
-                                                onClick={makeDraft}>Draft</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div >
-                </ div > */}
-      {/* <div className="wavesDesign"
-                    style={{
-                        background: `url(${wavesDesign})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "contain",
-                        backgroundPosition: "center center"
-                    }}
-                ></div> */}
     </Box>
   ) : (
     <div>Not authorized to search</div>
