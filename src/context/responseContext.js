@@ -37,6 +37,7 @@ const ResponseContextProvider = (props) => {
             photoURL={doc.data().photoURL}
             userId={doc.data().userId}
             gender={doc.data().gender}
+            nop={doc.data().nop}
             rideId={doc.id}
           />
         );

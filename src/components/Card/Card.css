@@ -4,13 +4,13 @@
   flex-direction: column;
 }
 .card__container {
-  min-width: 243px;
-  width: 243px;
-  height: max-content;
+  min-width: 250px;
+  width: 250px;
+  height: fit-content;
   background: #e5e5f3;
   padding: 10px 15px 12px;
   border-radius: 10px;
-  margin: 0 10px 30px;
+  margin: 0 10px 20px;
   font-size: 14px;
 }
 
@@ -24,14 +24,15 @@ button[disabled] {
 }
 
 .user__icon > img {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
 }
 
 .user__name {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .card__icon > img {
@@ -54,19 +55,11 @@ button[disabled] {
   outline: none;
   border: none;
   cursor: pointer;
-}
-
-.arrow__icon {
-  margin-left: 8px;
-}
-
-.arrow__icon > img {
-  width: 10px;
-  height: 10px;
+  font-weight: 500;
 }
 
 .send__container {
-  margin-top: 20px;
+  margin-top: 0px;
   display: flex;
   justify-content: flex-end;
 }
@@ -78,12 +71,4 @@ button[disabled] {
   border: none;
   cursor: pointer;
   font-size: 11px;
-}
-
-.desc__none {
-  display: none;
-}
-.desc__display {
-  display: block;
-  padding: 5px 0 0 7px;
 }
