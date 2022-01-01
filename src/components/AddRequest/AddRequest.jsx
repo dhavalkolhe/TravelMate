@@ -165,7 +165,7 @@ function AddRequest() {
                   }}
                 />
               </div>
-              {displaySources ? (
+              {displaySources && search ? (
                 <div className="dataResult-source">
                   {cities
                     .filter((value) =>
@@ -207,7 +207,7 @@ function AddRequest() {
                   }}
                 />
               </div>
-              {displayDestinations ? (
+              {displayDestinations && search ? (
                 <div className="dataResult-destination">
                   {cities
                     .filter((value) =>

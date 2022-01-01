@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import "./SearchResult.css";
-import Loader from "../../components/Loader/Loader";
 import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,7 +13,11 @@ import { ResponseContext } from "../../context/responseContext";
 import { Box, Container } from "@mui/material";
 
 function SearchResult() {
-  const [response] = useContext(ResponseContext);
+  const { responseContext, scrollContext, scrollResponseContext } =
+    useContext(ResponseContext);
+  const [response] = responseContext;
+  const [scroll, setScroll] = scrollContext;
+  const [scrollResponse, setScrollResponse] = scrollResponseContext;
   const [currentCity, setCurrentCity] = useState("");
   const [destinationCity, setDestinationCity] = useState("");
   const [gender, setGender] = useState("Any");
@@ -23,10 +26,28 @@ function SearchResult() {
     new Date(new Date().setMonth(new Date().getMonth() + 6))
   );
 
+  //+++
   const [loading, setLoading] = useState(true);
   const [skeletonCount, setSkeletonCount] = useState(6);
   const [filteredResponse, setFilteredResponse] = useState();
 
+  //scroll detection and managing single request on bottom scroll hit
+  const listInnerRef = useRef();
+  const onScroll = () => {
+    if (!scrollResponse) {
+      if (listInnerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight, scrollBottom } =
+          listInnerRef.current;
+        if (scrollHeight - scrollTop - clientHeight < 1) {
+          console.log("reached bottom");
+          setScroll(!scroll);
+          setScrollResponse(true);
+        }
+      }
+    }
+  };
+
+  //loading
   useEffect(() => {
     if (response) {
       setFilteredResponse(response);
@@ -124,7 +145,7 @@ function SearchResult() {
                 </div>
               </div>
               <div>
-                <h1 className="tertiary__title">Date</h1>
+                <h1 className="tertiary__title">Location</h1>
                 <div className="row">
                   From
                   <SearchBox
@@ -164,12 +185,13 @@ function SearchResult() {
                 </div>
               </div>
             </div>
-            <div className="results">
+            <div onScroll={onScroll} ref={listInnerRef} className="results">
               {loading ? (
                 <SkeletonLoader skeletonCount={skeletonCount} />
               ) : (
                 filteredResponse
               )}
+              {/* <button onClick={() => setScroll(!scroll)}>More</button> */}
             </div>
           </div>
         </div>
