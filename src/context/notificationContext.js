@@ -3,7 +3,6 @@ import { UserContext } from "./userContext";
 
 import { db } from "../firebase/db";
 import { doc, onSnapshot, getDoc, collection } from "firebase/firestore";
-// import NotificationCard from './NotificationCard';
 
 export const NotificationContext = createContext();
 

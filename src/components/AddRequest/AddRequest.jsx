@@ -18,15 +18,31 @@ import { db } from '../../firebase/db';
 import { collection, addDoc } from "firebase/firestore";
 
 function AddRequest() {
+    const [draftSaved, setDraftSaved] = useState(false);
+    
+    let draftData;
+    const localData = localStorage.getItem("TravelmateRideDrafts");
+    if (localData) {
+        draftData = JSON.parse(localData);
+    } else {
+        draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
+    }
+
     const [user] = useContext(UserContext);
-    const [currentCity, setCurrentCity] = useState("");
-    const [destinationCity, setDestinationCity] = useState("");
-    const [date, setDate] = useState(new Date());
-    const [time, setTime] = useState("Any");
-    const [mode, setMode] = useState("Any");
-    const [gender, setGender] = useState("Any");
-    const [nop, setNop] = useState(1);
-    const [description, setDescription] = useState("");
+    const [currentCity, setCurrentCity] = useState(draftData.currentCity);
+    const [destinationCity, setDestinationCity] = useState(draftData.destinationCity);
+    const [date, setDate] = useState(new Date(draftData.date));
+    const [time, setTime] = useState(draftData.time);
+    const [mode, setMode] = useState(draftData.mode);
+    const [gender, setGender] = useState(draftData.gender);
+    const [nop, setNop] = useState(draftData.nop);
+    const [description, setDescription] = useState(draftData.description);
+
+    useEffect(() => {
+        if (!user.authorized) {
+            alert("login first")
+        }
+    }, [user.authorized])
 
     const formValidation = () => {
         if (currentCity && destinationCity && date && time && gender && nop && mode)
@@ -34,25 +50,26 @@ function AddRequest() {
         else
             return false;
     }
-    useEffect(() => {
-        if (!user.authorized) {
-            alert("login first")
-        }
-    }, [user.authorized])
 
     const makeDraft = (e) => {
         e.preventDefault();
-        const draft = {
-            currentCity,
-            destinationCity,
-            date,
-            time,
-            mode,
-            gender,
-            nop,
-            description
+        if (!draftSaved) {
+            const draft = {
+                currentCity,
+                destinationCity,
+                date,
+                time,
+                mode,
+                gender,
+                nop,
+                description
+            }
+            localStorage.setItem('TravelmateRideDrafts', JSON.stringify(draft));
+        } else {
+            draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
+            localStorage.removeItem("TravelmateRideDrafts");
         }
-        localStorage.setItem('draft', JSON.stringify(draft));
+        setDraftSaved(!draftSaved);
     }
 
     const addRequest = async (e) => {
@@ -245,7 +262,7 @@ function AddRequest() {
                                             <button className="btn blue__btn"
                                                 onClick={addRequest}>Add Request</button>
                                             <button className="btn"
-                                                onClick={makeDraft}>Draft</button>
+                                                onClick={makeDraft}>{draftSaved ? "Clear Draft " : "Draft"}</button>
                                         </div>
                                     </td>
                                 </tr>

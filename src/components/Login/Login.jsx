@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { UserContext } from '../../context/userContext';
-// import Recaptcha from 'react-recaptcha';
+import Recaptcha from 'react-recaptcha';
 
 // firebase
 import '../../firebase/firebase';
@@ -78,23 +78,23 @@ function Login() {
             alert("Error signing out user : ", error.message);
         });
     }
-    // const [isVerfied, setIsVerified] = useState(false);
+    const [isVerfied, setIsVerified] = useState(false);
 
-    // function login() {
-    //     if (isVerfied) {
-    //         signIn();
-    //     } else {
-    //         alert("Verify captcha first");
-    //     }
-    // }
+    function login() {
+        if (isVerfied) {
+            signIn();
+        } else {
+            alert("Verify captcha first");
+        }
+    }
 
-    // function onloadCallback() {
-    //     console.log("Captcha loaded successfully");
-    // }
+    function onloadCallback() {
+        console.log("Captcha loaded successfully");
+    }
 
-    // function verifyCallback() {
-    //     setIsVerified(true);
-    // }
+    function verifyCallback() {
+        setIsVerified(true);
+    }
 
     return (
         (user.authorized) ? (
@@ -106,13 +106,13 @@ function Login() {
 
         ) : (
             <div>
-                {/* <Recaptcha
-                sitekey={process.env.REACT_APP_SITE_KEY}
-                render="explicit" 
-                onloadCallback={onloadCallback}
-                verifyCallback={verifyCallback}
-                theme="dark"
-            /> */}
+                <Recaptcha
+                    sitekey={process.env.REACT_APP_SITE_KEY}
+                    render="explicit"
+                    onloadCallback={onloadCallback}
+                    verifyCallback={verifyCallback}
+                    theme="dark"
+                />
                 <button onClick={signIn}>Login with Google</button>
             </div>)
     )

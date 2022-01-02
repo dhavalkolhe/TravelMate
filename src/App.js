@@ -18,60 +18,65 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 // Pages
 import { Home } from "./pages/Home";
-// import Chat from "./components/ChatDemo/Chat";
 import Notification from "./components/Notification/Notification";
 // import { ChatPage } from "./pages/Chat";
 import ChatList from "./components/ChatDemo/ChatList";
 import Chat from "./components/ChatDemo/Chat";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
   return (
-    <ResponseContextProvider>
-      <UserContextProvider>
-        <NotificationContextProvider>
-          <RoomsContextProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Router>
-                <Switch>
-                  <Route path="/login">
-                    <Login />
-                  </Route>
+    <UserContextProvider>
+      <RoomsContextProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Router>
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
 
-                  <Route exact path="/addRequest">
-                    <AddRequest />
-                  </Route>
+              <Route exact path="/addRequest">
+                <AddRequest />
+              </Route>
 
-                  <Route exact path="/searchRequests">
-                    <SearchResult />
-                  </Route>
+              <Route exact path="/search">
+                <ResponseContextProvider>
+                  <SearchResult />
+                </ResponseContextProvider>
+              </Route>
 
-                  <Route exact path="/notifications">
-                    <Notification />
-                  </Route>
+              <Route exact path="/user/notifications">
+                <NotificationContextProvider>
+                  <Notification />
+                </NotificationContextProvider>
+              </Route>
 
-                  {/* <Route exact path="/chat">
+              {/* <Route exact path="/chat">
                   <ChatPage />
                 </Route>
- */}
-                  <Route exact path="/chat">
-                    <ChatList />
-                  </Route>
+            */}
 
-                  <Route exact path="/chat/:roomId">
-                    <ChatList />
-                    <Chat />
-                  </Route>
+              <Route exact path="/dashboard">
+                <Dashboard />
+              </Route>
 
-                  <Route exact path="/">
-                    <Home />
-                  </Route>
-                </Switch>
-              </Router>
-            </LocalizationProvider>
-          </RoomsContextProvider>
-        </NotificationContextProvider>
-      </UserContextProvider>
-    </ResponseContextProvider>
+              <Route exact path="/chat">
+                <ChatList />
+              </Route>
+
+              <Route exact path="/chat/:roomId">
+                <ChatList />
+                <Chat />
+              </Route>
+
+              <Route exact path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </Router>
+        </LocalizationProvider>
+      </RoomsContextProvider>
+    </UserContextProvider>
   );
 }
 

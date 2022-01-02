@@ -5,13 +5,7 @@ export const UserContext = createContext();
 
 const UserContextProvider = (props) => {
   const localData = localStorage.getItem("user");
-  const data = localData
-    ? JSON.parse(localData)
-    : {
-        authorized: false,
-        displayName: "",
-        photoURL: "",
-      };
+  const data = localData ? JSON.parse(localData) : { authorized: false };
 
   const [user, setUser] = useState(data);
 

@@ -63,7 +63,7 @@ function SearchBox({ imgSrc, inputName, selectedCity, setSelectedCity }) {
     }, [])
 
     const getData = async () => {
-        await fetch('States.json'
+        await fetch('./States.json'
             , {
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ function SearchBox({ imgSrc, inputName, selectedCity, setSelectedCity }) {
                     required={true}
                     autoComplete="off"
                     onChange={e => { updateSelectedInp(e.target.value) }}
-                    value={userInput}
+                    value={selectedCity}
                 />
             </div>
 

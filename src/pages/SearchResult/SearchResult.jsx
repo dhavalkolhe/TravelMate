@@ -43,7 +43,6 @@ function SearchResult() {
             new Date(response.props.date) <= new Date(endDate)
         )
         )
-
         if (currentCity !== "" && x.length) {
             y = x.filter((response) =>
             (
@@ -60,7 +59,7 @@ function SearchResult() {
             (
                 (response.props.destinationCity.includes(destinationCity))
             ))
-        } else { 
+        } else {
             z = [];
         }
 
@@ -80,10 +79,8 @@ function SearchResult() {
         }
 
         (g.length) ? setFilteredResponse(g) : (z.length) ? setFilteredResponse(z) : (y.length) ? setFilteredResponse(y) : (x.length) ? setFilteredResponse(x) : setFilteredResponse([]);
-
         // eslint-disable-next-line
     }, [startDate, endDate, currentCity, destinationCity, gender])
-
 
     return (
         <div className="search__results">
