@@ -1,4 +1,408 @@
-.addReq__container {
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+.wrapper-container {
+  width: 32vw !important;
+  /* min-width: 20rem; */
+  float: left;
+  margin-left: 8rem !important;
+  padding: 10px 22px 20px;
+  border-radius: 10px;
+  background: #dfdff0;
+}
+
+.title {
+  font-family: Poppins, "sans-serif" !important;
+  font-size: 1.5rem !important;
+  color: #2b2c34 !important;
+  padding-top: 0.2rem;
+  margin-bottom: 0.4rem !important;
+  font-weight: 550 !important;
+  letter-spacing: 0.02rem !important;
+}
+
+.stack-item {
+  margin: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.textfieldHead {
+  font-size: 0.8rem !important;
+  font-family: Poppins, "sans-serif" !important;
+  color: #2b2c34 !important;
+  font-weight: 450 !important;
+  width: 10rem !important;
+  padding-top: 0.5rem !important;
+}
+
+input {
+  border: none;
+  background-color: #fff;
+  width: 100%;
+  height: auto;
+}
+
+input:focus {
+  outline: none;
+}
+.btns-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-req-btn {
+  width: 8rem !important;
+  display: inline-block !important;
+  background-color: #001963 !important;
+  color: #fff !important;
+  text-transform: inherit !important;
+  margin: 0.5rem !important;
+  border-radius: 0.5em !important;
+}
+
+.draft-btn {
+  width: 6rem !important;
+  display: inline-block !important;
+  background-color: #fff !important;
+  color: #2b2c34 !important;
+  text-transform: inherit !important;
+  margin: 0.5rem !important;
+  border-radius: 0.5em !important;
+}
+
+.num-input {
+  padding-left: 20px;
+  width: 185px;
+  height: 2.4rem;
+  border: none;
+}
+
+.text__icon {
+  border: none;
+  background-color: #dfdff0 !important;
+  cursor: pointer;
+}
+
+.description-field {
+  height: 8rem !important;
+  border-radius: 0.2rem;
+}
+
+.react-datepicker-wrapper {
+  width: auto !important;
+}
+
+.date-wrap {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+}
+.date-icon {
+  width: 1.3rem;
+  margin-left: 0.7rem;
+  margin-right: 0.5rem;
+}
+.location-wrap {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  width: 62%;
+}
+
+.css-1b19uim-MuiInputBase-root-MuiInput-root:before {
+  border-bottom: none !important;
+}
+
+.css-1b19uim-MuiInputBase-root-MuiInput-root {
+  padding-left: 1rem !important;
+}
+
+.css-1b19uim-MuiInputBase-root-MuiInput-root:after {
+  border-bottom: none !important;
+}
+/* ////////// */
+
+.dataResult-source {
+  position: absolute;
+  z-index: 1;
+  margin-left: 36%;
+  margin-top: 8.4rem;
+  width: 61%;
+  height: 100px;
+  background-color: white;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.dataResult-destination {
+  position: absolute;
+  z-index: 1;
+  margin-left: 36%;
+  margin-top: 8.4rem;
+  width: 61%;
+  height: 100px;
+  background-color: white;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.dataItem {
+  width: 100%;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: "Open Sans", sans-serif;
+  padding-left: 2.5rem;
+}
+
+.dataItem:hover {
+  cursor: pointer;
+  background-color: rgb(221, 218, 218);
+}
+.dataItem p {
+  margin-left: 10px;
+}
+/* ////////// */
+
+@media screen and (max-width: 750px) {
+  .bg-container {
+    display: none;
+  }
+  .wave {
+    display: none;
+  }
+  .wrapper-container {
+    margin: auto !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper-container {
+    width: 19rem !important;
+    height: 490px;
+    margin-bottom: 2rem !important;
+    float: none;
+  }
+
+  .textfieldHead {
+    width: 7rem !important;
+    padding-right: 10px !important;
+  }
+  .input-field {
+    width: 50% !important;
+    height: auto !important;
+  }
+  .location-input-field {
+    width: 50% !important;
+    height: 2.2rem !important;
+  }
+  .location-wrap {
+    width: 50%;
+  }
+  .num-input {
+    width: 70px;
+  }
+  .description-field {
+    height: 5rem !important;
+    border-radius: 0.2rem;
+  }
+  .btns-wrapper {
+    justify-content: center;
+  }
+  .add-req-btn {
+    width: 7rem !important;
+  }
+  .img-placeholder {
+    width: 1.1rem;
+    height: auto;
+  }
+  .date-picker {
+    width: 90px;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: none;
+  }
+  .dataResult-source {
+    margin-left: 41.4%;
+    margin-top: 8.4rem;
+    width: 48.5%;
+  }
+  .dataResult-destination {
+    margin-left: 41.4%;
+    margin-top: 8.4rem;
+    width: 48.5%;
+  }
+  .dataItem {
+    font-size: 0.9rem;
+    padding-left: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1024px) {
+  .wrapper-container {
+    width: 22rem !important;
+    height: 490px;
+    margin-left: 2rem !important;
+    margin-bottom: 2rem !important;
+    float: none;
+  }
+  .bg-container {
+    position: absolute;
+    right: -2rem;
+  }
+
+  .textfieldHead {
+    width: 7rem !important;
+    padding-right: 10px !important;
+  }
+  .input-field {
+    width: 60% !important;
+    height: auto !important;
+  }
+  .location-input-field {
+    width: 60% !important;
+    height: 2.2rem !important;
+  }
+  .location-wrap {
+    width: 60%;
+  }
+  .num-input {
+    width: 110px;
+  }
+  .description-field {
+    height: 5rem !important;
+    border-radius: 0.2rem;
+  }
+  .date-picker {
+    width: 135px;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: none;
+  }
+  .dataResult-source {
+    margin-left: 36.8%;
+    margin-top: 8.4rem;
+    width: 58.5%;
+  }
+  .dataResult-destination {
+    margin-left: 36.8%;
+    margin-top: 8.4rem;
+    width: 58.5%;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  .wrapper-container {
+    width: 25rem !important;
+    height: 490px;
+    margin-left: 6rem !important;
+    margin-bottom: 2rem !important;
+    float: none;
+  }
+  .bg-container {
+    position: absolute;
+    right: -2rem;
+  }
+
+  .textfieldHead {
+    width: 7rem !important;
+    padding-right: 10px !important;
+  }
+  .input-field {
+    width: 60% !important;
+    height: auto !important;
+  }
+  .location-input-field {
+    width: 60% !important;
+    height: 2.2rem !important;
+  }
+  .location-wrap {
+    width: 60%;
+  }
+  .num-input {
+    width: 140px;
+  }
+  .description-field {
+    height: 5rem !important;
+    border-radius: 0.2rem;
+  }
+  .date-picker {
+    width: 165px;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: none;
+  }
+  .dataResult-source {
+    margin-left: 31.8%;
+    margin-top: 8.4rem;
+    width: 59%;
+  }
+  .dataResult-destination {
+    margin-left: 31.8%;
+    margin-top: 8.4rem;
+    width: 59%;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .input-field {
+    width: 62% !important;
+    height: auto !important;
+  }
+  .location-input-field {
+    width: 62% !important;
+    height: 2.2rem !important;
+  }
+  .num-input {
+    width: 200px;
+  }
+  .description-field {
+    height: 6rem !important;
+    border-radius: 0.2rem;
+  }
+
+  .date-picker {
+    width: 230px;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: none;
+  }
+}
+
+/* 
+select {
+  width: 210px;
+  height: 2.4rem;
+  text-align: center;
+  margin: 0;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  outline: none;
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+} */
+
+/* .arrow:before {
+  content: "";
+  right: 6px;
+  top: 0px;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  pointer-events: none;
+  display: block;
+}
+
+.arrow:focus-within:after {
+  right: 6px;
+  transform: rotate(90deg);
+} */
+
+/* .addReq__container {
   width: 100%;
   height: 100vh;
   margin-bottom: 30px;
@@ -88,4 +492,4 @@ button {
 
 button > text__icon {
   width: 64px;
-}
+} */
