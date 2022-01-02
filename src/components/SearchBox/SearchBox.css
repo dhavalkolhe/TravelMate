@@ -1,17 +1,17 @@
 .input__wrapper {
   display: flex;
-  width: 100%;
+  width: 8.5rem;
+  margin-left: 1.5rem;
   height: fit-content;
   background: white;
-  border-radius: 2px;
-  padding: 3px 8px;
-  margin-bottom: 7px;
+  border-radius: 10px;
+  padding: 0.4rem;
 }
 
 .text__icon {
   display: grid;
   place-items: center;
-  background: white;
+  background: transparent !important;
   padding-right: 8px;
 }
 
