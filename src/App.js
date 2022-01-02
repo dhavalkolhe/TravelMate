@@ -19,6 +19,8 @@ import { Home } from "./pages/Home";
 import Chat from "./components/ChatDemo/Chat";
 import { ChatPage } from "./pages/Chat";
 
+import { MessagesBox } from "./components/ChatComponents";
+
 function App() {
   return (
     <ResponseContextProvider>
@@ -44,6 +46,12 @@ function App() {
 
               <Route exact path="/chat">
                 <ChatPage />
+              </Route>
+
+              <Route exact path="/message">
+                <div style={{ height: "100vh", width: "100vw" }}>
+                  <MessagesBox />
+                </div>
               </Route>
 
               <Route exact path="/">

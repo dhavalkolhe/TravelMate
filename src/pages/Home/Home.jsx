@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 // import { Link } from "react-router-dom";
 
 /* Componenets */
@@ -12,11 +12,28 @@ import {
 import { About, MadeBy } from "../../components/AboutUs";
 import { Footer } from "../../components/Footer";
 
-import Container from "@mui/material/Container";
+import { Box, Container } from "@mui/material";
 
 export function Home() {
+  const [overlayDisplay, setoverlayDisplay] = useState("none");
+
+  const homeContext = React.createContext({
+    overlayDisplay: overlayDisplay,
+    setoverlayDisplay: setoverlayDisplay,
+  });
+
   return (
-    <>
+    <homeContext.Provider>
+      <Box
+        sx={{
+          height: "100vh",
+          width: "100vw",
+          position: "fixed",
+          zIndex: "10",
+          background: "rgba(0, 0, 0, .5) ",
+          display: overlayDisplay,
+        }}
+      ></Box>
       <Container maxWidth="lg">
         <Nav />
         <SearchSection />
@@ -35,6 +52,6 @@ export function Home() {
         <MadeBy />
       </Container>
       <Footer />
-    </>
+    </homeContext.Provider>
   );
 }
