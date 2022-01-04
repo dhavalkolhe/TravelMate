@@ -40,9 +40,23 @@ p {
   width: 300px;
   max-height: 72px;
   overflow-y: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .pop-up-btn {
-  margin: 0 10px 10px 0;
+  margin: 0 20px 0 0;
+  position: relative;
   z-index: 1;
+  transform: translateY(10px);
+}
+
+.wave-container {
+  height: 5rem;
+}
+
+.wave-img {
+  position: absolute;
+  bottom: 0;
+  z-index: 0;
 }
