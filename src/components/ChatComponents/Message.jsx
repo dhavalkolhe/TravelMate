@@ -13,6 +13,44 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 
+function MessageOut({ message }) {
+  return (
+    <>
+      <Grid item container direction="row-reverse" sx={{ width: "100%" }}>
+        <Grid
+          item
+          sx={{
+            backgroundColor: "#D1D1E9",
+            padding: "10px 20px",
+            borderRadius: "20px 20px 0px 20px",
+          }}
+        >
+          <Typography>{message}</Typography>
+        </Grid>
+      </Grid>
+    </>
+  );
+}
+
+function MessageIn({ message }) {
+  return (
+    <>
+      <Grid item container direction="row" sx={{ width: "100%" }}>
+        <Grid
+          item
+          sx={{
+            backgroundColor: "#E5E5F3",
+            padding: "10px 20px",
+            borderRadius: "20px 20px 20px 0px",
+          }}
+        >
+          <Typography>{message}</Typography>
+        </Grid>
+      </Grid>
+    </>
+  );
+}
+
 export function MessagesBox() {
   return (
     <>
@@ -57,7 +95,19 @@ export function MessagesBox() {
           </Stack>
         </Grid>
 
-        <Grid item xs className="messageBox"></Grid>
+        <Grid
+          item
+          container
+          xs
+          className="messageBox"
+          direction="column-reverse"
+          sx={{
+            height: "100%",
+          }}
+        >
+          <MessageOut message="Hello" />
+          <MessageIn message="Hi" />
+        </Grid>
 
         <Grid
           item
