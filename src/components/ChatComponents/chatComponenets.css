@@ -1,0 +1,27 @@
+.Convcontainer {
+  width: 100%;
+  height: 100%;
+}
+
+/* Message */
+.messagesBoxContainer {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.messageHead {
+  width: 100%;
+  min-height: 76px;
+  border-radius: 10px;
+  background-color: #e5e5f3;
+}
+
+.messageBox {
+  width: 100%;
+}
+
+.messageInput {
+  width: 100%;
+  min-height: 60px;
+}

@@ -24,6 +24,8 @@ import ChatList from "./components/ChatDemo/ChatList";
 import Chat from "./components/ChatDemo/Chat";
 import Dashboard from "./components/Dashboard/Dashboard";
 
+import { MessagesBox } from "./components/ChatComponents";
+
 function App() {
   return (
     <UserContextProvider>
@@ -67,6 +69,12 @@ function App() {
               <Route exact path="/chat/:roomId">
                 <ChatList />
                 <Chat />
+              </Route>
+
+              <Route exact path="/message">
+                <div style={{ height: "100vh", width: "100vw" }}>
+                  <MessagesBox />
+                </div>
               </Route>
 
               <Route exact path="/">

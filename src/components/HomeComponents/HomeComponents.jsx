@@ -50,7 +50,10 @@ export function SearchSection() {
         <Typography
           sx={{
             fontSize: "1.5rem",
-            marginLeft: "20vw",
+            marginLeft: {
+              xs: "10vw",
+              lg: "20vw",
+            },
             marginTop: "2rem",
             marginBottom: "1rem",
             texAlign: "left",
@@ -61,27 +64,57 @@ export function SearchSection() {
         >
           Looking For Someone to travel With?
         </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            width: "180px",
+            backgroundColor: "#6246EA",
+            "&:hover": {
+              backgroundColor: "#6251B5",
+            },
+            "&:active": {
+              backgroundColor: "#6251B5",
+            },
+            display: {
+              xs: "flex",
+              md: "none",
+            },
+          }}
+        >
+          Click Me!
+        </Button>
         <Stack
           direction="column"
           spacing={4}
           sx={{
             backgroundColor: "#DFDFF0",
             borderRadius: "10px",
-            width: {
-              md: "50vw",
-            },
+            width: "fit-content",
+            padding: "1rem",
             height: {
               md: "170px",
             },
-            marginLeft: "20vw",
+            marginLeft: {
+              xs: "10vw",
+              lg: "20vw",
+            },
             alignItems: "center",
             justifyContent: "center",
+            display: {
+              xs: "none",
+              md: "flex",
+            },
           }}
         >
           <Stack direction="column" spacing={4}>
             <Stack direction="row">
               <FormControl variant="outlined" sx={{ zIndex: "1" }}>
-                <Stack direction={"row"} spacing={2} alignItems="flex-end">
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  alignItems="flex-end"
+                  sx={{ flexWrap: "wrap" }}
+                >
                   <Box>
                     <Typography class="textfieldHead">
                       Traveling from

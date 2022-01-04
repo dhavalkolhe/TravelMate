@@ -3,4 +3,4 @@ export {
   StepsInfo,
   Article,
   WebsiteInfo,
-} from "./SearchSection";
+} from "./HomeComponents";
