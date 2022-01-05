@@ -71,7 +71,10 @@ export function MessagesBox() {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [joined, setJoined] = useState(true);
-  const [roomId, setRoomId] = useContext(ChatContext);
+
+  const { currRoomId, currChatterInfo } = useContext(ChatContext);
+  const [roomId, setRoomId] = currRoomId;
+  const [chatterInfo, setchatterInfo] = currChatterInfo;
 
   const isMemberOf = async () => {
     const roomData = await getDoc(doc(db, "rooms", roomId));
@@ -180,8 +183,13 @@ export function MessagesBox() {
               }}
             >
               <Stack direction={"row"} alignItems={"center"}>
-                <Avatar sx={{ width: 48, height: 48, marginRight: "0.4rem" }} />
-                <Typography variant={"string"}>User Name</Typography>
+                <Avatar
+                  src={chatterInfo.photoURL}
+                  sx={{ width: 48, height: 48, marginRight: "0.4rem" }}
+                />
+                <Typography variant={"string"}>
+                  {chatterInfo.displayName}
+                </Typography>
               </Stack>
               <IconButton>
                 <CloseIcon fontSize="large" />

@@ -15,9 +15,9 @@ import { ChatContext } from "../../context/chatContext";
 
 import Loader from "../../components/Loader/Loader";
 
-function Person({ displayName, roomId, handleRoomId }) {
+function Person({ displayName, photoURL, roomId, handleRoomChange }) {
   return (
-    <div onClick={() => handleRoomId(roomId)}>
+    <div onClick={() => handleRoomChange(roomId, displayName, photoURL)}>
       <Grid
         item
         container
@@ -29,6 +29,7 @@ function Person({ displayName, roomId, handleRoomId }) {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
+          cursor: "pointer",
         }}
       >
         <Grid
@@ -42,7 +43,10 @@ function Person({ displayName, roomId, handleRoomId }) {
             item
             sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
           >
-            <Avatar sx={{ width: 48, height: 48, marginRight: "0.4rem" }} />
+            <Avatar
+              src={photoURL}
+              sx={{ width: 48, height: 48, marginRight: "0.4rem" }}
+            />
             <Typography variant={"string"}>{displayName}</Typography>
           </Grid>
           <Grid
@@ -74,10 +78,16 @@ export function Conversations() {
   const [cardData, setCardData] = useState([]);
   const [chatsCount, setChatsCount] = useState(0);
 
-  const [roomId, setRoomId] = useContext(ChatContext);
+  const { currRoomId, currChatterInfo } = useContext(ChatContext);
+  const [roomId, setRoomId] = currRoomId;
+  const [chatterInfo, setchatterInfo] = currChatterInfo;
 
-  const handleRoomId = (newRoomId) => {
-    setRoomId(newRoomId);
+  const handleRoomChange = (roomId, displayName, photoURL) => {
+    setRoomId(roomId);
+    setchatterInfo({
+      displayName: displayName,
+      photoURL: photoURL,
+    });
   };
 
   useEffect(() => {
@@ -92,7 +102,7 @@ export function Conversations() {
             photoURL={room.photoURL}
             reqId={room.reqId}
             roomId={room.roomId}
-            handleRoomId={handleRoomId}
+            handleRoomChange={handleRoomChange}
           />
         );
       });
