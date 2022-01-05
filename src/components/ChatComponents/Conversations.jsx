@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./chatComponenets.css";
 
 import {
@@ -10,9 +10,14 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
-function Person() {
+import { RoomsContext } from "../../context/roomsContext";
+import { ChatContext } from "../../context/chatContext";
+
+import Loader from "../../components/Loader/Loader";
+
+function Person({ displayName, roomId, handleRoomId }) {
   return (
-    <>
+    <div onClick={() => handleRoomId(roomId)}>
       <Grid
         item
         container
@@ -38,7 +43,7 @@ function Person() {
             sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
           >
             <Avatar sx={{ width: 48, height: 48, marginRight: "0.4rem" }} />
-            <Typography variant={"string"}>User Name</Typography>
+            <Typography variant={"string"}>{displayName}</Typography>
           </Grid>
           <Grid
             item
@@ -57,11 +62,46 @@ function Person() {
           </Grid>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 }
 
 export function Conversations() {
+  const { roomData, loading } = useContext(RoomsContext);
+  const [roomsData] = roomData;
+  const [roomLoading] = loading;
+
+  const [cardData, setCardData] = useState([]);
+  const [chatsCount, setChatsCount] = useState(0);
+
+  const [roomId, setRoomId] = useContext(ChatContext);
+
+  const handleRoomId = (newRoomId) => {
+    setRoomId(newRoomId);
+  };
+
+  useEffect(() => {
+    if (roomsData.length) {
+      const x = roomsData.map((room, i) => {
+        return (
+          <Person
+            key={i}
+            currentCity={room.currentCity}
+            destinationCity={room.destinationCity}
+            displayName={room.displayName}
+            photoURL={room.photoURL}
+            reqId={room.reqId}
+            roomId={room.roomId}
+            handleRoomId={handleRoomId}
+          />
+        );
+      });
+
+      setCardData(x);
+      setChatsCount(x.length);
+    }
+  }, [roomsData]);
+
   return (
     <Grid container direction={"column"} columns={22} className="Convcontainer">
       <Grid item xs={1}>
@@ -71,9 +111,11 @@ export function Conversations() {
         <OutlinedInput placeholder="Search" sx={{ width: "100%" }} />
       </Grid>
       <Grid item sx={{ borderTop: "1px solid #313131", marginTop: "10px" }}>
-        <Person />
-        <Person />
-        <Person />
+        {roomLoading ? (
+          <Loader />
+        ) : (
+          <div>{chatsCount ? cardData : <p>No Chats!</p>}</div>
+        )}
       </Grid>
     </Grid>
   );

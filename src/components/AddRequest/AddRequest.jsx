@@ -51,7 +51,16 @@ function AddRequest() {
   if (localData) {
     draftData = JSON.parse(localData);
   } else {
-    draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
+    draftData = {
+      currentCity: "",
+      destinationCity: "",
+      date: new Date(),
+      time: "Any",
+      mode: "Any",
+      gender: "Any",
+      nop: 1,
+      description: "",
+    };
   }
 
   const [user] = useContext(UserContext);
@@ -69,19 +78,17 @@ function AddRequest() {
   const [displaySources, setDisplaySources] = useState(false);
   const [displayDestinations, setDisplayDestinations] = useState(false);
 
-
   useEffect(() => {
     if (!user.authorized) {
-      alert("login first")
+      alert("login first");
     }
-  }, [user.authorized])
+  }, [user.authorized]);
 
   const formValidation = () => {
     if (currentCity && destinationCity && date && time && gender && nop && mode)
       return true;
-    else
-      return false;
-  }
+    else return false;
+  };
 
   const makeDraft = (e) => {
     e.preventDefault();
@@ -94,15 +101,24 @@ function AddRequest() {
         mode,
         gender,
         nop,
-        description
-      }
-      localStorage.setItem('TravelmateRideDrafts', JSON.stringify(draft));
+        description,
+      };
+      localStorage.setItem("TravelmateRideDrafts", JSON.stringify(draft));
     } else {
-      draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
+      draftData = {
+        currentCity: "",
+        destinationCity: "",
+        date: new Date(),
+        time: "Any",
+        mode: "Any",
+        gender: "Any",
+        nop: 1,
+        description: "",
+      };
       localStorage.removeItem("TravelmateRideDrafts");
     }
     setDraftSaved(!draftSaved);
-  }
+  };
 
   const addRequest = async (e) => {
     e.preventDefault();
@@ -120,11 +136,10 @@ function AddRequest() {
             description,
             displayName: user.displayName,
             photoURL: user.photoURL,
-            userId: user.uid
+            userId: user.uid,
           });
           alert("Document written");
-          setDate(new Date())
-
+          setDate(new Date());
         } catch (e) {
           console.log("Error adding document: ", e);
         }
@@ -132,7 +147,7 @@ function AddRequest() {
     } else {
       alert("Please enter all the fields!");
     }
-  }
+  };
 
   const handlelocationSelect = (type, v) => {
     if (type == "source") {
