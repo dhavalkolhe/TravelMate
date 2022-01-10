@@ -11,6 +11,8 @@ import { Nav } from "../../components/Nav/Nav";
 import { ResponseContext } from "../../context/responseContext";
 
 import { Box, Container } from "@mui/material";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
 
 function SearchResult() {
   const { responseContext, scrollContext, scrollResponseContext } =
@@ -30,6 +32,7 @@ function SearchResult() {
   const [loading, setLoading] = useState(true);
   const [skeletonCount, setSkeletonCount] = useState(6);
   const [filteredResponse, setFilteredResponse] = useState();
+  const [showFilterNav, setShowFilterNav] = useState(false);
 
   //scroll detection and managing single request on bottom scroll hit
   const listInnerRef = useRef();
@@ -45,6 +48,11 @@ function SearchResult() {
         }
       }
     }
+  };
+
+  const handleFilterClick = () => {
+    console.log("clicked");
+    setShowFilterNav(true);
   };
 
   //loading
@@ -116,8 +124,34 @@ function SearchResult() {
       <Container maxwidth="lg">
         <Nav />
         <div className="search__results">
-          <h2 className="title">Search Results</h2>
+          <h2 className="title">
+            Search Results
+            <span className="filter-icon-container">
+              <FilterAltIcon
+                sx={{ fontSize: 20 }}
+                className="filter-icon"
+                onClick={() => handleFilterClick()}
+              /><span className="filter-text">Filter</span>
+            </span>
+          </h2>
           <div className="container">
+            {showFilterNav ? (
+              <FilterResultsNav
+                startDate={startDate}
+                setStartDate={setStartDate}
+                endDate={endDate}
+                setEndDate={setEndDate}
+                currentCity={currentCity}
+                setCurrentCity={setCurrentCity}
+                destinationCity={destinationCity}
+                setDestinationCity={setDestinationCity}
+                gender={gender}
+                setGender={setGender}
+                showFilterNav={showFilterNav}
+                setShowFilterNav={setShowFilterNav}
+              />
+            ) : null}
+
             <div className="filter__results">
               <p className="secondary__title">Filter Results</p>
               <div>
@@ -191,7 +225,6 @@ function SearchResult() {
               ) : (
                 filteredResponse
               )}
-              {/* <button onClick={() => setScroll(!scroll)}>More</button> */}
             </div>
           </div>
         </div>

@@ -169,6 +169,9 @@ p {
 .dataItem p {
   margin-left: 10px;
 }
+.no-text-wrap {
+  white-space: nowrap;
+}
 /* ////////// */
 
 @media screen and (max-width: 750px) {

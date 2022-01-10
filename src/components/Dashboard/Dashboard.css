@@ -1,0 +1,13 @@
+.crop {
+  max-height: 220px;
+  overflow: hidden;
+}
+.crop img {
+  max-height: initial;
+}
+.dashBg-container {
+  position: fixed;
+  top: 7.3rem;
+  right: 8rem;
+  max-width: 40vw;
+}

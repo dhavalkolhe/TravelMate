@@ -11,6 +11,7 @@ import ResponseContextProvider from "./context/responseContext";
 import NotificationContextProvider from "./context/notificationContext";
 import RoomsContextProvider from "./context/roomsContext";
 import ChatContextProvider from "./context/chatContext";
+import DashboardContextProvider from "./context/dashboardContext";
 
 import "./firebase/firebase";
 
@@ -63,7 +64,9 @@ function App() {
             */}
 
                 <Route exact path="/dashboard">
-                  <Dashboard />
+                  <DashboardContextProvider>
+                    <Dashboard />
+                  </DashboardContextProvider>
                 </Route>
 
                 <Route exact path="/chat">
