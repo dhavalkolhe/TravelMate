@@ -83,8 +83,8 @@ const DashboardContextProvider = (props) => {
         return (
           <DashboardCard
             key={Math.random(i + 1, 50 * i)}
-            currentCity={doc.data().currentCity}
-            destinationCity={doc.data().destinationCity}
+            currentCity={doc.data().currentCity.split(",")[0]}
+            destinationCity={doc.data().destinationCity.split(",")[0]}
             date={doc.data().date.toDate().toDateString()}
             userId={doc.data().userId}
             nop={doc.data().nop}

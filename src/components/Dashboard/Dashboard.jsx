@@ -40,10 +40,18 @@ function Dashboard() {
       <Box className="crop">
         <img src={wave} alt="wave" />
       </Box>
-      <span>{displayName}</span>
-      <span>{email}</span>
-      <img src={photoURL} />
-      <div>{activeOffers}</div>
+      <div className="profile">
+        <div className="profile-img-container">
+          <img className="profile-img" src={photoURL} alt="user-img" />
+        </div>
+
+        <span className="profile-name">{displayName}</span>
+        <span className="profile-email">{email}</span>
+      </div>
+      <div className="activeOffersContainer">
+        <span className="active-text">Active Offers</span>
+        <div className="activeOffersCards">{activeOffers}</div>
+      </div>
     </Box>
   );
 }
