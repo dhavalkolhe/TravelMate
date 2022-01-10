@@ -19,6 +19,7 @@ import { About, MadeBy } from "../AboutUs/AboutUs";
 import { Footer } from "../Footer/Footer";
 import { WebsiteInfo } from "../../components/HomeComponents";
 import city from "../../resources/states.json";
+import state from "../../resources/states.json";
 
 import {
   Box,
@@ -149,13 +150,14 @@ function AddRequest() {
     }
   };
 
-  const handlelocationSelect = (type, v) => {
+  const handlelocationSelect = (type, v, v1) => {
+    const selectedCity = v.concat(", ", v1);
     if (type == "source") {
-      setCurrentCity(v);
+      setCurrentCity(selectedCity);
       setDisplaySources(false);
       setSearch("");
     } else {
-      setDestinationCity(v);
+      setDestinationCity(selectedCity);
       setDisplayDestinations(false);
       setSearch("");
     }
@@ -201,10 +203,16 @@ function AddRequest() {
                           className="dataItem"
                           key={value.id}
                           onClick={() =>
-                            handlelocationSelect("source", value.name)
+                            handlelocationSelect(
+                              "source",
+                              value.name,
+                              value.state
+                            )
                           }
                         >
-                          <span>{value.name}</span>
+                          <span className="no-text-wrap">
+                            {value.name}, {value.state}
+                          </span>
                         </div>
                       );
                     })}
@@ -243,10 +251,16 @@ function AddRequest() {
                           className="dataItem"
                           key={value.id}
                           onClick={() =>
-                            handlelocationSelect("destination", value.name)
+                            handlelocationSelect(
+                              "destination",
+                              value.name,
+                              value.state
+                            )
                           }
                         >
-                          <span>{value.name}</span>
+                          <span className="no-text-wrap">
+                            {value.name}, {value.state}
+                          </span>
                         </div>
                       );
                     })}

@@ -41,7 +41,7 @@ const ResponseContextProvider = (props) => {
     const q = query(
       collection(db, "rides"),
       orderBy("date", "asc"),
-      limit(9),
+      limit(20),
       startAfter(lastCard)
     );
 

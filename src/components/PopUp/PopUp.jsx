@@ -6,7 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Zoom from "@mui/material/Zoom";
 import Loader from "../../components/Loader/Loader";
-import wave from "../../img/wavesDesign.svg";
+import wave from "../../img/popupWave.svg";
 import userIcon from "../../img/user.svg";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
@@ -124,18 +124,23 @@ const PopUp = ({
           <span>{description ? description : "No description available"}</span>
         </DialogContentText>
       </DialogContent>
-
-      <DialogActions>
-        <div className="send__container">
-          <button
-            className="send-btn blue__btn pop-up-btn"
-            disabled={disable}
-            onClick={sendRequest}
-          >
-            {sendText}
-          </button>
-        </div>
-      </DialogActions>
+      <DialogContentText
+        id="alert-dialog-slide-description"
+        className="wave-container"
+      >
+        <img src={wave} className="wave-img" />
+        <DialogActions>
+          <div className="send__container">
+            <button
+              className="send-btn blue__btn pop-up-btn"
+              disabled={disable}
+              onClick={sendRequest}
+            >
+              {sendText}
+            </button>
+          </div>
+        </DialogActions>
+      </DialogContentText>
     </Dialog>
   );
 };
