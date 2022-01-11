@@ -1,30 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
-import illustation1 from "../../resources/images/illustration1.svg";
-import bgvector1 from "../../resources/images/bgVector1.svg";
-import locationIcon from "../../resources/icons/locationIcon.svg";
-import destinationIcon from "../../resources/icons/destinationIcon.svg";
-// import dateIcon from "../../resources/icons/dateIcon.svg";
+import { SearchBox } from "./SearchBox";
 
 import {
   Box,
-  Grid,
   Container,
+  Grid,
   Stack,
   Button,
   Card,
   Typography,
-  FormControl,
-  TextField,
-  InputAdornment,
-  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
-import DatePicker from "@mui/lab/DatePicker";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+
+import illustation1 from "../../resources/images/illustration1.svg";
+import bgvector1 from "../../resources/images/bgVector1.svg";
 
 import step1 from "../../resources/images/step1.svg";
 import step2 from "../../resources/images/step2.svg";
@@ -37,6 +34,16 @@ import websiteInfoIcon2 from "../../resources/images/websiteInfoIcon2.svg";
 import websiteInfoIcon3 from "../../resources/images/websiteInfoIcon3.svg";
 
 export function SearchSection() {
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const handleSearchOpen = () => {
+    setSearchOpen(true);
+  };
+
+  const handleSearchClose = () => {
+    setSearchOpen(false);
+  };
+
   return (
     <>
       <Container
@@ -49,16 +56,23 @@ export function SearchSection() {
       >
         <Typography
           sx={{
-            fontSize: "1.5rem",
+            fontSize: {
+              xs: "2rem",
+              sm: "2.7rem",
+              md: "1.5rem",
+            },
             marginLeft: {
-              xs: "10vw",
-              lg: "20vw",
+              xs: "0vw",
+              md: "20vw",
             },
             marginTop: "2rem",
             marginBottom: "1rem",
             texAlign: "left",
             letterSpacing: "0.03em",
-            textTransform: "uppercase",
+            textTransform: {
+              xs: "normal",
+              md: "uppercase",
+            },
             color: "#2B2C34",
           }}
         >
@@ -80,161 +94,29 @@ export function SearchSection() {
               md: "none",
             },
           }}
+          onClick={handleSearchOpen}
         >
-          Click Me!
+          Search For Mate
         </Button>
-        <Stack
-          direction="column"
-          spacing={4}
+
+        <Dialog open={searchOpen} onClose={handleSearchClose}>
+          <SearchBox />
+        </Dialog>
+
+        <Box
           sx={{
-            backgroundColor: "#DFDFF0",
-            borderRadius: "10px",
-            width: "fit-content",
-            padding: "1rem",
-            height: {
-              md: "170px",
-            },
             marginLeft: {
               xs: "10vw",
               lg: "20vw",
             },
-            alignItems: "center",
-            justifyContent: "center",
             display: {
               xs: "none",
               md: "flex",
             },
           }}
         >
-          <Stack direction="column" spacing={4}>
-            <Stack direction="row">
-              <FormControl variant="outlined" sx={{ zIndex: "1" }}>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  alignItems="flex-end"
-                  sx={{ flexWrap: "wrap" }}
-                >
-                  <Box>
-                    <Typography class="textfieldHead">
-                      Traveling from
-                    </Typography>
-                    <TextField
-                      size="small"
-                      placeholder="Enter Location"
-                      sx={{
-                        width: "190px",
-                        backgroundColor: "white",
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <IconButton edge="start">
-                              <img src={locationIcon} alt={"logo"} />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Box>
-
-                  <Box>
-                    <Typography class="textfieldHead">Destination</Typography>
-                    <TextField
-                      size="small"
-                      placeholder="Enter Location"
-                      sx={{
-                        width: "190px",
-                        backgroundColor: "white",
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <IconButton edge="start">
-                              <img src={destinationIcon} alt={"logo"} />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography class="textfieldHead">Date</Typography>
-                    {/* <TextField
-                      size="small"
-                      placeholder="DD-MM-YYYY"
-                      sx={{
-                        width: "160px",
-                        backgroundColor: "white",
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <IconButton edge="start">
-                              <img src={dateIcon} alt={"logo"} />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    /> */}
-
-                    <DatePicker
-                      openTo="day"
-                      views={["month", "day"]}
-                      // value={value}
-                      // onChange={(newValue) => {
-                      //   setValue(newValue);
-                      // }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          size="small"
-                          // placeholder="DD-MM-YYYY"
-                          sx={{
-                            width: "160px",
-                            backgroundColor: "white",
-                          }}
-                          // InputProps={{
-                          //   startAdornment: (
-                          //     <InputAdornment position="start">
-                          //       <IconButton edge="start">
-                          //         <img src={dateIcon} alt={"logo"} />
-                          //       </IconButton>
-                          //     </InputAdornment>
-                          //   ),
-                          // }}
-                        />
-                      )}
-                    />
-                  </Box>
-
-                  <Link to="/searchRequests">
-                    <Button
-                      variant="contained"
-                      startIcon={<SearchOutlinedIcon />}
-                      sx={{
-                        backgroundColor: "#001963",
-                        "&:hover": {
-                          backgroundColor: "#062580",
-                        },
-                        height: "40px",
-                        width: "150px",
-                      }}
-                    >
-                      Search
-                    </Button>
-                  </Link>
-                </Stack>
-              </FormControl>
-            </Stack>
-            <Box display="flex" justifyContent="space-between">
-              <Typography class="redText">Add request</Typography>
-              <Typography class="redText">
-                <u>Help?!</u>
-              </Typography>
-            </Box>
-          </Stack>
-        </Stack>
+          <SearchBox />
+        </Box>
       </Container>
 
       <Box sx={{ position: "absolute", bottom: "0px", left: "0px" }}>

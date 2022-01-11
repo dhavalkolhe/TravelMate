@@ -4,3 +4,5 @@ export {
   Article,
   WebsiteInfo,
 } from "./HomeComponents";
+
+export { SearchBox } from "./SearchBox";

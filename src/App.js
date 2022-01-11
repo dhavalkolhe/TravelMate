@@ -30,6 +30,9 @@ import { ChatPage } from "./pages/Chat";
 
 // import { MessagesBox } from "./components/ChatComponents";
 
+//Test
+import { SearchBox } from "./components/HomeComponents";
+
 function App() {
   return (
     <UserContextProvider>
@@ -85,6 +88,11 @@ function App() {
 
                 <Route exact path="/">
                   <Home />
+                </Route>
+
+                {/* Test */}
+                <Route exact path="/SearchBox">
+                  <SearchBox />
                 </Route>
               </Switch>
             </Router>
