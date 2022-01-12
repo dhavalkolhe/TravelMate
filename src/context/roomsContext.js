@@ -12,9 +12,12 @@ const RoomsContextProvider = (props) => {
   const [roomLoading, setRoomLoading] = useState(true);
 
   useEffect(() => {
+    let unsub;
     if (user.authorized) {
       try {
-        fetchData();
+        fetchData().then((res) => {
+          unsub = res;
+        });
         setTimeout(() => {
           setRoomLoading(false);
         }, 2000);
@@ -22,6 +25,9 @@ const RoomsContextProvider = (props) => {
         console.log(err);
       }
     }
+    return () => {
+      unsub();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
@@ -29,8 +35,8 @@ const RoomsContextProvider = (props) => {
   //     console.log(roomData)
   // }, [roomData])
 
-  const fetchData = () => {
-    onSnapshot(doc(db, "users", user.uid), (recievedReqSnap) => {
+  const fetchData = async () => {
+    const unsub = onSnapshot(doc(db, "users", user.uid), (recievedReqSnap) => {
       if (recievedReqSnap.data().rooms.length) {
         recievedReqSnap.data().rooms.forEach((roomId) => {
           fetchRoomData(roomId);
@@ -39,6 +45,7 @@ const RoomsContextProvider = (props) => {
         setRoomLoading(false);
       }
     });
+    return unsub;
   };
 
   const fetchRoomData = async (roomId) => {

@@ -14,11 +14,8 @@ import { UserContext } from "./userContext";
 import DashboardCard from "../components/DashboardCard/DashboardCard";
 
 import { db } from "../firebase/db";
-import { collection, query, orderBy, where } from "firebase/firestore";
-import { onSnapshot } from "firebase/firestore";
-
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { isEqual } from "date-fns/esm";
 
 const auth = getAuth();
 
@@ -26,77 +23,76 @@ export const DashboardContext = createContext();
 
 const DashboardContextProvider = (props) => {
   const [activeOffers, setActiveOffers] = useState([]);
-  const user = useContext(UserContext);
+  const [user] = useContext(UserContext);
 
   let uid;
 
   useEffect(() => {
-    let unsubscribe;
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        uid = user.uid;
+      } else {
+        console.log("Not Authorised");
+      }
+    });
+
     try {
-      loadData().then((res) => {
-        unsubscribe = res;
-      });
+      fetchData();
     } catch (err) {
       console.log("Response Fetching Error: " + err.message);
     }
-
     return () => {
-      unsubscribe();
+      unsub();
     };
   }, []);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      uid = user.uid;
-      console.log(uid);
-    } else {
-      console.log("Not Authorised");
-    }
-  });
+  const fetchData = () => {
+    let activeRides = [];
 
-  const loadData = async () => {
-    console.log("loading dash response");
-
-    const q = query(
-      collection(db, "rides"),
-      orderBy("date", "asc"),
-      where(
-        "userId",
-        "==",
-        //uid goes here
-        "l1WYdAL67NYUkMbYxinW8h6qLar1"
-        //`${uid}`
-      )
+    onSnapshot(
+      doc(db, "users", user.uid),
+      { includeMetadataChanges: false },
+      (recievedReqSnap) => {
+        activeRides = [];
+        if (recievedReqSnap.data().rides.length) {
+          recievedReqSnap.data().rides.forEach((rideId) => {
+            fetchRideData(rideId)
+              .then((response) => {
+                activeRides.push(response);
+              })
+              .then(() => {
+                const x = activeRides.map((doc, i) => {
+                  return (
+                    <DashboardCard
+                      key={Math.random(i + 1, 50 * i)}
+                      currentCity={doc.currentCity.split(",")[0]}
+                      destinationCity={doc.destinationCity.split(",")[0]}
+                      date={doc.date}
+                      nop={doc.nop}
+                      rideId={doc.rideId}
+                    />
+                  );
+                });
+                setActiveOffers(x);
+              });
+          });
+        }
+        //  else if (recievedReqSnap.data().rides.length === 0) {
+        //   setRideLoading(false);
+        // }
+      }
     );
+  };
 
-    // const q = query(
-    //   collection(db, "rides"),
-    //   orderBy("date", "asc"),
-    //   where(...sendData)
-    // );
-
-    //if not possible, other method is to fetch whole db and filter from it
-    //or change db structure
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const x = querySnapshot.docs.map((doc, i) => {
-        return (
-          <DashboardCard
-            key={Math.random(i + 1, 50 * i)}
-            currentCity={doc.data().currentCity.split(",")[0]}
-            destinationCity={doc.data().destinationCity.split(",")[0]}
-            date={doc.data().date.toDate().toDateString()}
-            userId={doc.data().userId}
-            nop={doc.data().nop}
-            rideId={doc.id}
-          />
-        );
-      });
-      setActiveOffers(x);
-      console.log(x);
-    });
-    console.log("dash response loaded");
-    return unsubscribe;
+  const fetchRideData = async (rideId) => {
+    const rideData = await getDoc(doc(db, "rides", rideId));
+    return {
+      currentCity: rideData.data().currentCity,
+      destinationCity: rideData.data().destinationCity,
+      date: rideData.data().date.toDate().toDateString(),
+      nop: rideData.data().nop,
+      rideId,
+    };
   };
 
   return (

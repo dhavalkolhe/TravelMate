@@ -14,46 +14,61 @@ const auth = getAuth();
 function Dashboard() {
   const activeOffers = useContext(DashboardContext);
 
-  const user = useContext(UserContext);
+  const [user] = useContext(UserContext);
+  const [authorized, setAuthorized] = useState(true);
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setDisplayName(user.displayName);
-      setEmail(user.email);
-      setPhotoURL(user.photoURL);
-    } else {
-      console.log("Not Authorised");
+  useEffect(() => {
+    let unsub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthorized(true)
+        setDisplayName(user.displayName);
+        setEmail(user.email);
+        setPhotoURL(user.photoURL);
+      } else {
+        setAuthorized(false)
+      }
+    });
+    return () => {
+      unsub();
     }
-  });
+  }, [])
 
   return (
     <Box>
       <Container maxWidth="lg">
         <Nav />
       </Container>
-      <Box className="dashBg-container">
-        <img src={dashBg} alt="dashBg" />
-      </Box>
-      <Box className="crop">
-        <img src={wave} alt="wave" />
-      </Box>
-      <div className="profile">
-        <div className="profile-img-container">
-          <img className="profile-img" src={photoURL} alt="user-img" />
+      {!authorized ? (
+        <h1>Please Login first</h1>
+      ) : (
+        <div>
+          <Box className="dashBg-container">
+            <img src={dashBg} alt="dashBg" />
+          </Box>
+          <Box className="crop">
+            <img src={wave} alt="wave" />
+          </Box>
+          <div className="profile">
+            <div className="profile-img-container">
+              <img className="profile-img" src={photoURL} alt="user-img" />
+            </div>
+
+            <span className="profile-name">{displayName}</span>
+            <span className="profile-email">{email}</span>
+          </div>
+          <div className="activeOffersContainer">
+            <span className="active-text">Active Offers</span>
+            <div className="activeOffersCards">{activeOffers}</div>
+          </div>
         </div>
 
-        <span className="profile-name">{displayName}</span>
-        <span className="profile-email">{email}</span>
-      </div>
-      <div className="activeOffersContainer">
-        <span className="active-text">Active Offers</span>
-        <div className="activeOffersCards">{activeOffers}</div>
-      </div>
+      )
+      }
     </Box>
-  );
+  )
 }
 
 export default Dashboard;

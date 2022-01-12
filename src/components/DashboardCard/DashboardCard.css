@@ -35,6 +35,7 @@ hr {
 .dashDeleteIcon {
   position: absolute;
   right: 25px;
+  cursor: pointer;
 }
 .bottom-container {
   display: flex;

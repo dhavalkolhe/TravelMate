@@ -21,7 +21,7 @@ function SearchBox({ imgSrc, inputName, selectedCity, setSelectedCity }) {
         // Autocomplete Logic
         if (cityData && userInput) {
 
-            const x = cityData?.filter(city => city.name.toUpperCase().includes(userInput) || city.state.toUpperCase().includes(userInput))
+            const x = cityData?.filter(city => city.name.toUpperCase().includes(userInput.toUpperCase) || city.state.toUpperCase().includes(userInput))
                 .sort((a, b) => a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1)
                 .slice(0, 8)
                 .map((city) => {
@@ -54,7 +54,7 @@ function SearchBox({ imgSrc, inputName, selectedCity, setSelectedCity }) {
     }, [userInput, cityData, clicked])
 
     const updateSelectedInp = (e) => {
-        setSelectedCity(e);
+        setSelectedCity(e.toUpperCase());
         setUserInput(e.toUpperCase())
     }
 

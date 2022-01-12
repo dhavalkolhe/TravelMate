@@ -1,34 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./DashboardCard.css";
 import rightArrow from "../../img/ArrowLong.svg";
 import deleteIcon from "../../img/trashCan.svg";
-import dottedLine from "../../img/dottedLine.svg";
+import { db } from '../../firebase/db';
+import { doc, deleteDoc, updateDoc, arrayRemove } from "firebase/firestore";
+import { UserContext } from "../../context/userContext";
 
 function DashboardCard({
   currentCity,
   destinationCity,
   date,
-  userId,
   nop,
-  rideId,
-}) {
+  rideId }) {
+  const [user] = useContext(UserContext);
+
+  const deleteRide = async () => {
+    try {
+      await deleteDoc(doc(db, "rides", rideId));
+      await updateDoc(doc(db, "users", user.uid), {
+        rides: arrayRemove(rideId)
+      });
+    }
+    catch (err) {
+      console.log("Error in deleting : ", err.message)
+    }
+  }
   return (
     <div className="dashCardContainer">
       <div className="top-container">
         <span className="dashCity srcCity">
-          {currentCity.length > 20
-            ? currentCity.slice(0, 20) + "..."
+          {currentCity.length > 8
+            ? currentCity.slice(0, 6) + "..."
             : currentCity}
         </span>
         <span>
           <img src={rightArrow} alt="arrow" />
         </span>
         <span className="dashCity desCity">
-          {destinationCity.length > 20
-            ? destinationCity.slice(0, 20) + "..."
+          {destinationCity.length > 8
+            ? destinationCity.slice(0, 6) + "..."
             : destinationCity}
         </span>
-        <span className="dashDeleteIcon">
+        <span className="dashDeleteIcon" onClick={deleteRide}>
           <img src={deleteIcon} alt="delete-icon" />
         </span>
       </div>
