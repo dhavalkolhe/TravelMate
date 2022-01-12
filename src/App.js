@@ -33,64 +33,63 @@ import { ChatPage } from "./pages/Chat";
 function App() {
   return (
     <UserContextProvider>
-      <RoomsContextProvider>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <ChatContextProvider>
-            <Router>
-              <Switch>
-                <Route path="/login">
-                  <Login />
-                </Route>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ChatContextProvider>
+          <Router>
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
 
-                <Route exact path="/addRequest">
-                  <AddRequest />
-                </Route>
+              <Route exact path="/addRequest">
+                <AddRequest />
+              </Route>
 
-                <Route exact path="/search">
-                  <ResponseContextProvider>
-                    <SearchResult />
-                  </ResponseContextProvider>
-                </Route>
+              <Route exact path="/search">
+                <ResponseContextProvider>
+                  <SearchResult />
+                </ResponseContextProvider>
+              </Route>
 
-                <Route exact path="/user/notifications">
-                  <NotificationContextProvider>
-                    <Notification />
-                  </NotificationContextProvider>
-                </Route>
+              <Route exact path="/user/notifications">
+                <NotificationContextProvider>
+                  <Notification />
+                </NotificationContextProvider>
+              </Route>
 
-                {/* <Route exact path="/chat">
+              {/* <Route exact path="/chat">
                   <ChatPage />
                 </Route>
             */}
 
-                <Route exact path="/dashboard">
-                  <DashboardContextProvider>
-                    <Dashboard />
-                  </DashboardContextProvider>
-                </Route>
-
-                <Route exact path="/chat">
+              <Route exact path="/dashboard">
+                <DashboardContextProvider>
+                  <Dashboard />
+                </DashboardContextProvider>
+              </Route>
+              <Route exact path="/chat">
+                <RoomsContextProvider>
                   {/* <ChatList /> */}
                   <ChatPage />
-                </Route>
+                </RoomsContextProvider>
+              </Route>
 
-                <Route exact path="/chatlist">
-                  <ChatList />
-                </Route>
+              <Route exact path="/chatlist">
+                <ChatList />
+              </Route>
 
-                <Route exact path="/chat/:roomId">
-                  <ChatList />
-                  <Chat />
-                </Route>
+              <Route exact path="/chat/:roomId">
+                <ChatList />
+                <Chat />
+              </Route>
 
-                <Route exact path="/">
-                  <Home />
-                </Route>
-              </Switch>
-            </Router>
-          </ChatContextProvider>
-        </LocalizationProvider>
-      </RoomsContextProvider>
+              <Route exact path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </Router>
+        </ChatContextProvider>
+      </LocalizationProvider>
     </UserContextProvider>
   );
 }

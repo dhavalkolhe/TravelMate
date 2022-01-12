@@ -194,21 +194,21 @@ export function SearchSection() {
                             width: "160px",
                             backgroundColor: "white",
                           }}
-                          // InputProps={{
-                          //   startAdornment: (
-                          //     <InputAdornment position="start">
-                          //       <IconButton edge="start">
-                          //         <img src={dateIcon} alt={"logo"} />
-                          //       </IconButton>
-                          //     </InputAdornment>
-                          //   ),
-                          // }}
+                        // InputProps={{
+                        //   startAdornment: (
+                        //     <InputAdornment position="start">
+                        //       <IconButton edge="start">
+                        //         <img src={dateIcon} alt={"logo"} />
+                        //       </IconButton>
+                        //     </InputAdornment>
+                        //   ),
+                        // }}
                         />
                       )}
                     />
                   </Box>
 
-                  <Link to="/searchRequests">
+                  <Link to="/search">
                     <Button
                       variant="contained"
                       startIcon={<SearchOutlinedIcon />}
