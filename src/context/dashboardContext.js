@@ -1,14 +1,3 @@
-//
-//Active Offers are the ones user user created
-//display offers created by user, use {userid} to fetch data of that user from db
-//1. photoUrl
-//2. userName
-//3. useEmail
-//4. Source city
-//5. Destination city
-//6. Date of travel
-//7. No of passengers
-
 import React, { useState, createContext, useEffect, useContext } from "react";
 import { UserContext } from "./userContext";
 import DashboardCard from "../components/DashboardCard/DashboardCard";
