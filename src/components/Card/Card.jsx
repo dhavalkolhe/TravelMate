@@ -9,7 +9,7 @@ import PopUp from "../PopUp/PopUp";
 import Loader from "../../components/Loader/Loader";
 
 import { db } from "../../firebase/db";
-import { setDoc, getDoc, doc } from "firebase/firestore";
+import { setDoc, getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 function Card({
   currentCity,
@@ -21,7 +21,7 @@ function Card({
   userId,
   gender,
   nop,
-  rideId,
+  rideId
 }) {
   const [user] = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -50,6 +50,13 @@ function Card({
     }
   };
 
+  const updateuserRidesReq = async () => {
+    const userRideRef = doc(db, "users", userId, "rides", rideId);
+    await updateDoc(userRideRef, {
+      requests: arrayUnion(user.uid + "-" + rideId)
+    });
+  }
+
   const addReq = async () => {
     await setDoc(
       doc(db, "users", userId, "requests", user.uid + "-" + rideId),
@@ -59,6 +66,7 @@ function Card({
         status: "pending",
       }
     );
+    updateuserRidesReq();
   };
   const sendRequest = () => {
     if (user.authorized) {

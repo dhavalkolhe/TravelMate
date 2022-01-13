@@ -20,6 +20,12 @@ function NotificationCard({ currentCity, destinationCity, displayName, photoURL,
             limit: 50
         });
     }
+    const updateUserRideRooms = async (roomId) => {
+        const userRideRef = doc(db, "users", user.uid, "rides", rideId);
+        await updateDoc(userRideRef, {
+            rooms: arrayUnion(roomId)
+        });
+    }
     const updateUserRooms = async (roomId) => {
         const userRoomRef = doc(db, "users", user.uid);
         await updateDoc(userRoomRef, {
@@ -42,6 +48,7 @@ function NotificationCard({ currentCity, destinationCity, displayName, photoURL,
             });
             createChatRoom(roomId);
             updateUserRooms(roomId);
+            updateUserRideRooms(roomId);
         }
         catch (err) {
             console.log("accept err : ", err)

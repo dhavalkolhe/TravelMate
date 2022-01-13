@@ -70,11 +70,12 @@ const NotificationContextProvider = (props) => {
 
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
-    return {
-      rideId: rideId,
-      currentCity: rideData.data().currentCity,
-      destinationCity: rideData.data().destinationCity,
-    };
+    if (rideData)
+      return {
+        rideId: rideId,
+        currentCity: rideData.data().currentCity,
+        destinationCity: rideData.data().destinationCity,
+      };
   };
 
   const fetchRequestorData = async (requestorId) => {

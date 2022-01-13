@@ -3,7 +3,7 @@ import "./DashboardCard.css";
 import rightArrow from "../../img/ArrowLong.svg";
 import deleteIcon from "../../img/trashCan.svg";
 import { db } from '../../firebase/db';
-import { doc, deleteDoc, updateDoc, arrayRemove } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, arrayRemove, getDoc } from "firebase/firestore";
 import { UserContext } from "../../context/userContext";
 
 function DashboardCard({
@@ -14,12 +14,39 @@ function DashboardCard({
   rideId }) {
   const [user] = useContext(UserContext);
 
+  const delRequests = async (reqId) => {
+    await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
+  }
+
+  const delRooms = async (roomId) => {
+    await deleteDoc(doc(db, "rooms", roomId));
+  }
+
+  const deleteAllRideMisc = async () => {
+
+    const userRideRef = doc(db, "users", user.uid, "rides", rideId);
+    const d = await getDoc(userRideRef);
+
+    if (d.exists()) {
+      const reqArr = d.data().requests;
+      const roomArr = d.data().rooms;
+      reqArr.forEach((req) => {
+        delRequests(req);
+      })
+      roomArr.forEach((room) => {
+        delRooms(room);
+      })
+    }
+    await deleteDoc(doc(db, "users", user.uid, "rides", rideId));
+
+  }
   const deleteRide = async () => {
     try {
       await deleteDoc(doc(db, "rides", rideId));
       await updateDoc(doc(db, "users", user.uid), {
         rides: arrayRemove(rideId)
       });
+      deleteAllRideMisc();
     }
     catch (err) {
       console.log("Error in deleting : ", err.message)

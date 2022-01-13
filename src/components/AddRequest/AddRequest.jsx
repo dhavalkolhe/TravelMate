@@ -30,7 +30,7 @@ import {
 
 // firebase
 import { db } from "../../firebase/db";
-import { collection, addDoc, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const auth = getAuth();
@@ -116,8 +116,14 @@ function AddRequest() {
     }
     setDraftSaved(!draftSaved);
   };
-
-  const updateUserRides = async (rideId) => {
+  const updateUserRides1 = async (rideId) => {
+    const userRideRef = doc(db, "users", user.uid, "rides", rideId);
+    await setDoc(userRideRef, {
+      rooms: [],
+      requests: []
+    });
+  }
+  const updateUserRides2 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid);
     await updateDoc(userRideRef, {
       rides: arrayUnion(rideId)
@@ -141,9 +147,9 @@ function AddRequest() {
             photoURL: user.photoURL,
             userId: user.uid,
           });
-          console.log(docref.id);
 
-          updateUserRides(docref.id);
+          updateUserRides1(docref.id);
+          updateUserRides2(docref.id);
           alert("Document written");
 
           setDate(new Date());

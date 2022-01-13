@@ -2,7 +2,13 @@ import React, { useEffect, useState, useContext, createContext } from "react";
 import { UserContext } from "./userContext";
 
 import { db } from "../firebase/db";
-import { doc, onSnapshot, getDoc } from "firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  getDoc,
+  arrayRemove,
+  updateDoc,
+} from "firebase/firestore";
 
 export const RoomsContext = createContext();
 
@@ -50,25 +56,31 @@ const RoomsContextProvider = (props) => {
 
   const fetchRoomData = async (roomId) => {
     const roomData = await getDoc(doc(db, "rooms", roomId));
-    let index = 0;
-    if (roomData.data().members[0] === user.uid) index = 1;
-    let masterObj = {
-      roomId: roomData.id,
-    };
+    if (roomData.exists()) {
+      let index = 0;
+      if (roomData.data().members[0] === user.uid) index = 1;
+      let masterObj = {
+        roomId: roomData.id,
+      };
 
-    fetchMemData(roomData.data().members[index])
-      .then((memData) => {
-        masterObj = { ...masterObj, ...memData };
-      })
-      .then(() => {
-        fetchRideData(roomData.data().rideId)
-          .then((rideData) => {
-            masterObj = { ...masterObj, ...rideData };
-          })
-          .then(() => {
-            setRoomData((prev) => [...prev, masterObj]);
-          });
+      fetchMemData(roomData.data().members[index])
+        .then((memData) => {
+          masterObj = { ...masterObj, ...memData };
+        })
+        .then(() => {
+          fetchRideData(roomData.data().rideId)
+            .then((rideData) => {
+              masterObj = { ...masterObj, ...rideData };
+            })
+            .then(() => {
+              setRoomData((prev) => [...prev, masterObj]);
+            });
+        });
+    } else {
+      await updateDoc(doc(db, "users", user.uid), {
+        rooms: arrayRemove(roomId),
       });
+    }
   };
 
   const fetchMemData = async (memId) => {
