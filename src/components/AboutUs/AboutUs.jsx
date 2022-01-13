@@ -85,12 +85,12 @@ export function MadeBy() {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <Link href={linkedin}>
+          <a href={linkedin} target="_blank">
             <LinkedInIcon fontSize="large" />
-          </Link>
-          <Link href={github}>
+          </a>
+          <a href={github} target="_blank">
             <GitHubIcon fontSize="large" />
-          </Link>
+          </a>
         </Stack>
       </Stack>
     );
@@ -118,28 +118,36 @@ export function MadeBy() {
           sx={{
             display: "flex",
             justifyContent: "space-between",
+            flexWrap: "wrap",
           }}
         >
           <Person
             image={avatar1}
             pname="Anushka"
             contribution="Development"
-            linkedin="http://linkedin.com"
-            github="http://github.com"
+            linkedin="https://www.linkedin.com/in/kumari-anushka-1410"
+            github="https://github.com/anuxoxo"
           />
           <Person
             image={avatar1}
             pname="Monalisa"
             contribution="Design"
-            linkedin="http://linkedin.com"
-            github="http://github.com"
+            linkedin="https://www.linkedin.com/in/monalisa-maiti-4b789b1b8"
+            github="https://github.com/monalisamaiti"
           />
           <Person
             image={avatar2}
             pname="Vansh"
             contribution="Design & Development"
-            linkedin="http://linkedin.com"
-            github="http://github.com"
+            linkedin="https://www.linkedin.com/in/vansh-chinda-310884189/"
+            github="https://github.com/vanshchinda"
+          />
+          <Person
+            image={avatar2}
+            pname="Dhaval"
+            contribution="Development"
+            linkedin="https://www.linkedin.com/in/dhaval-kolhe"
+            github="https://github.com/dhavalkolhe"
           />
         </Stack>
       </Stack>
