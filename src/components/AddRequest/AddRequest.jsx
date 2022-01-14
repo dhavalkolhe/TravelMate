@@ -16,6 +16,16 @@ import { Footer } from "../Footer/Footer";
 import { WebsiteInfo } from "../../components/HomeComponents";
 import city from "../../resources/states.json";
 
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { withStyles } from "@material-ui/core/styles";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+
 import {
   Box,
   Container,
@@ -30,7 +40,14 @@ import {
 
 // firebase
 import { db } from "../../firebase/db";
-import { collection, addDoc, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const auth = getAuth();
@@ -74,12 +91,12 @@ function AddRequest() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAuthorized(true)
+        setAuthorized(true);
       } else {
-        setAuthorized(false)
+        setAuthorized(false);
       }
     });
-  }, [])
+  }, []);
 
   const formValidation = () => {
     if (currentCity && destinationCity && date && time && gender && nop && mode)
@@ -120,45 +137,70 @@ function AddRequest() {
     const userRideRef = doc(db, "users", user.uid, "rides", rideId);
     await setDoc(userRideRef, {
       rooms: [],
-      requests: []
+      requests: [],
     });
-  }
+  };
   const updateUserRides2 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid);
     await updateDoc(userRideRef, {
-      rides: arrayUnion(rideId)
+      rides: arrayUnion(rideId),
     });
-  }
-  const addRequest = async (e) => {
-    e.preventDefault();
+  };
+
+  // Confirm Popup
+
+  const confirmSubmit = () => {
     if (formValidation()) {
-      if (window.confirm("Do yo want to continue?")) {
-        setDate(date.setHours(0, 0, 0, 0));
-        try {
-          let docref = await addDoc(collection(db, "rides"), {
-            currentCity,
-            destinationCity,
-            date,
-            time,
-            gender,
-            nop,
-            description,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            userId: user.uid,
-          });
-
-          updateUserRides1(docref.id);
-          updateUserRides2(docref.id);
-          alert("Document written");
-
-          setDate(new Date());
-        } catch (e) {
-          console.log("Error adding document: ", e);
-        }
-      }
+      confirmAlert({
+        message: "Do you want to continue?",
+        buttons: [
+          {
+            label: "Yes",
+            className: "yesButton",
+            onClick: () => {
+              {
+                addRequest();
+              }
+            },
+          },
+          {
+            label: "No",
+            className: "noButton",
+            onClick: () => alert("Cancelled"),
+          },
+        ],
+      });
     } else {
       alert("Please enter all the fields!");
+    }
+  };
+
+  // ////////////////////////////
+  const addRequest = async (e) => {
+    console.log("Add Request called");
+
+    setDate(date.setHours(0, 0, 0, 0));
+    try {
+      let docref = await addDoc(collection(db, "rides"), {
+        currentCity,
+        destinationCity,
+        date,
+        time,
+        gender,
+        nop,
+        description,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        userId: user.uid,
+      });
+
+      updateUserRides1(docref.id);
+      updateUserRides2(docref.id);
+      alert("Document written");
+
+      setDate(new Date());
+    } catch (e) {
+      console.log("Error adding document: ", e);
     }
   };
 
@@ -210,7 +252,9 @@ function AddRequest() {
                     <div className="dataResult-source">
                       {cities
                         .filter((value) =>
-                          value.name.toLowerCase().includes(search.toLowerCase())
+                          value.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
                         )
                         .map((value, key) => {
                           return (
@@ -245,7 +289,9 @@ function AddRequest() {
                     />
                     <input
                       placeholder="Location"
-                      onClick={() => setDisplayDestinations(!displayDestinations)}
+                      onClick={() =>
+                        setDisplayDestinations(!displayDestinations)
+                      }
                       className="location-input-field"
                       value={destinationCity}
                       onChange={(e) => {
@@ -258,7 +304,9 @@ function AddRequest() {
                     <div className="dataResult-destination">
                       {cities
                         .filter((value) =>
-                          value.name.toLowerCase().includes(search.toLowerCase())
+                          value.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
                         )
                         .map((value, key) => {
                           return (
@@ -382,7 +430,7 @@ function AddRequest() {
               </FormControl>
 
               <Stack direction="row" className="btns-wrapper">
-                <Button onClick={addRequest} className="add-req-btn">
+                <Button onClick={confirmSubmit} className="add-req-btn">
                   Add Request
                 </Button>
                 <Button onClick={makeDraft} className="draft-btn">
@@ -422,7 +470,7 @@ function AddRequest() {
         <h1>Please log in first!</h1>
       )}
     </Box>
-  )
+  );
 }
 
 export default AddRequest;
