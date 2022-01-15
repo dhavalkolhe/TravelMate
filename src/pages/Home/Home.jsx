@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 
 /* Componenets */
@@ -35,8 +35,10 @@ export function Home() {
         }}
       ></Box>
       <Container maxWidth="lg">
-        <Nav />
-        <SearchSection />
+        <Box sx={{ height: "100vh" }}>
+          <Nav />
+          <SearchSection />
+        </Box>
         <StepsInfo />
         <Article />
         {/* <div>
