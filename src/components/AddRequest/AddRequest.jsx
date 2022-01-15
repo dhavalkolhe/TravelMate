@@ -198,6 +198,12 @@ function AddRequest() {
       updateUserRides2(docref.id);
       notify("success", "Request Added");
 
+      setCurrentCity("");
+      setDestinationCity("");
+      setGender("Any");
+      setNop(1);
+      setDescription("");
+
       setDate(new Date());
     } catch (e) {
       console.log("Error adding document: ", e);

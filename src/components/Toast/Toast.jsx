@@ -12,7 +12,7 @@ function Toast() {
       newestOnTop={false}
       closeOnClick
       rtl={false}
-      pauseOnFocusLoss
+      //pauseOnFocusLoss
       draggable
       pauseOnHover={false}
     />
