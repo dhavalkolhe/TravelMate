@@ -2,28 +2,34 @@ import React, { useState, useEffect, useContext } from "react";
 import "./DashboardCard.css";
 import rightArrow from "../../img/ArrowLong.svg";
 import deleteIcon from "../../img/trashCan.svg";
-import { db } from '../../firebase/db';
-import { doc, deleteDoc, updateDoc, arrayRemove, getDoc } from "firebase/firestore";
+import { db } from "../../firebase/db";
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
 import { UserContext } from "../../context/userContext";
+import Toast from "../Toast/Toast";
+import { toast } from "react-toastify";
 
-function DashboardCard({
-  currentCity,
-  destinationCity,
-  date,
-  nop,
-  rideId }) {
+function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const [user] = useContext(UserContext);
 
+  //Toast Function
+  const notify = (type, message) => {
+    toast[type](message);
+  };
   const delRequests = async (reqId) => {
     await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
-  }
+  };
 
   const delRooms = async (roomId) => {
     await deleteDoc(doc(db, "rooms", roomId));
-  }
+  };
 
   const deleteAllRideMisc = async () => {
-
     const userRideRef = doc(db, "users", user.uid, "rides", rideId);
     const d = await getDoc(userRideRef);
 
@@ -32,26 +38,26 @@ function DashboardCard({
       const roomArr = d.data().rooms;
       reqArr.forEach((req) => {
         delRequests(req);
-      })
+      });
       roomArr.forEach((room) => {
         delRooms(room);
-      })
+      });
     }
     await deleteDoc(doc(db, "users", user.uid, "rides", rideId));
-
-  }
+    notify("success", "Ride Deleted");
+  };
   const deleteRide = async () => {
     try {
       await deleteDoc(doc(db, "rides", rideId));
       await updateDoc(doc(db, "users", user.uid), {
-        rides: arrayRemove(rideId)
+        rides: arrayRemove(rideId),
       });
       deleteAllRideMisc();
+    } catch (err) {
+      console.log("Error in deleting : ", err.message);
+      notify("error", "Ride Deletion Failed");
     }
-    catch (err) {
-      console.log("Error in deleting : ", err.message)
-    }
-  }
+  };
   return (
     <div className="dashCardContainer">
       <div className="top-container">
@@ -77,6 +83,7 @@ function DashboardCard({
         <span className="date-container">{date}</span>
         <span className="nop-container">Passengers: {nop}</span>
       </div>
+      <Toast />
     </div>
   );
 }
