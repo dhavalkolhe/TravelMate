@@ -65,8 +65,10 @@ const ResponseContextProvider = (props) => {
             />
           );
         });
+
         const lastCard = querySnapshot.docs[querySnapshot.docs.length - 1];
-        setResponse((response) => [...response, ...x]);
+        const y = [...response, ...x];
+        setResponse((response) => [...new Set(y)]);
         setLastCard(lastCard);
         setScrollResponse(false);
       } else {

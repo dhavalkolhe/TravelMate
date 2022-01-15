@@ -139,7 +139,7 @@ export function SearchBox() {
               />
             </Box>
 
-            <Link to="/searchRequests">
+            <Link to="/search">
               <Button
                 variant="contained"
                 startIcon={<SearchOutlinedIcon />}
