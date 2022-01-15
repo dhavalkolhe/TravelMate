@@ -27,6 +27,7 @@ function Login() {
         displayName,
         photoURL,
         rooms: [],
+        rides: []
       });
     } catch (e) {
       console.error("Error adding user: ", e);

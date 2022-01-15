@@ -10,11 +10,11 @@
   max-height: initial;
 }
 .dashBg-container {
-  position: fixed;
-  top: 7.3rem;
-  right: 8rem;
   max-width: 40vw;
   z-index: 5;
+  position: absolute;
+  right: 8rem;
+  margin-top: -0.7rem;
 }
 .active-text {
   font-family: "Poppins", sans-serif;
@@ -24,7 +24,7 @@
   margin-left: 0.8rem;
 }
 .activeOffersContainer {
-  float: right;
+  float: left;
   padding-top: 1rem;
   /* background-color: rgb(241, 141, 141); */
   margin-right: 1.5rem;
@@ -86,4 +86,78 @@
   font-weight: 500;
   margin-top: 0.5rem;
   letter-spacing: 1px;
+}
+
+/* media queries for illustration svg */
+@media screen and (max-width: 1530px) {
+  .activeOffersContainer {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 1440px) {
+  .dashBg-container {
+    margin-top: 0.3rem;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .dashBg-container {
+    margin-top: 1.3rem;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .dashBg-container {
+    margin-top: 2rem;
+  }
+}
+@media screen and (max-width: 1040px) {
+  .dashBg-container {
+    margin-top: 3rem;
+  }
+}
+
+/* media queries for small devices */
+@media screen and (max-width: 900px) {
+  .dashBg-container {
+    display: none;
+  }
+  .crop {
+    display: none;
+  }
+  .profile {
+    /* background-color: rgb(233, 135, 135); */
+    float: none;
+    width: 15%;
+    margin: auto;
+  }
+  .profile-img-container {
+    position: absolute;
+    margin-top: 0rem;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-name {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+  .profile-email {
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+  }
+
+  .activeOffersContainer {
+    width: 100%;
+  }
+  .activeOffersCards {
+    max-height: none;
+  }
+  .active-text {
+    font-size: 1.2rem;
+    margin-left: 10%;
+  }
+  .activeOffersContainer::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
 }

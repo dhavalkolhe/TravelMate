@@ -12,12 +12,18 @@ const NotificationContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let unsub;
     if (user.authorized) {
-      fetchData();
+      fetchData().then((res) => {
+        unsub = res;
+      });
       setTimeout(() => {
         setLoading(false);
       }, 2000);
     }
+    return () => {
+      unsub();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
@@ -25,8 +31,8 @@ const NotificationContextProvider = (props) => {
   //   console.log(notificationData)
   // }, [notificationData])
 
-  const fetchData = () => {
-    onSnapshot(
+  const fetchData = async () => {
+    const unsub = onSnapshot(
       collection(db, "users", user.uid, "requests"),
       (recievedReqSnap) => {
         recievedReqSnap.docChanges().forEach(
@@ -59,15 +65,17 @@ const NotificationContextProvider = (props) => {
         );
       }
     );
+    return unsub;
   };
 
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
-    return {
-      rideId: rideId,
-      currentCity: rideData.data().currentCity,
-      destinationCity: rideData.data().destinationCity,
-    };
+    if (rideData)
+      return {
+        rideId: rideId,
+        currentCity: rideData.data().currentCity,
+        destinationCity: rideData.data().destinationCity,
+      };
   };
 
   const fetchRequestorData = async (requestorId) => {

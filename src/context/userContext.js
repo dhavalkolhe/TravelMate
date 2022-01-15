@@ -1,13 +1,24 @@
 import React, { useState, createContext, useEffect } from "react";
 import "../firebase/firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const UserContext = createContext();
+const auth = getAuth();
 
 const UserContextProvider = (props) => {
   const localData = localStorage.getItem("user");
   const data = localData ? JSON.parse(localData) : { authorized: false };
 
   const [user, setUser] = useState(data);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        user = {};
+        user.authorized = false;
+      }
+    });
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));

@@ -18,16 +18,8 @@ import {
   DialogActions,
 } from "@mui/material";
 
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-
 import illustation1 from "../../resources/images/illustration1.svg";
 import bgvector1 from "../../resources/images/bgVector1.svg";
-
-import step1 from "../../resources/images/step1.svg";
-import step2 from "../../resources/images/step2.svg";
-import step3 from "../../resources/images/step3.svg";
-import step4 from "../../resources/images/step4.svg";
-import step5 from "../../resources/images/step5.svg";
 
 import websiteInfoIcon1 from "../../resources/images/websiteInfoIcon1.svg";
 import websiteInfoIcon2 from "../../resources/images/websiteInfoIcon2.svg";
@@ -51,7 +43,7 @@ export function SearchSection() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          margin: "0",
         }}
       >
         <Typography
@@ -119,7 +111,15 @@ export function SearchSection() {
         </Box>
       </Container>
 
-      <Box sx={{ position: "absolute", bottom: "0px", left: "0px" }}>
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: "0px",
+          left: "0px",
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
         <img src={bgvector1} alt="illus" />
       </Box>
       <Box>
@@ -131,166 +131,14 @@ export function SearchSection() {
               xs: "300px",
               md: "40vw",
             },
+            display: "flex",
+            justifyContent: "flex-end",
           }}
         >
           <img src={illustation1} alt="illus" />
         </Box>
       </Box>
     </>
-  );
-}
-
-export function StepsInfo() {
-  const Step = ({ image, num, data }) => {
-    return (
-      <Stack
-        display="flex"
-        flexFlow="column nowrap"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <img src={image} alt={num} />
-        <Typography class="stepsInfoHead" variant="h4">
-          Step {num}
-        </Typography>
-        <Typography class="stepsInfoData">{data}</Typography>
-      </Stack>
-    );
-  };
-  return (
-    <>
-      <Stack
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexFlow="column nowrap"
-        sx={{
-          marginTop: "65vh",
-        }}
-      >
-        <Box>
-          <Typography variant="h4">How it Works</Typography>
-        </Box>
-        <Stack direction="row" spacing={4} sx={{ margin: "4rem 0 5rem 0" }}>
-          <Step
-            image={step1}
-            num={"1"}
-            data={
-              "Search for relevent results if nothing comes up add a request"
-            }
-          />
-          <Step
-            image={step2}
-            num={"2"}
-            data={"Go through the results and send a request"}
-          />
-          <Step
-            image={step3}
-            num={"3"}
-            data={"Chat with the person and discuss "}
-          />
-          <Step
-            image={step4}
-            num={"4"}
-            data={"Remove the request if you find someone"}
-          />
-          <Step image={step5} num={"5"} data={"Travel Safe.\nTravel Mate."} />
-        </Stack>
-      </Stack>
-    </>
-  );
-}
-
-export function Article() {
-  const ArticleCard = ({ link, website, title }) => {
-    return (
-      <Card
-        componenet={Link}
-        to={link}
-        sx={{
-          width: "50%",
-          height: "100%",
-          backgroundColor: "#DFDFF0",
-        }}
-      >
-        <Grid container sx={{ padding: "1rem", height: "100%" }}>
-          <Grid item>
-            <Typography sx={{ fontSize: 14 }} color="#001963" gutterBottom>
-              {website}
-            </Typography>
-          </Grid>
-
-          <Grid item>
-            <Typography
-              // sx={{ fontSize: 14 }}
-              color="#2B2C34"
-              gutterBottom
-              variant="h6"
-            >
-              {title}
-            </Typography>
-          </Grid>
-
-          <Grid
-            item
-            display="flex"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-            width="100%"
-          >
-            <Button
-              variant="contained"
-              endIcon={<KeyboardArrowRightIcon />}
-              sx={{
-                backgroundColor: "#001963",
-                "&:hover": {
-                  backgroundColor: "#062580",
-                },
-              }}
-            >
-              Read More
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
-    );
-  };
-  return (
-    <Stack
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexFlow="column nowrap"
-    >
-      <Box>
-        <Typography variant="h4">Travelling Safe</Typography>
-      </Box>
-      <Stack
-        direction="row"
-        spacing={4}
-        sx={{
-          margin: "4rem 0 5rem 0",
-          height: "180px",
-          width: "100%",
-        }}
-      >
-        <ArticleCard
-          link={"https://www.cnbc.com/world/?region=world"}
-          website={"www.cnbc.com"}
-          title={"7 tips for staying safe while traveling"}
-        />
-        <ArticleCard
-          link={"https://www.cnbc.com/world/?region=world"}
-          website={"health.clevelandclinic.org"}
-          title={"How to Protect Yourself From the Coronavirus While Traveling"}
-        />
-        <ArticleCard
-          link={"https://www.cnbc.com/world/?region=world"}
-          website={"www.cdc.gov"}
-          title={"Domestic Travel During COVID-19"}
-        />
-      </Stack>
-    </Stack>
   );
 }
 
