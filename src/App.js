@@ -30,6 +30,9 @@ import { ChatPage } from "./pages/Chat";
 
 // import { MessagesBox } from "./components/ChatComponents";
 
+//Test
+import { SearchBox } from "./components/HomeComponents";
+
 function App() {
   return (
     <UserContextProvider>
@@ -67,6 +70,7 @@ function App() {
                   <Dashboard />
                 </DashboardContextProvider>
               </Route>
+
               <Route exact path="/chat">
                 <RoomsContextProvider>
                   {/* <ChatList /> */}

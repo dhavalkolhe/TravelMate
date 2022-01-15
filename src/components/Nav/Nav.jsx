@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
+
+import { UserContext } from "../../context/userContext";
+
+import { LoginDialog } from "../Login";
 
 // import gsap from "gsap";
 import {
@@ -17,22 +21,40 @@ import {
   ListItem,
   ListItemText,
   ButtonBase,
+  Typography,
+  IconButton,
+  Button,
 } from "@mui/material";
 // import CloseIcon from "@mui/icons-material/Close";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+
 import ListItemIcon from "@mui/material/ListItemIcon";
+import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
 import chatIconDot from "../../resources/images/chatIconDot.svg";
 
-const UserInfo = ({ username }) => {
+const UserInfo = ({ displayName, photoURL }) => {
   return (
     <>
-      <Avatar sx={{ width: 32, height: 32, marginRight: "0.4rem" }} />
-      {username}
+      <Avatar
+        src={photoURL}
+        sx={{ width: 32, height: 32, marginRight: "0.4rem" }}
+      />
+      <Typography variant={"string"} noWrap={true} maxWidth="120px">
+        {displayName}
+      </Typography>
+    </>
+  );
+};
+
+const LoginButton = () => {
+  return (
+    <>
+      <Button>Login</Button>
     </>
   );
 };
@@ -57,6 +79,8 @@ export const Nav = () => {
     }
     setdrawerState(open);
   };
+
+  const [user] = useContext(UserContext);
 
   const list = () => (
     <Box
@@ -116,6 +140,12 @@ export const Nav = () => {
           </Grid>
 
           <Stack spacing={2} direction="row" alignItems="center">
+            {/* <Tooltip title={"Notifications"}>
+              <IconButton size="large">
+                <NotificationsNoneRoundedIcon />
+              </IconButton>
+            </Tooltip> */}
+
             <Box
               sx={{
                 height: "32px",
@@ -146,21 +176,31 @@ export const Nav = () => {
               <img src={menuIcon} alt="Menu" />
             </Box>
 
-            <Box
-              spacing={2}
-              sx={{
-                display: {
-                  xs: "none",
-                  md: "flex",
-                },
-                flexFlow: "row nowrap",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-              onClick={handleClick}
-            >
-              <UserInfo username={"User Name"} />
-            </Box>
+            {user.authorized ? (
+              <Box
+                spacing={2}
+                sx={{
+                  display: {
+                    xs: "none",
+                    md: "flex",
+                  },
+                  flexFlow: "row nowrap",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+                onClick={handleClick}
+              >
+                <UserInfo
+                  displayName={user.displayName}
+                  photoURL={user.photoURL}
+                />
+              </Box>
+            ) : (
+              <>
+                <LoginButton />
+                <LoginDialog />
+              </>
+            )}
           </Stack>
         </Box>
       </Box>
