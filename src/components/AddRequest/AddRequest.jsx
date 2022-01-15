@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import subDays from "date-fns/subDays";
 import "./AddRequest.css";
@@ -18,13 +18,8 @@ import city from "../../resources/states.json";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { withStyles } from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+import Toast from "../Toast/Toast";
+import { toast } from "react-toastify";
 
 import {
   Box,
@@ -88,6 +83,11 @@ function AddRequest() {
   const [displaySources, setDisplaySources] = useState(false);
   const [displayDestinations, setDisplayDestinations] = useState(false);
 
+  //Toast Function
+  const notify = (type, message) => {
+    toast[type](message);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -148,7 +148,6 @@ function AddRequest() {
   };
 
   // Confirm Popup
-
   const confirmSubmit = () => {
     if (formValidation()) {
       confirmAlert({
@@ -166,16 +165,17 @@ function AddRequest() {
           {
             label: "No",
             className: "noButton",
-            onClick: () => alert("Cancelled"),
+            //onClick: () => alert("Cancelled"),
           },
         ],
       });
     } else {
-      alert("Please enter all the fields!");
+      //alert("Please enter all the fields!");
+      notify("warning", "Enter Required Fields");
     }
   };
 
-  // ////////////////////////////
+  //////////////////////////////
   const addRequest = async (e) => {
     console.log("Add Request called");
 
@@ -196,11 +196,12 @@ function AddRequest() {
 
       updateUserRides1(docref.id);
       updateUserRides2(docref.id);
-      alert("Document written");
+      notify("success", "Request Added");
 
       setDate(new Date());
     } catch (e) {
       console.log("Error adding document: ", e);
+      notify("error", "Request Addition Failed");
     }
   };
 
@@ -469,6 +470,7 @@ function AddRequest() {
       ) : (
         <h1>Please log in first!</h1>
       )}
+      <Toast />
     </Box>
   );
 }

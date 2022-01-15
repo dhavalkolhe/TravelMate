@@ -88,6 +88,9 @@
   letter-spacing: 1px;
 }
 
+.noActiveText {
+  margin-left: 1rem;
+}
 /* media queries for illustration svg */
 @media screen and (max-width: 1530px) {
   .activeOffersContainer {
