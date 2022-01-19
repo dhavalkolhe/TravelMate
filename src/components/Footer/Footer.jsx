@@ -5,6 +5,7 @@ import { Box, Stack, Typography } from "@mui/material";
 
 import vitrendzLogo from "../../resources/images/vitrendzLogo.png";
 import travelMateFullLogo from "../../resources/images/travelMateFullLogo.svg";
+import "./Footer.css";
 
 export function Footer() {
   return (
@@ -16,10 +17,12 @@ export function Footer() {
           marginTop: "4rem",
           padding: "4rem 6rem",
         }}
+        className="main-con"
       >
         <Stack
           direction="row"
           sx={{ display: "flex", justifyContent: "space-between" }}
+          className="footer-container"
         >
           <Stack
             direction="row"
@@ -28,20 +31,29 @@ export function Footer() {
               justifyContent: "space-between",
               width: "60%",
             }}
+            className="logo-section"
           >
-            <Box width="200px">
+            <Box className="vitrendzLogo">
               <img src={vitrendzLogo} alt="VITrendz" />
             </Box>
 
-            <Box width="200px">
+            <Box className="travelMateFullLogo">
               <img src={travelMateFullLogo} alt="Travel Mate" />
             </Box>
           </Stack>
-          <Stack direction="column">
-            <Typography>Home</Typography>
-            <Typography>About</Typography>
-            <Typography>Dashboard</Typography>
-            <Typography>Add Request</Typography>
+          <Stack direction="column" className="links-section">
+            <a href="/">
+              <Typography className="footer-links">Home</Typography>
+            </a>
+            <a href="/about">
+              <Typography className="footer-links">About</Typography>
+            </a>
+            <a href="/dashboard">
+              <Typography className="footer-links">Dashboard</Typography>
+            </a>
+            <a href="/addRequest">
+              <Typography className="footer-links">Add Request</Typography>
+            </a>
           </Stack>
         </Stack>
       </Box>
