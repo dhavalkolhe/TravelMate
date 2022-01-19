@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 /* MUI */
 import { Box, Stack, Typography } from "@mui/material";
@@ -7,6 +8,16 @@ import vitrendzLogo from "../../resources/images/vitrendzLogo.png";
 import travelMateFullLogo from "../../resources/images/travelMateFullLogo.svg";
 
 export function Footer() {
+  const NavLink = ({ title, srcLink }) => {
+    return (
+      <>
+        <Typography variant={"body1"} component={Link} to={"/" + srcLink}>
+          {title}
+        </Typography>
+      </>
+    );
+  };
+
   return (
     <>
       <Box
@@ -22,11 +33,21 @@ export function Footer() {
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
           <Stack
-            direction="row"
+            direction={{
+              xs: "column",
+              md: "row",
+            }}
+            spacing={2}
+            justifyContent="space-between"
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "60%",
+              width: {
+                xs: "100%",
+                sm: "60%",
+              },
+              alignItems: {
+                xs: "center",
+                sm: "flex-start",
+              },
             }}
           >
             <Box width="200px">
@@ -37,11 +58,18 @@ export function Footer() {
               <img src={travelMateFullLogo} alt="Travel Mate" />
             </Box>
           </Stack>
-          <Stack direction="column">
-            <Typography>Home</Typography>
-            <Typography>About</Typography>
-            <Typography>Dashboard</Typography>
-            <Typography>Add Request</Typography>
+
+          <Stack
+            direction="column"
+            spacing={2}
+            sx={{
+              display: { xs: "none", sm: "flex" },
+            }}
+          >
+            <NavLink title={"Home"} srcLink={"/Home"} />
+            <NavLink title={"About"} srcLink={"/#about"} />
+            <NavLink title={"Dashboard"} srcLink={"/dashboard"} />
+            <NavLink title={"Add Request"} srcLink={"/addrequest"} />
           </Stack>
         </Stack>
       </Box>
@@ -49,13 +77,13 @@ export function Footer() {
       <Box
         sx={{
           backgroundColor: "#A7ACCE",
-          height: "40px",
+          height: "35px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Typography sx={{ color: "#001963" }} variant="subtitle2">
+        <Typography sx={{ color: "#001963" }} variant="caption">
           All Rights Reserved © 2021
         </Typography>
       </Box>

@@ -11,7 +11,7 @@ import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
 import minus from "../../img/minus.svg";
 import { Nav } from "../Nav/Nav";
-import { About, MadeBy } from "../AboutUs/AboutUs";
+import { About, MadeBy } from "../AboutUs";
 import { Footer } from "../Footer/Footer";
 import { WebsiteInfo } from "../../components/HomeComponents";
 import city from "../../resources/states.json";
@@ -30,7 +30,14 @@ import {
 
 // firebase
 import { db } from "../../firebase/db";
-import { collection, addDoc, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const auth = getAuth();
@@ -74,12 +81,12 @@ function AddRequest() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAuthorized(true)
+        setAuthorized(true);
       } else {
-        setAuthorized(false)
+        setAuthorized(false);
       }
     });
-  }, [])
+  }, []);
 
   const formValidation = () => {
     if (currentCity && destinationCity && date && time && gender && nop && mode)
@@ -120,15 +127,15 @@ function AddRequest() {
     const userRideRef = doc(db, "users", user.uid, "rides", rideId);
     await setDoc(userRideRef, {
       rooms: [],
-      requests: []
+      requests: [],
     });
-  }
+  };
   const updateUserRides2 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid);
     await updateDoc(userRideRef, {
-      rides: arrayUnion(rideId)
+      rides: arrayUnion(rideId),
     });
-  }
+  };
   const addRequest = async (e) => {
     e.preventDefault();
     if (formValidation()) {
@@ -210,7 +217,9 @@ function AddRequest() {
                     <div className="dataResult-source">
                       {cities
                         .filter((value) =>
-                          value.name.toLowerCase().includes(search.toLowerCase())
+                          value.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
                         )
                         .map((value, key) => {
                           return (
@@ -245,7 +254,9 @@ function AddRequest() {
                     />
                     <input
                       placeholder="Location"
-                      onClick={() => setDisplayDestinations(!displayDestinations)}
+                      onClick={() =>
+                        setDisplayDestinations(!displayDestinations)
+                      }
                       className="location-input-field"
                       value={destinationCity}
                       onChange={(e) => {
@@ -258,7 +269,9 @@ function AddRequest() {
                     <div className="dataResult-destination">
                       {cities
                         .filter((value) =>
-                          value.name.toLowerCase().includes(search.toLowerCase())
+                          value.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
                         )
                         .map((value, key) => {
                           return (
@@ -422,7 +435,7 @@ function AddRequest() {
         <h1>Please log in first!</h1>
       )}
     </Box>
-  )
+  );
 }
 
 export default AddRequest;
