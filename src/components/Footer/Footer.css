@@ -1,0 +1,53 @@
+.footer-links {
+  padding: 5px;
+  width: fit-content;
+  min-width: 135px;
+  font-size: 1.3rem !important;
+}
+
+.footer-links:hover {
+  cursor: pointer;
+  color: #505ca9;
+}
+
+.vitrendzLogo {
+  max-width: 200px;
+  min-width: 135px;
+}
+.travelMateFullLogo {
+  padding: 1.2rem;
+  max-width: 200px;
+  min-width: 135px;
+}
+.links-section {
+  padding-left: 4rem !important;
+}
+@media screen and (max-width: 900px) {
+  .logo-section {
+    flex-direction: column !important;
+  }
+}
+@media screen and (max-width: 560px) {
+  .footer-links {
+    font-size: 1rem !important;
+  }
+  .logo-section {
+    width: 40% !important;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .footer-container {
+    position: absolute;
+    left: 15%;
+    margin-top: 0;
+    flex-direction: column-reverse !important;
+    align-items: center;
+  }
+  .main-con {
+    padding-top: 0.8rem !important;
+  }
+  .links-section {
+    padding-bottom: 1rem;
+  }
+}
