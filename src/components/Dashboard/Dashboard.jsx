@@ -14,6 +14,7 @@ const auth = getAuth();
 function Dashboard() {
   const activeOffers = useContext(DashboardContext);
 
+  // eslint-disable-next-line
   const [user] = useContext(UserContext);
   const [authorized, setAuthorized] = useState(true);
   const [displayName, setDisplayName] = useState("");

@@ -95,7 +95,7 @@ function Card({
   };
 
   return (
-    <div className="card__container">
+    <div className="card__container" >
       <div className="user__name">
         <i className="user__icon">
           <img src={photoURL ? photoURL : userIcon} alt="user-icon" />
@@ -169,7 +169,7 @@ function Card({
           onClick={sendRequest}
         >
           {sendText}
-          {loading && <Loader />}
+          {loading && <Loader size={20} />}
         </button>
       </div>
     </div>

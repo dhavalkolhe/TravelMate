@@ -77,7 +77,7 @@ function AddRequest() {
   const [gender, setGender] = useState("Any");
   const [nop, setNop] = useState(1);
   const [description, setDescription] = useState("");
-
+  // eslint-disable-next-line
   const [cities, setCities] = useState(city);
   const [search, setSearch] = useState("");
   const [displaySources, setDisplaySources] = useState(false);
@@ -157,9 +157,7 @@ function AddRequest() {
             label: "Yes",
             className: "yesButton",
             onClick: () => {
-              {
-                addRequest();
-              }
+              addRequest();
             },
           },
           {
@@ -213,7 +211,7 @@ function AddRequest() {
 
   const handlelocationSelect = (type, v, v1) => {
     const selectedCity = v.concat(", ", v1);
-    if (type == "source") {
+    if (type === "source") {
       setCurrentCity(selectedCity);
       setDisplaySources(false);
       setSearch("");

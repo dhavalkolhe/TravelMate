@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./SearchResult.css";
 import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 import DatePicker from "react-datepicker";
@@ -14,12 +14,15 @@ import { Box, Container } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
 
+
 function SearchResult() {
-  const { responseContext, scrollContext, scrollResponseContext } =
+  const { responseContext,
+    //scrollContext, scrollResponseContext 
+  } =
     useContext(ResponseContext);
   const [response] = responseContext;
-  const [scroll, setScroll] = scrollContext;
-  const [scrollResponse, setScrollResponse] = scrollResponseContext;
+  // const [scroll, setScroll] = scrollContext;
+  // const [scrollResponse, setScrollResponse] = scrollResponseContext;
   const [currentCity, setCurrentCity] = useState("");
   const [destinationCity, setDestinationCity] = useState("");
   const [gender, setGender] = useState("Any");
@@ -30,25 +33,26 @@ function SearchResult() {
 
   //+++
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line
   const [skeletonCount, setSkeletonCount] = useState(6);
   const [filteredResponse, setFilteredResponse] = useState();
   const [showFilterNav, setShowFilterNav] = useState(false);
 
   //scroll detection and managing single request on bottom scroll hit
-  const listInnerRef = useRef();
-  const onScroll = () => {
-    if (!scrollResponse) {
-      if (listInnerRef.current) {
-        const { scrollTop, scrollHeight, clientHeight, scrollBottom } =
-          listInnerRef.current;
-        if (scrollHeight - scrollTop - clientHeight < 1) {
-          console.log("reached bottom");
-          setScroll(!scroll);
-          setScrollResponse(true);
-        }
-      }
-    }
-  };
+  // const listInnerRef = useRef();
+  // const onScroll = () => {
+  //   if (!scrollResponse) {
+  //     if (listInnerRef.current) {
+  //       const { scrollTop, scrollHeight, clientHeight, scrollBottom } =
+  //         listInnerRef.current;
+  //       if (scrollHeight - scrollTop - clientHeight < 1) {
+  //         console.log("reached bottom");
+  //         setScroll(!scroll);
+  //         setScrollResponse(true);
+  //       }
+  //     }
+  //   }
+  // };
 
   const handleFilterClick = () => {
     console.log("clicked");
@@ -66,7 +70,10 @@ function SearchResult() {
     // eslint-disable-next-line
   }, [response]);
 
+
+
   useEffect(() => {
+
     let x = [];
     let y = [];
     let z = [];
@@ -109,12 +116,12 @@ function SearchResult() {
     g.length
       ? setFilteredResponse(g)
       : z.length
-      ? setFilteredResponse(z)
-      : y.length
-      ? setFilteredResponse(y)
-      : x.length
-      ? setFilteredResponse(x)
-      : setFilteredResponse([]);
+        ? setFilteredResponse(z)
+        : y.length
+          ? setFilteredResponse(y)
+          : x.length
+            ? setFilteredResponse(x)
+            : setFilteredResponse([]);
 
     // eslint-disable-next-line
   }, [startDate, endDate, currentCity, destinationCity, gender]);
@@ -219,7 +226,7 @@ function SearchResult() {
                 </div>
               </div>
             </div>
-            <div onScroll={onScroll} ref={listInnerRef} className="results">
+            <div className="results">
               {loading ? (
                 <SkeletonLoader skeletonCount={skeletonCount} />
               ) : (

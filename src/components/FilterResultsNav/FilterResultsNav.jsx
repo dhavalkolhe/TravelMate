@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,7 +6,6 @@ import SearchBox from "../../components/SearchBox/SearchBox";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 
-import { Button } from "@mui/material";
 import "./FilterResultsNav.css";
 
 const FilterResultsNav = ({

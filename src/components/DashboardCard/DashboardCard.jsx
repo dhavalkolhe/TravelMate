@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import "./DashboardCard.css";
 import rightArrow from "../../img/ArrowLong.svg";
 import deleteIcon from "../../img/trashCan.svg";
@@ -14,6 +14,7 @@ import { UserContext } from "../../context/userContext";
 import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
+
 function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const [user] = useContext(UserContext);
 
@@ -23,6 +24,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   };
   const delRequests = async (reqId) => {
     await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
+
   };
 
   const delRooms = async (roomId) => {
@@ -46,7 +48,9 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
     await deleteDoc(doc(db, "users", user.uid, "rides", rideId));
     notify("success", "Ride Deleted");
   };
+
   const deleteRide = async () => {
+
     try {
       await deleteDoc(doc(db, "rides", rideId));
       await updateDoc(doc(db, "users", user.uid), {
@@ -58,6 +62,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
       notify("error", "Ride Deletion Failed");
     }
   };
+
   return (
     <div className="dashCardContainer">
       <div className="top-container">

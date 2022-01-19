@@ -14,12 +14,10 @@ const DashboardContextProvider = (props) => {
   const [activeOffers, setActiveOffers] = useState([]);
   const [user] = useContext(UserContext);
 
-  let uid;
-
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        uid = user.uid;
+        let uid = user.uid;
       } else {
         console.log("Not Authorised");
       }

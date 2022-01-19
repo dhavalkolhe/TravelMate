@@ -31,7 +31,7 @@ import { ChatPage } from "./pages/Chat";
 // import { MessagesBox } from "./components/ChatComponents";
 
 //Test
-import { SearchBox } from "./components/HomeComponents";
+// import { SearchBox } from "./components/HomeComponents";
 
 function App() {
   return (
