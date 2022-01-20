@@ -17,14 +17,19 @@ import { toast } from "react-toastify";
 
 function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const [user] = useContext(UserContext);
+  let tid;
+  const createToast = async () => {
+    tid = toast.loading("Please wait...")
+    toast.update(tid, { render: "Deleting Ride..", type: "pending", isLoading: true });
+    deleteRide()
+  }
 
   //Toast Function
-  const notify = (type, message) => {
-    toast[type](message);
-  };
+  // const notify = (type, message) => {
+  //   toast[type](message);
+  // };
   const delRequests = async (reqId) => {
     await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
-
   };
 
   const delRooms = async (roomId) => {
@@ -46,9 +51,9 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
       });
     }
     await deleteDoc(doc(db, "users", user.uid, "rides", rideId));
-    notify("success", "Ride Deleted");
+    // notify("success", "Ride Deleted");
+    toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1000 });
   };
-
   const deleteRide = async () => {
 
     try {
@@ -59,7 +64,8 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
       deleteAllRideMisc();
     } catch (err) {
       console.log("Error in deleting : ", err.message);
-      notify("error", "Ride Deletion Failed");
+      toast.update(tid, { render: "ERROR : Failed to delete ride", type: "error", isLoading: false, autoClose: 1000 });
+      // notify("error", "Ride Deletion Failed");
     }
   };
 
@@ -79,7 +85,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
             ? destinationCity.slice(0, 6) + "..."
             : destinationCity}
         </span>
-        <span className="dashDeleteIcon" onClick={deleteRide}>
+        <span className="dashDeleteIcon" onClick={createToast}>
           <img src={deleteIcon} alt="delete-icon" />
         </span>
       </div>

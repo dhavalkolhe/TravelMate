@@ -95,7 +95,11 @@ function Card({
   };
 
   return (
-    <div className="card__container" >
+    <div className="card__container"
+      onClick={() => {
+        setOpen(true);
+      }}
+    >
       <div className="user__name">
         <i className="user__icon">
           <img src={photoURL ? photoURL : userIcon} alt="user-icon" />
@@ -135,9 +139,9 @@ function Card({
 
       <button
         className="desc__btn"
-        onClick={() => {
-          setOpen(true);
-        }}
+      // onClick={() => {
+      //   setOpen(true);
+      // }}
       >
         Description
       </button>
