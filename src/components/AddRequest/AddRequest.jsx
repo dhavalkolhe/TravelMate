@@ -51,32 +51,29 @@ function AddRequest() {
   const [draftSaved, setDraftSaved] = useState(false);
   const [authorized, setAuthorized] = useState(true);
 
-  let draftData;
+  let draftData = {};
   const localData = localStorage.getItem("TravelmateRideDrafts");
   if (localData) {
     draftData = JSON.parse(localData);
   } else {
-    draftData = {
-      currentCity: "",
-      destinationCity: "",
-      date: new Date(),
-      time: "Any",
-      mode: "Any",
-      gender: "Any",
-      nop: 1,
-      description: "",
-    };
+    draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
   }
 
+  useEffect(() => {
+    if (localData) {
+      setDraftSaved(true);
+    }
+  }, [])
+
   const [user] = useContext(UserContext);
-  const [currentCity, setCurrentCity] = useState("");
-  const [destinationCity, setDestinationCity] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState("Any");
-  const [mode, setMode] = useState("Any");
-  const [gender, setGender] = useState("Any");
-  const [nop, setNop] = useState(1);
-  const [description, setDescription] = useState("");
+  const [currentCity, setCurrentCity] = useState(draftData.currentCity);
+  const [destinationCity, setDestinationCity] = useState(draftData.destinationCity);
+  const [date, setDate] = useState(new Date(draftData.date));
+  const [time, setTime] = useState(draftData.time);
+  const [mode, setMode] = useState(draftData.mode);
+  const [gender, setGender] = useState(draftData.gender);
+  const [nop, setNop] = useState(draftData.nop);
+  const [description, setDescription] = useState(draftData.description);
   // eslint-disable-next-line
   const [cities, setCities] = useState(city);
   const [search, setSearch] = useState("");
@@ -104,6 +101,7 @@ function AddRequest() {
     else return false;
   };
 
+
   const makeDraft = (e) => {
     e.preventDefault();
     if (!draftSaved) {
@@ -115,24 +113,16 @@ function AddRequest() {
         mode,
         gender,
         nop,
-        description,
-      };
-      localStorage.setItem("TravelmateRideDrafts", JSON.stringify(draft));
+        description
+      }
+      localStorage.setItem('TravelmateRideDrafts', JSON.stringify(draft));
     } else {
-      draftData = {
-        currentCity: "",
-        destinationCity: "",
-        date: new Date(),
-        time: "Any",
-        mode: "Any",
-        gender: "Any",
-        nop: 1,
-        description: "",
-      };
+      draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
       localStorage.removeItem("TravelmateRideDrafts");
     }
     setDraftSaved(!draftSaved);
-  };
+  }
+
   const updateUserRides1 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid, "rides", rideId);
     await setDoc(userRideRef, {
@@ -175,8 +165,6 @@ function AddRequest() {
 
   //////////////////////////////
   const addRequest = async (e) => {
-    console.log("Add Request called");
-
     setDate(date.setHours(0, 0, 0, 0));
     try {
       let docref = await addDoc(collection(db, "rides"), {
@@ -196,13 +184,15 @@ function AddRequest() {
       updateUserRides2(docref.id);
       notify("success", "Request Added");
 
-      setCurrentCity("");
-      setDestinationCity("");
-      setGender("Any");
-      setNop(1);
-      setDescription("");
+      if (!draftSaved) {
+        setCurrentCity("");
+        setDestinationCity("");
+        setGender("Any");
+        setNop(1);
+        setDescription("");
 
-      setDate(new Date());
+        setDate(new Date());
+      }
     } catch (e) {
       console.log("Error adding document: ", e);
       notify("error", "Request Addition Failed");
@@ -438,8 +428,9 @@ function AddRequest() {
                 <Button onClick={confirmSubmit} className="add-req-btn">
                   Add Request
                 </Button>
-                <Button onClick={makeDraft} className="draft-btn">
-                  Draft
+                <Button onClick={makeDraft}
+                  className="draft-btn">
+                  {draftSaved ? "Clear Draft " : "Draft"}
                 </Button>
               </Stack>
             </Stack>
