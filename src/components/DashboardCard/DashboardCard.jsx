@@ -18,56 +18,79 @@ import { toast } from "react-toastify";
 function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const [user] = useContext(UserContext);
   let tid;
-  const createToast = async () => {
-    tid = toast.loading("Please wait...")
-    toast.update(tid, { render: "Deleting Ride..", type: "pending", isLoading: true });
-    deleteRide()
-  }
 
+  const catchError = (err) => {
+    console.log("Error in deleting : ", err.message);
+    toast.update(tid, { render: "Failed to delete ride!", type: "error", isLoading: false, autoClose: 1000 });
+  };
   //Toast Function
   // const notify = (type, message) => {
   //   toast[type](message);
   // };
   const delRequests = async (reqId) => {
-    await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
+      console.log("deleted req from user req db");
+
+    } catch (error) {
+      catchError(error)
+    }
   };
 
   const delRooms = async (roomId) => {
-    await deleteDoc(doc(db, "rooms", roomId));
+    try {
+      await deleteDoc(doc(db, "rooms", roomId));
+      console.log("deleted room from room db");
+    } catch (error) {
+      catchError(error)
+    }
   };
 
   const deleteAllRideMisc = async () => {
-    const userRideRef = doc(db, "users", user.uid, "rides", rideId);
-    const d = await getDoc(userRideRef);
-
-    if (d.exists()) {
-      const reqArr = d.data().requests;
-      const roomArr = d.data().rooms;
-      reqArr.forEach((req) => {
-        delRequests(req);
-      });
-      roomArr.forEach((room) => {
-        delRooms(room);
-      });
-    }
-    await deleteDoc(doc(db, "users", user.uid, "rides", rideId));
-    // notify("success", "Ride Deleted");
-    toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1000 });
-  };
-  const deleteRide = async () => {
-
     try {
-      await deleteDoc(doc(db, "rides", rideId));
-      await updateDoc(doc(db, "users", user.uid), {
-        rides: arrayRemove(rideId),
-      });
-      deleteAllRideMisc();
-    } catch (err) {
-      console.log("Error in deleting : ", err.message);
-      toast.update(tid, { render: "ERROR : Failed to delete ride", type: "error", isLoading: false, autoClose: 1000 });
-      // notify("error", "Ride Deletion Failed");
+      const userRideRef = doc(db, "users", user.uid, "rides", rideId);
+      const d = await getDoc(userRideRef);
+
+      if (d.exists()) {
+        const reqArr = d.data().requests;
+        const roomArr = d.data().rooms;
+        reqArr.forEach((req) => {
+          delRequests(req);
+        });
+        roomArr.forEach((room) => {
+          delRooms(room);
+        });
+      }
+      return deleteDoc(doc(db, "users", user.uid, "rides", rideId));
+    } catch (error) {
+      catchError(error)
     }
   };
+  const deleteRide = () => {
+    tid = toast.loading("Please wait...")
+    toast.update(tid, { render: "Deleting Ride..", type: "pending", isLoading: true });
+
+    deleteDoc(doc(db, "rides", rideId))
+      .then(() => {
+        console.log("deleted ride from ride db");
+        return updateDoc(doc(db, "users", user.uid), {
+          rides: arrayRemove(rideId),
+        })
+      })
+      .then(() => {
+        console.log("deleted ride arr from user db");
+        return deleteAllRideMisc()
+      })
+      .then(() => {
+        console.log("deleted ride collection from user db");
+        toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1500 });
+        
+      })
+      .catch((err) => {
+        catchError(err);
+      })
+  };
+
 
   return (
     <div className="dashCardContainer">
@@ -85,7 +108,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
             ? destinationCity.slice(0, 6) + "..."
             : destinationCity}
         </span>
-        <span className="dashDeleteIcon" onClick={createToast}>
+        <span className="dashDeleteIcon" onClick={deleteRide}>
           <img src={deleteIcon} alt="delete-icon" />
         </span>
       </div>

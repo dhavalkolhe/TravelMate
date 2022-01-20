@@ -164,8 +164,10 @@ function AddRequest() {
   };
 
   //////////////////////////////
-  const addRequest = async (e) => {
-    setDate(date.setHours(0, 0, 0, 0));
+  const addRequest = async () => {
+    if (!draftSaved)
+      setDate(date.setHours(0, 0, 0, 0));
+
     try {
       let docref = await addDoc(collection(db, "rides"), {
         currentCity,
@@ -190,7 +192,6 @@ function AddRequest() {
         setGender("Any");
         setNop(1);
         setDescription("");
-
         setDate(new Date());
       }
     } catch (e) {
