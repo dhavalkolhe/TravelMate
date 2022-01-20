@@ -31,6 +31,9 @@ import {
   Select,
   MenuItem,
   InputBase,
+  createFilterOptions,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 
 // firebase
@@ -56,18 +59,29 @@ function AddRequest() {
   if (localData) {
     draftData = JSON.parse(localData);
   } else {
-    draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
+    draftData = {
+      currentCity: "",
+      destinationCity: "",
+      date: new Date(),
+      time: "Any",
+      mode: "Any",
+      gender: "Any",
+      nop: 1,
+      description: "",
+    };
   }
 
   useEffect(() => {
     if (localData) {
       setDraftSaved(true);
     }
-  }, [])
+  }, []);
 
   const [user] = useContext(UserContext);
   const [currentCity, setCurrentCity] = useState(draftData.currentCity);
-  const [destinationCity, setDestinationCity] = useState(draftData.destinationCity);
+  const [destinationCity, setDestinationCity] = useState(
+    draftData.destinationCity
+  );
   const [date, setDate] = useState(new Date(draftData.date));
   const [time, setTime] = useState(draftData.time);
   const [mode, setMode] = useState(draftData.mode);
@@ -101,7 +115,6 @@ function AddRequest() {
     else return false;
   };
 
-
   const makeDraft = (e) => {
     e.preventDefault();
     if (!draftSaved) {
@@ -113,15 +126,24 @@ function AddRequest() {
         mode,
         gender,
         nop,
-        description
-      }
-      localStorage.setItem('TravelmateRideDrafts', JSON.stringify(draft));
+        description,
+      };
+      localStorage.setItem("TravelmateRideDrafts", JSON.stringify(draft));
     } else {
-      draftData = { currentCity: "", destinationCity: "", date: new Date(), time: "Any", mode: "Any", gender: "Any", nop: 1, description: "" }
+      draftData = {
+        currentCity: "",
+        destinationCity: "",
+        date: new Date(),
+        time: "Any",
+        mode: "Any",
+        gender: "Any",
+        nop: 1,
+        description: "",
+      };
       localStorage.removeItem("TravelmateRideDrafts");
     }
     setDraftSaved(!draftSaved);
-  }
+  };
 
   const updateUserRides1 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid, "rides", rideId);
@@ -165,8 +187,7 @@ function AddRequest() {
 
   //////////////////////////////
   const addRequest = async () => {
-    if (!draftSaved)
-      setDate(date.setHours(0, 0, 0, 0));
+    if (!draftSaved) setDate(date.setHours(0, 0, 0, 0));
 
     try {
       let docref = await addDoc(collection(db, "rides"), {
@@ -200,18 +221,10 @@ function AddRequest() {
     }
   };
 
-  const handlelocationSelect = (type, v, v1) => {
-    const selectedCity = v.concat(", ", v1);
-    if (type === "source") {
-      setCurrentCity(selectedCity);
-      setDisplaySources(false);
-      setSearch("");
-    } else {
-      setDestinationCity(selectedCity);
-      setDisplayDestinations(false);
-      setSearch("");
-    }
-  };
+  const OPTIONS_LIMIT = 3;
+  const filterOptions = createFilterOptions({
+    limit: OPTIONS_LIMIT,
+  });
 
   return (
     <Box>
@@ -233,46 +246,53 @@ function AddRequest() {
                       alt="logo"
                       className="date-icon"
                     />
-                    <input
-                      placeholder="Location"
-                      onClick={() => setDisplaySources(!displaySources)}
-                      className="location-input-field"
+                    <Autocomplete
                       value={currentCity}
-                      onChange={(e) => {
-                        setCurrentCity(e.target.value);
-                        setSearch(e.target.value);
+                      filterOptions={filterOptions}
+                      id="country-select-demo"
+                      sx={{ width: "100%" }}
+                      options={city}
+                      autoHighlight
+                      disableClearable
+                      freeSolo
+                      getOptionLabel={(option) => option.name || currentCity}
+                      onChange={(event, value) => {
+                        // console.log(value);
+                        let selectedCity = value.name.concat(", ", value.state);
+                        setCurrentCity(selectedCity);
                       }}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          {option.name}, {option.state}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Enter Location"
+                          //logic to update state when city is not in list
+                          onChange={(event, value) => {
+                            setCurrentCity(event.target.value);
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password",
+                            // startAdornment: (
+                            //   <InputAdornment position="start">
+                            //     <IconButton edge="start">
+                            //       <img src={currentLocationIcon} alt={"logo"} />
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                        />
+                      )}
                     />
                   </div>
-                  {displaySources && search ? (
-                    <div className="dataResult-source">
-                      {cities
-                        .filter((value) =>
-                          value.name
-                            .toLowerCase()
-                            .includes(search.toLowerCase())
-                        )
-                        .map((value, key) => {
-                          return (
-                            <div
-                              className="dataItem"
-                              key={value.id}
-                              onClick={() =>
-                                handlelocationSelect(
-                                  "source",
-                                  value.name,
-                                  value.state
-                                )
-                              }
-                            >
-                              <span className="no-text-wrap">
-                                {value.name}, {value.state}
-                              </span>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  ) : null}
                 </Stack>
 
                 <Stack direction="row" className="stack-item">
@@ -283,64 +303,55 @@ function AddRequest() {
                       alt="logo"
                       className="date-icon"
                     />
-                    <input
-                      placeholder="Location"
-                      onClick={() =>
-                        setDisplayDestinations(!displayDestinations)
-                      }
-                      className="location-input-field"
+                    <Autocomplete
+                      filterOptions={filterOptions}
                       value={destinationCity}
-                      onChange={(e) => {
-                        setDestinationCity(e.target.value);
-                        setSearch(e.target.value);
+                      id="country-select-demo"
+                      sx={{ width: "100%" }}
+                      options={city}
+                      autoHighlight
+                      disableClearable
+                      freeSolo
+                      getOptionLabel={(option) =>
+                        option.name || destinationCity
+                      }
+                      onChange={(event, value) => {
+                        // console.log(value);
+                        let selectedCity = value.name.concat(", ", value.state);
+                        setDestinationCity(selectedCity);
                       }}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          {option.name}, {option.state}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Enter Location"
+                          //logic to update state when city is not in list
+                          onChange={(event, value) => {
+                            setDestinationCity(event.target.value);
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password",
+                            // startAdornment: (
+                            //   <InputAdornment position="start">
+                            //     <IconButton edge="start">
+                            //       <img src={currentLocationIcon} alt={"logo"} />
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                        />
+                      )}
                     />
-                  </div>
-                  {displayDestinations && search ? (
-                    <div className="dataResult-destination">
-                      {cities
-                        .filter((value) =>
-                          value.name
-                            .toLowerCase()
-                            .includes(search.toLowerCase())
-                        )
-                        .map((value, key) => {
-                          return (
-                            <div
-                              className="dataItem"
-                              key={value.id}
-                              onClick={() =>
-                                handlelocationSelect(
-                                  "destination",
-                                  value.name,
-                                  value.state
-                                )
-                              }
-                            >
-                              <span className="no-text-wrap">
-                                {value.name}, {value.state}
-                              </span>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  ) : null}
-                </Stack>
-
-                <Stack direction="row" className="stack-item">
-                  <Typography class="textfieldHead">Date</Typography>
-                  <div className="date-wrap">
-                    <img src={dateIcon} alt="logo" className="date-icon" />
-                    <DatePicker
-                      selected={date}
-                      onChange={(date) => {
-                        setDate(date);
-                      }}
-                      closeOnScroll={true}
-                      dateFormat="dd/MM/yyyy"
-                      minDate={subDays(new Date(), 0)}
-                      className="date-picker"
-                    />
+                    ``
                   </div>
                 </Stack>
 
@@ -429,8 +440,7 @@ function AddRequest() {
                 <Button onClick={confirmSubmit} className="add-req-btn">
                   Add Request
                 </Button>
-                <Button onClick={makeDraft}
-                  className="draft-btn">
+                <Button onClick={makeDraft} className="draft-btn">
                   {draftSaved ? "Clear Draft " : "Draft"}
                 </Button>
               </Stack>
