@@ -7,6 +7,8 @@ import destinationIcon from "../../resources/icons/destinationIcon.svg";
 // import dateIcon from "../../resources/icons/dateIcon.svg";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
+import city from "../../resources/states.json";
+
 import {
   Box,
   Stack,
@@ -16,10 +18,17 @@ import {
   TextField,
   InputAdornment,
   IconButton,
+  createFilterOptions,
+  Autocomplete,
 } from "@mui/material";
+
 import DatePicker from "@mui/lab/DatePicker";
 
 export function SearchBox() {
+  const OPTIONS_LIMIT = 3;
+  const filterOptions = createFilterOptions({
+    limit: OPTIONS_LIMIT,
+  });
   return (
     <Stack
       direction="column"
@@ -50,43 +59,109 @@ export function SearchBox() {
           >
             <Box>
               <Typography class="subtitle1">Traveling from</Typography>
-              <TextField
-                size="small"
-                placeholder="Enter Location"
-                sx={{
-                  width: "190px",
-                  backgroundColor: "white",
+              <Autocomplete
+                //value={currentCity}
+                filterOptions={filterOptions}
+                id="country-select-demo"
+                sx={{ width: "140px" }}
+                options={city}
+                autoHighlight
+                disableClearable
+                freeSolo
+                getOptionLabel={
+                  (option) => option.name
+                  // || currentCity
+                }
+                onChange={(event, value) => {
+                  // console.log(value);
+                  let selectedCity = value.name.concat(", ", value.state);
+                  //setCurrentCity(selectedCity);
                 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton edge="start">
-                        <img src={locationIcon} alt={"logo"} />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    {option.name}, {option.state}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    label="Enter Location"
+                    //logic to update state when city is not in list
+                    onChange={(event, value) => {
+                      //setCurrentCity(event.target.value);
+                    }}
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
+                      // startAdornment: (
+                      //   <InputAdornment position="start">
+                      //     <IconButton edge="start">
+                      //       <img src={currentLocationIcon} alt={"logo"} />
+                      //     </IconButton>
+                      //   </InputAdornment>
+                      // ),
+                    }}
+                  />
+                )}
               />
             </Box>
 
             <Box>
               <Typography class="subtitle1">Destination</Typography>
-              <TextField
-                size="small"
-                placeholder="Enter Location"
-                sx={{
-                  width: "190px",
-                  backgroundColor: "white",
+              <Autocomplete
+                //value={currentCity}
+                filterOptions={filterOptions}
+                id="country-select-demo"
+                sx={{ width: "140px" }}
+                options={city}
+                autoHighlight
+                disableClearable
+                freeSolo
+                getOptionLabel={
+                  (option) => option.name
+                  // || currentCity
+                }
+                onChange={(event, value) => {
+                  // console.log(value);
+                  let selectedCity = value.name.concat(", ", value.state);
+                  //setCurrentCity(selectedCity);
                 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton edge="start">
-                        <img src={destinationIcon} alt={"logo"} />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    {...props}
+                  >
+                    {option.name}, {option.state}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    label="Enter Location"
+                    //logic to update state when city is not in list
+                    onChange={(event, value) => {
+                      //setCurrentCity(event.target.value);
+                    }}
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
+                      // startAdornment: (
+                      //   <InputAdornment position="start">
+                      //     <IconButton edge="start">
+                      //       <img src={currentLocationIcon} alt={"logo"} />
+                      //     </IconButton>
+                      //   </InputAdornment>
+                      // ),
+                    }}
+                  />
+                )}
               />
             </Box>
             <Box>
