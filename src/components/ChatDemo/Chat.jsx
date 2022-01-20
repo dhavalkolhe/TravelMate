@@ -16,6 +16,8 @@ const socket = io(process.env.REACT_APP_BACKEND_URL, {
     SameSite: 'None'
 });
 
+
+
 function Chat() {
     const [user] = useContext(UserContext);
     const [currentMessage, setCurrentMessage] = useState("");

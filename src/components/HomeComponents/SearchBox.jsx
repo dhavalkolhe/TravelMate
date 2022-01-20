@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
@@ -6,7 +6,7 @@ import locationIcon from "../../resources/icons/locationIcon.svg";
 import destinationIcon from "../../resources/icons/destinationIcon.svg";
 // import dateIcon from "../../resources/icons/dateIcon.svg";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-
+import { SearchContext } from "../../context/searchContext"
 import city from "../../resources/states.json";
 
 import {
@@ -25,6 +25,7 @@ import {
 import DatePicker from "@mui/lab/DatePicker";
 
 export function SearchBox() {
+  const [search, setSearch] = useContext(SearchContext);
   const OPTIONS_LIMIT = 3;
   const filterOptions = createFilterOptions({
     limit: OPTIONS_LIMIT,
@@ -60,7 +61,7 @@ export function SearchBox() {
             <Box>
               <Typography class="subtitle1">Traveling from</Typography>
               <Autocomplete
-                //value={currentCity}
+                value={search.currentCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
                 sx={{ width: "140px" }}
@@ -70,12 +71,17 @@ export function SearchBox() {
                 freeSolo
                 getOptionLabel={
                   (option) => option.name
-                  // || currentCity
+                    || search.currentCity
                 }
                 onChange={(event, value) => {
                   // console.log(value);
                   let selectedCity = value.name.concat(", ", value.state);
-                  //setCurrentCity(selectedCity);
+                  setSearch((prev) => {
+                    return {
+                      ...prev,
+                      currentCity: selectedCity
+                    }
+                  });
                 }}
                 renderOption={(props, option) => (
                   <Box
@@ -93,7 +99,12 @@ export function SearchBox() {
                     label="Enter Location"
                     //logic to update state when city is not in list
                     onChange={(event, value) => {
-                      //setCurrentCity(event.target.value);
+                      setSearch((prev) => {
+                        return {
+                          ...prev,
+                          currentCity: event.target.value
+                        }
+                      });
                     }}
                     inputProps={{
                       ...params.inputProps,
@@ -114,7 +125,7 @@ export function SearchBox() {
             <Box>
               <Typography class="subtitle1">Destination</Typography>
               <Autocomplete
-                //value={currentCity}
+                value={search.destinationCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
                 sx={{ width: "140px" }}
@@ -124,12 +135,17 @@ export function SearchBox() {
                 freeSolo
                 getOptionLabel={
                   (option) => option.name
-                  // || currentCity
+                    || search.destinationCity
                 }
                 onChange={(event, value) => {
                   // console.log(value);
                   let selectedCity = value.name.concat(", ", value.state);
-                  //setCurrentCity(selectedCity);
+                  setSearch((prev) => {
+                    return {
+                      ...prev,
+                      destinationCity: selectedCity
+                    }
+                  });
                 }}
                 renderOption={(props, option) => (
                   <Box
@@ -147,7 +163,12 @@ export function SearchBox() {
                     label="Enter Location"
                     //logic to update state when city is not in list
                     onChange={(event, value) => {
-                      //setCurrentCity(event.target.value);
+                      setSearch((prev) => {
+                        return {
+                          ...prev,
+                          destinationCity: event.target.value
+                        }
+                      });
                     }}
                     inputProps={{
                       ...params.inputProps,
@@ -187,10 +208,15 @@ export function SearchBox() {
               <DatePicker
                 openTo="day"
                 views={["month", "day"]}
-                // value={value}
-                // onChange={(newValue) => {
-                //   setValue(newValue);
-                // }}
+                value={search.date}
+                onChange={(newValue) => {
+                  setSearch((prev) => {
+                    return {
+                      ...prev,
+                      date: newValue
+                    }
+                  });
+                }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -200,15 +226,15 @@ export function SearchBox() {
                       width: "160px",
                       backgroundColor: "white",
                     }}
-                    // InputProps={{
-                    //   startAdornment: (
-                    //     <InputAdornment position="start">
-                    //       <IconButton edge="start">
-                    //         <img src={dateIcon} alt={"logo"} />
-                    //       </IconButton>
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <IconButton edge="start">
+                  //         <img src={dateIcon} alt={"logo"} />
+                  //       </IconButton>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                   />
                 )}
               />

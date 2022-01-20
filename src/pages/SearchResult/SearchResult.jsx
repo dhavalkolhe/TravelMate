@@ -7,6 +7,7 @@ import SearchBox from "../../components/SearchBox/SearchBox";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import { Nav } from "../../components/Nav/Nav";
+import { SearchContext } from "../../context/searchContext"
 
 import { ResponseContext } from "../../context/responseContext";
 
@@ -23,6 +24,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
 
 function SearchResult() {
+  const [search, setSearch] = useContext(SearchContext);
   const {
     responseContext,
     //scrollContext, scrollResponseContext
@@ -49,6 +51,12 @@ function SearchResult() {
     console.log("clicked");
     setShowFilterNav(true);
   };
+  useEffect(() => {
+    setCurrentCity(search.currentCity);
+    setDestinationCity(search.destinationCity);
+    setStartDate(search.startDate);
+    setEndDate(search.endDate);
+  }, [])
 
   //loading
   useEffect(() => {
@@ -74,17 +82,28 @@ function SearchResult() {
     );
 
     if (currentCity !== "" && x.length) {
-      y = x.filter((response) =>
-        response.props.currentCity.includes(currentCity)
-      );
+      if (z.length == 0)
+        y = x.filter((response) =>
+          response.props.currentCity.includes(currentCity)
+        );
+      else
+        y = z.filter((response) =>
+          response.props.currentCity.includes(currentCity)
+        );
     } else {
       y = [];
     }
 
     if (destinationCity !== "" && y.length) {
-      z = y.filter((response) =>
-        response.props.destinationCity.includes(destinationCity)
-      );
+      if (y.length == 0) {
+        z = x.filter((response) =>
+          response.props.destinationCity.includes(destinationCity)
+        );
+      } else {
+        z = y.filter((response) =>
+          response.props.destinationCity.includes(destinationCity)
+        );
+      }
     } else {
       z = [];
     }
@@ -104,12 +123,12 @@ function SearchResult() {
     g.length
       ? setFilteredResponse(g)
       : z.length
-      ? setFilteredResponse(z)
-      : y.length
-      ? setFilteredResponse(y)
-      : x.length
-      ? setFilteredResponse(x)
-      : setFilteredResponse([]);
+        ? setFilteredResponse(z)
+        : y.length
+          ? setFilteredResponse(y)
+          : x.length
+            ? setFilteredResponse(x)
+            : setFilteredResponse([]);
 
     // eslint-disable-next-line
   }, [startDate, endDate, currentCity, destinationCity, gender]);
