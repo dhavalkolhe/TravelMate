@@ -6,7 +6,7 @@ import { Login } from "./components/Login";
 import AddRequest from "./components/AddRequest/AddRequest";
 
 // Contexts
-import { LoginContextProvider } from "./context";
+import { LoginContextProvider, WindowContextProvider } from "./context";
 import UserContextProvider from "./context/userContext";
 import ResponseContextProvider from "./context/responseContext";
 import NotificationContextProvider from "./context/notificationContext";
@@ -65,68 +65,70 @@ export const Navigation = () => {
 
 function App() {
   return (
-    <UserContextProvider>
-      <LoginContextProvider>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <ChatContextProvider>
-            <NotificationContextProvider>
-              <Router>
-                <Switch>
-                  <Route path="/login">
-                    <Login />
-                  </Route>
+    <WindowContextProvider>
+      <UserContextProvider>
+        <LoginContextProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <ChatContextProvider>
+              <NotificationContextProvider>
+                <Router>
+                  <Switch>
+                    <Route path="/login">
+                      <Login />
+                    </Route>
 
-                  <Route exact path="/addRequest">
-                    <AddRequest />
-                  </Route>
+                    <Route exact path="/addRequest">
+                      <AddRequest />
+                    </Route>
 
-                  <Route exact path="/search">
-                    <ResponseContextProvider>
-                      <SearchResult />
-                    </ResponseContextProvider>
-                  </Route>
+                    <Route exact path="/search">
+                      <ResponseContextProvider>
+                        <SearchResult />
+                      </ResponseContextProvider>
+                    </Route>
 
-                  <Route exact path="/user/notifications">
-                    <Notification />
-                  </Route>
+                    <Route exact path="/user/notifications">
+                      <Notification />
+                    </Route>
 
-                  {/* <Route exact path="/chat">
+                    {/* <Route exact path="/chat">
                   <ChatPage />
                 </Route>
             */}
 
-                  <Route exact path="/dashboard">
-                    <DashboardContextProvider>
-                      <Dashboard />
-                    </DashboardContextProvider>
-                  </Route>
+                    <Route exact path="/dashboard">
+                      <DashboardContextProvider>
+                        <Dashboard />
+                      </DashboardContextProvider>
+                    </Route>
 
-                  <Route exact path="/chat">
-                    <RoomsContextProvider>
-                      {/* <ChatList /> */}
-                      <ChatPage />
-                    </RoomsContextProvider>
-                  </Route>
+                    <Route exact path="/chat">
+                      <RoomsContextProvider>
+                        {/* <ChatList /> */}
+                        <ChatPage />
+                      </RoomsContextProvider>
+                    </Route>
 
-                  <Route exact path="/chatlist">
-                    <ChatList />
-                  </Route>
+                    <Route exact path="/chatlist">
+                      <ChatList />
+                    </Route>
 
-                  <Route exact path="/chat/:roomId">
-                    <ChatList />
-                    <Chat />
-                  </Route>
+                    <Route exact path="/chat/:roomId">
+                      <ChatList />
+                      <Chat />
+                    </Route>
 
-                  <Route exact path="/">
-                    <Home />
-                  </Route>
-                </Switch>
-              </Router>
-            </NotificationContextProvider>
-          </ChatContextProvider>
-        </LocalizationProvider>
-      </LoginContextProvider>
-    </UserContextProvider>
+                    <Route exact path="/">
+                      <Home />
+                    </Route>
+                  </Switch>
+                </Router>
+              </NotificationContextProvider>
+            </ChatContextProvider>
+          </LocalizationProvider>
+        </LoginContextProvider>
+      </UserContextProvider>
+    </WindowContextProvider>
   );
 }
 

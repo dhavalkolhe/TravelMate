@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { ChatContext } from "../../context";
+import { ChatContext, WindowContext } from "../../context";
 
 /* Componenets */
 import { Nav } from "../../components/Nav";
@@ -61,6 +61,9 @@ function DesktopChatSection() {
 export function ChatPage() {
   const { messageBoxInfo } = useContext(ChatContext);
   const [messageBoxOpen] = messageBoxInfo;
+
+  const { width, height } = useContext(WindowContext);
+  useEffect(() => {}, [width, height]);
 
   return (
     <Box sx={{ height: "100vh" }}>
