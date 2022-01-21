@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
@@ -211,7 +211,7 @@ export const Nav = () => {
   );
 
   const { userLogged, loginDialog } = useContext(LoginContext);
-  const [loggedIn, setLoggedIn] = userLogged;
+  const [loggedIn] = userLogged;
   const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
 
   const handleLoginDialogClose = () => {

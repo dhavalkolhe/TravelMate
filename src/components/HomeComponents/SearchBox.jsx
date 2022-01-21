@@ -28,13 +28,14 @@ export function SearchBox() {
         backgroundColor: "#DFDFF0",
         borderRadius: "10px",
         width: "fit-content",
+        minWidth: "315px",
         height: "fit-content",
         padding: "1rem",
         alignItems: "flex-start",
         justifyContent: "center",
       }}
     >
-      <Stack direction="column" spacing={4}>
+      <Stack direction="column" spacing={4} width="100%">
         <FormControl variant="outlined" sx={{ zIndex: "1" }}>
           <Stack
             direction={{

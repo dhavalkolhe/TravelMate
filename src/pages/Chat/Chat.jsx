@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+
+import { ChatContext } from "../../context";
 
 /* Componenets */
 import { Nav } from "../../components/Nav";
@@ -22,7 +24,7 @@ function DesktopChatSection() {
         <Nav />
       </Container>
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         sx={{
           height: {
             xs: "100%",
@@ -57,8 +59,25 @@ function DesktopChatSection() {
 }
 
 export function ChatPage() {
+  const { messageBoxInfo } = useContext(ChatContext);
+  const [messageBoxOpen] = messageBoxInfo;
+
   return (
     <Box sx={{ height: "100vh" }}>
+      {messageBoxOpen && (
+        <Box
+          sx={{
+            position: "absolute",
+            height: "100vh",
+            width: "100vw",
+            backgroundColor: "white",
+            zIndex: "5",
+          }}
+        >
+          <MessagesBox />
+        </Box>
+      )}
+
       <DesktopChatSection />
     </Box>
   );

@@ -15,7 +15,7 @@ import { ChatContext } from "../../context/chatContext";
 
 import Loader from "../../components/Loader/Loader";
 
-function Person({ displayName, photoURL, roomId, handleRoomChange }) {
+const Person = ({ displayName, photoURL, roomId, handleRoomChange }) => {
   return (
     <div onClick={() => handleRoomChange(roomId, displayName, photoURL)}>
       <Grid
@@ -68,9 +68,9 @@ function Person({ displayName, photoURL, roomId, handleRoomChange }) {
       </Grid>
     </div>
   );
-}
+};
 
-export function Conversations() {
+export const Conversations = () => {
   const { roomData, loading } = useContext(RoomsContext);
   const [roomsData] = roomData;
   const [roomLoading] = loading;
@@ -78,9 +78,11 @@ export function Conversations() {
   const [cardData, setCardData] = useState([]);
   const [chatsCount, setChatsCount] = useState(0);
 
-  const { currRoomId, currChatterInfo } = useContext(ChatContext);
+  const { currRoomId, currChatterInfo, messageBoxInfo } =
+    useContext(ChatContext);
   const [roomId, setRoomId] = currRoomId;
   const [chatterInfo, setchatterInfo] = currChatterInfo;
+  const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
 
   const handleRoomChange = (roomId, displayName, photoURL) => {
     setRoomId(roomId);
@@ -88,6 +90,7 @@ export function Conversations() {
       displayName: displayName,
       photoURL: photoURL,
     });
+    setMessageBoxOpen(true);
   };
 
   useEffect(() => {
@@ -129,4 +132,4 @@ export function Conversations() {
       </Grid>
     </Grid>
   );
-}
+};

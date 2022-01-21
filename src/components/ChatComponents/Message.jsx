@@ -13,7 +13,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 
-import { ChatContext } from "../../context/chatContext";
+import { ChatContext } from "../../context";
 import { UserContext } from "../../context/userContext";
 
 import { db } from "../../firebase/db";
@@ -144,6 +144,13 @@ export function MessagesBox() {
     //eslint-disable-next-line
   }, [socket]);
 
+  const { messageBoxInfo } = useContext(ChatContext);
+  const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
+
+  function handleMessageBoxOpen() {
+    setMessageBoxOpen(false);
+  }
+
   return (
     <>
       {!joined ? (
@@ -191,7 +198,7 @@ export function MessagesBox() {
                   {chatterInfo.displayName}
                 </Typography>
               </Stack>
-              <IconButton>
+              <IconButton onClick={handleMessageBoxOpen}>
                 <CloseIcon fontSize="large" />
               </IconButton>
             </Stack>
@@ -231,48 +238,40 @@ export function MessagesBox() {
               })}
           </Grid>
 
-          <Grid
-            item
-            container
+          <Stack
             spacing={1}
-            xs={1}
             className="messageInput"
             alignItems="center"
+            direction="row"
           >
-            <Grid item xs={0.5}>
-              <Avatar sx={{ width: 42, height: 42 }} />
-            </Grid>
+            <Avatar sx={{ width: 42, height: 42 }} />
 
-            <Grid item xs>
-              <OutlinedInput
-                placeholder="Type your message here"
-                sx={{ width: "100%" }}
-                type="text"
-                value={currentMessage}
-                onChange={(event) => {
-                  setCurrentMessage(event.target.value);
-                }}
-                onKeyPress={(event) => {
-                  event.key === "Enter" && sendMessage();
-                }}
-              />
-            </Grid>
+            <OutlinedInput
+              placeholder="Type your message here"
+              sx={{ width: "100%" }}
+              type="text"
+              value={currentMessage}
+              onChange={(event) => {
+                setCurrentMessage(event.target.value);
+              }}
+              onKeyPress={(event) => {
+                event.key === "Enter" && sendMessage();
+              }}
+            />
 
-            <Grid item xs={0.5}>
-              <IconButton
-                fontSize="large"
-                sx={{
-                  backgroundColor: "#001963",
-                  "&:hover": {
-                    backgroundColor: "#103193",
-                  },
-                }}
-                onClick={sendMessage}
-              >
-                <SendIcon sx={{ color: "white" }} />
-              </IconButton>
-            </Grid>
-          </Grid>
+            <IconButton
+              fontSize="large"
+              sx={{
+                backgroundColor: "#001963",
+                "&:hover": {
+                  backgroundColor: "#103193",
+                },
+              }}
+              onClick={sendMessage}
+            >
+              <SendIcon sx={{ color: "white" }} />
+            </IconButton>
+          </Stack>
         </Grid>
       )}
     </>

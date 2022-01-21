@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Components
@@ -33,6 +33,35 @@ import { ChatPage } from "./pages/Chat";
 
 //Test
 import { SearchBox } from "./components/HomeComponents";
+
+//mui
+import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+
+export const Navigation = () => {
+  const [value, setValue] = useState(0);
+
+  return (
+    <Box sx={{ width: "100vw" }}>
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      >
+        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Add Request" icon={<AddCircleIcon />} />
+        <BottomNavigationAction
+          label="Notifications"
+          icon={<NotificationsIcon />}
+        />
+      </BottomNavigation>
+    </Box>
+  );
+};
 
 function App() {
   return (
