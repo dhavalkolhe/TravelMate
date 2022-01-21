@@ -77,3 +77,8 @@ button[disabled] {
   color: white;
   background-color: #001963;
 }
+
+.card__container:hover {
+  cursor: pointer;
+}
+/* rgb(229,229,243) */

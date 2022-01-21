@@ -21,7 +21,7 @@ function Card({
   userId,
   gender,
   nop,
-  rideId
+  rideId,
 }) {
   const [user] = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -53,9 +53,9 @@ function Card({
   const updateuserRidesReq = async () => {
     const userRideRef = doc(db, "users", userId, "rides", rideId);
     await updateDoc(userRideRef, {
-      requests: arrayUnion(user.uid + "-" + rideId)
+      requests: arrayUnion(user.uid + "-" + rideId),
     });
-  }
+  };
 
   const addReq = async () => {
     await setDoc(
@@ -95,9 +95,12 @@ function Card({
   };
 
   return (
-    <div className="card__container"
+    <div
+      className="card__container"
       onClick={() => {
-        setOpen(true);
+        if (!open) {
+          setOpen(true);
+        }
       }}
     >
       <div className="user__name">
@@ -137,14 +140,7 @@ function Card({
 
       {/* Description Pop up */}
 
-      <button
-        className="desc__btn"
-      // onClick={() => {
-      //   setOpen(true);
-      // }}
-      >
-        Description
-      </button>
+      <button className="desc__btn">Description</button>
 
       {open ? (
         <PopUp
