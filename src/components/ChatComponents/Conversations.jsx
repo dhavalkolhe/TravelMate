@@ -1,14 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./chatComponenets.css";
 
-import {
-  Box,
-  Stack,
-  Avatar,
-  Grid,
-  Typography,
-  OutlinedInput,
-} from "@mui/material";
+import { Avatar, Grid, Typography, OutlinedInput } from "@mui/material";
 
 import { RoomsContext } from "../../context/roomsContext";
 import { ChatContext } from "../../context/chatContext";
@@ -79,7 +72,9 @@ export function Conversations() {
   const [chatsCount, setChatsCount] = useState(0);
 
   const { currRoomId, currChatterInfo } = useContext(ChatContext);
+  // eslint-disable-next-line
   const [roomId, setRoomId] = currRoomId;
+  // eslint-disable-next-line
   const [chatterInfo, setchatterInfo] = currChatterInfo;
 
   const handleRoomChange = (roomId, displayName, photoURL) => {
@@ -110,6 +105,7 @@ export function Conversations() {
       setCardData(x);
       setChatsCount(x.length);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomsData]);
 
   return (

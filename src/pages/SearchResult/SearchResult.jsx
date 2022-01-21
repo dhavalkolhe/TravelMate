@@ -3,11 +3,11 @@ import "./SearchResult.css";
 import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import SearchBox from "../../components/SearchBox/SearchBox";
-import currentLocationIcon from "../../img/currentLocationIcon.svg";
-import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
+// import SearchBox from "../../components/SearchBox/SearchBox";
+// import currentLocationIcon from "../../img/currentLocationIcon.svg";
+// import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import { Nav } from "../../components/Nav/Nav";
-import { SearchContext } from "../../context/searchContext"
+import { SearchContext } from "../../context/searchContext";
 
 import { ResponseContext } from "../../context/responseContext";
 
@@ -24,6 +24,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
 
 function SearchResult() {
+  // eslint-disable-next-line
   const [search, setSearch] = useContext(SearchContext);
   const {
     responseContext,
@@ -56,7 +57,8 @@ function SearchResult() {
     setDestinationCity(search.destinationCity);
     setStartDate(search.startDate);
     setEndDate(search.endDate);
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   //loading
   useEffect(() => {
@@ -82,7 +84,7 @@ function SearchResult() {
     );
 
     if (currentCity !== "" && x.length) {
-      if (z.length == 0)
+      if (z.length === 0)
         y = x.filter((response) =>
           response.props.currentCity.includes(currentCity)
         );
@@ -95,7 +97,7 @@ function SearchResult() {
     }
 
     if (destinationCity !== "" && y.length) {
-      if (y.length == 0) {
+      if (y.length === 0) {
         z = x.filter((response) =>
           response.props.destinationCity.includes(destinationCity)
         );
@@ -123,12 +125,12 @@ function SearchResult() {
     g.length
       ? setFilteredResponse(g)
       : z.length
-        ? setFilteredResponse(z)
-        : y.length
-          ? setFilteredResponse(y)
-          : x.length
-            ? setFilteredResponse(x)
-            : setFilteredResponse([]);
+      ? setFilteredResponse(z)
+      : y.length
+      ? setFilteredResponse(y)
+      : x.length
+      ? setFilteredResponse(x)
+      : setFilteredResponse([]);
 
     // eslint-disable-next-line
   }, [startDate, endDate, currentCity, destinationCity, gender]);
@@ -236,7 +238,8 @@ function SearchResult() {
                         }}
                         inputProps={{
                           ...params.inputProps,
-                          autoComplete: "new-password",
+                          autoComplete: "off",
+
                           // startAdornment: (
                           //   <InputAdornment position="start">
                           //     <IconButton edge="start">
@@ -286,7 +289,7 @@ function SearchResult() {
                         }}
                         inputProps={{
                           ...params.inputProps,
-                          autoComplete: "new-password",
+                          autoComplete: "off",
                           // startAdornment: (
                           //   <InputAdornment position="start">
                           //     <IconButton edge="start">

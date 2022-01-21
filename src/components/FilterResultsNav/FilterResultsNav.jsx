@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import SearchBox from "../../components/SearchBox/SearchBox";
-import currentLocationIcon from "../../img/currentLocationIcon.svg";
-import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
+// import SearchBox from "../../components/SearchBox/SearchBox";
+// import currentLocationIcon from "../../img/currentLocationIcon.svg";
+// import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 
 import CloseIcon from "@mui/icons-material/Close";
 import "./FilterResultsNav.css";
@@ -138,7 +138,7 @@ const FilterResultsNav = ({
                   }}
                   inputProps={{
                     ...params.inputProps,
-                    autoComplete: "new-password",
+                    autoComplete: "off",
                     // startAdornment: (
                     //   <InputAdornment position="start">
                     //     <IconButton edge="start">
@@ -188,7 +188,7 @@ const FilterResultsNav = ({
                   }}
                   inputProps={{
                     ...params.inputProps,
-                    autoComplete: "new-password",
+                    autoComplete: "off",
                     // startAdornment: (
                     //   <InputAdornment position="start">
                     //     <IconButton edge="start">

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import "./chatComponenets.css";
 
 import {
-  Box,
   Grid,
   Stack,
   Avatar,
@@ -17,7 +16,17 @@ import { ChatContext } from "../../context/chatContext";
 import { UserContext } from "../../context/userContext";
 
 import { db } from "../../firebase/db";
-import { doc, query, getDoc, setDoc, updateDoc, increment, orderBy, collection, getDocs } from "firebase/firestore";
+import {
+  doc,
+  query,
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment,
+  orderBy,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 // import Message from "./Message";
 import io from "socket.io-client";
@@ -72,7 +81,9 @@ export function MessagesBox() {
   const [joined, setJoined] = useState(true);
 
   const { currRoomId, currChatterInfo } = useContext(ChatContext);
+  // eslint-disable-next-line
   const [roomId, setRoomId] = currRoomId;
+  // eslint-disable-next-line
   const [chatterInfo, setchatterInfo] = currChatterInfo;
 
   const isMemberOf = async () => {
@@ -105,7 +116,10 @@ export function MessagesBox() {
 
     const querySnapshot = await getDocs(query(q, orderBy("timestamp", "asc")));
     querySnapshot.forEach((doc) => {
-      masterArr.push({ ...doc.data(), timestamp: doc.data().timestamp.toDate() });
+      masterArr.push({
+        ...doc.data(),
+        timestamp: doc.data().timestamp.toDate(),
+      });
     });
     return masterArr;
   };
@@ -120,11 +134,14 @@ export function MessagesBox() {
   }, [roomId]);
 
   const saveMessage = async (messageData) => {
-    await setDoc(doc(db, "rooms", roomId, "messages", messageData.msgId), messageData)
+    await setDoc(
+      doc(db, "rooms", roomId, "messages", messageData.msgId),
+      messageData
+    );
     await updateDoc(doc(db, "rooms", roomId), {
-      limit: increment(-1)
-    })
-  }
+      limit: increment(-1),
+    });
+  };
 
   const sendMessage = async () => {
     try {
@@ -135,7 +152,7 @@ export function MessagesBox() {
           uid: user.uid,
           author: user.displayName,
           message: currentMessage,
-          timestamp: new Date()
+          timestamp: new Date(),
         };
 
         socket.emit("send_message", messageData);
@@ -143,9 +160,8 @@ export function MessagesBox() {
         setCurrentMessage("");
         saveMessage(messageData);
       }
-    }
-    catch (err) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   };
 

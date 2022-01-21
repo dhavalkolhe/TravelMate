@@ -85,6 +85,8 @@ p {
 }
 
 .text__icon {
+  width: 35px;
+  height: 35px;
   border: none;
   background-color: #dfdff0 !important;
   cursor: pointer;

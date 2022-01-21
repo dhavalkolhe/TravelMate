@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import subDays from "date-fns/subDays";
+// import DatePicker from "react-datepicker";
+// import subDays from "date-fns/subDays";
 import "./AddRequest.css";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import addReqBg from "../../img/addReqBg.svg";
-import dateIcon from "../../img/dateIcon.svg";
+// import dateIcon from "../../img/dateIcon.svg";
 import { UserContext } from "../../context/userContext";
 import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
@@ -34,6 +34,7 @@ import {
   createFilterOptions,
   Autocomplete,
   TextField,
+  FormGroup,
 } from "@mui/material";
 
 // firebase
@@ -75,6 +76,7 @@ function AddRequest() {
     if (localData) {
       setDraftSaved(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [user] = useContext(UserContext);
@@ -83,16 +85,14 @@ function AddRequest() {
     draftData.destinationCity
   );
   const [date, setDate] = useState(new Date(draftData.date));
+  // eslint-disable-next-line
   const [time, setTime] = useState(draftData.time);
+  // eslint-disable-next-line
   const [mode, setMode] = useState(draftData.mode);
   const [gender, setGender] = useState(draftData.gender);
   const [nop, setNop] = useState(draftData.nop);
   const [description, setDescription] = useState(draftData.description);
   // eslint-disable-next-line
-  const [cities, setCities] = useState(city);
-  const [search, setSearch] = useState("");
-  const [displaySources, setDisplaySources] = useState(false);
-  const [displayDestinations, setDisplayDestinations] = useState(false);
 
   //Toast Function
   const notify = (type, message) => {
@@ -275,7 +275,7 @@ function AddRequest() {
                           {...params}
                           label="Enter Location"
                           //logic to update state when city is not in list
-                          onChange={(event, value) => {
+                          onChange={(event) => {
                             setCurrentCity(event.target.value);
                           }}
                           inputProps={{
@@ -334,7 +334,7 @@ function AddRequest() {
                           {...params}
                           label="Enter Location"
                           //logic to update state when city is not in list
-                          onChange={(event, value) => {
+                          onChange={(event) => {
                             setDestinationCity(event.target.value);
                           }}
                           inputProps={{
@@ -411,29 +411,34 @@ function AddRequest() {
                     />
                   </button>
                 </Stack>
-
-                <Stack direction="row" className="stack-item">
-                  <Typography className="textfieldHead">Description</Typography>
-                  <Box sx={{ width: "16rem" }} className="input-field ">
-                    <InputBase
-                      varient="standard"
-                      color="secondary"
-                      multiline={true}
-                      rows={3}
-                      fullWidth
-                      required
-                      sx={{
-                        backgroundColor: "white",
-                        fontSize: "1rem",
-                      }}
-                      value={description}
-                      onChange={(e) => {
-                        setDescription(e.target.value);
-                      }}
-                      className="description-field"
-                    ></InputBase>
-                  </Box>
-                </Stack>
+                <FormGroup>
+                  <Stack direction="row" className="stack-item">
+                    <Typography className="textfieldHead">
+                      Description
+                    </Typography>
+                    <Box sx={{ width: "16rem" }} className="input-field ">
+                      <FormControl>
+                        <InputBase
+                          varient="standard"
+                          color="secondary"
+                          multiline={true}
+                          rows={3}
+                          fullWidth
+                          required
+                          sx={{
+                            backgroundColor: "white",
+                            fontSize: "1rem",
+                          }}
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                          }}
+                          className="description-field"
+                        />
+                      </FormControl>
+                    </Box>
+                  </Stack>
+                </FormGroup>
               </FormControl>
 
               <Stack direction="row" className="btns-wrapper">

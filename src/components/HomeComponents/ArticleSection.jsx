@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { Box, Grid, Stack, Button, Card, Typography } from "@mui/material";
@@ -14,7 +14,7 @@ export function Article() {
         sx={{
           minWidth: "250px",
           maxWidth: "340px",
-          height: "180px",
+          // height: "180px",
           height: "100%",
           backgroundColor: "#DFDFF0",
         }}

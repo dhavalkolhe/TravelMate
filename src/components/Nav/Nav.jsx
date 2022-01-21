@@ -22,7 +22,6 @@ import {
   ListItemText,
   ButtonBase,
   Typography,
-  IconButton,
   Button,
 } from "@mui/material";
 // import CloseIcon from "@mui/icons-material/Close";
@@ -31,7 +30,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
-import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
+// import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";

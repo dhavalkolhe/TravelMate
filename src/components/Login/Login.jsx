@@ -85,15 +85,16 @@ function Login() {
         alert("Error signing out user : ", error.message);
       });
   };
+  // eslint-disable-next-line
   const [isVerfied, setIsVerified] = useState(false);
 
-  function login() {
-    if (isVerfied) {
-      signIn();
-    } else {
-      alert("Verify captcha first");
-    }
-  }
+  // function login() {
+  //   if (isVerfied) {
+  //     signIn();
+  //   } else {
+  //     alert("Verify captcha first");
+  //   }
+  // }
 
   function onloadCallback() {
     console.log("Captcha loaded successfully");

@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
-import locationIcon from "../../resources/icons/locationIcon.svg";
-import destinationIcon from "../../resources/icons/destinationIcon.svg";
+//import locationIcon from "../../resources/icons/locationIcon.svg";
+// import destinationIcon from "../../resources/icons/destinationIcon.svg";
 // import dateIcon from "../../resources/icons/dateIcon.svg";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { SearchContext } from "../../context/searchContext"
+import { SearchContext } from "../../context/searchContext";
 import city from "../../resources/states.json";
 
 import {
@@ -16,8 +16,6 @@ import {
   Typography,
   FormControl,
   TextField,
-  InputAdornment,
-  IconButton,
   createFilterOptions,
   Autocomplete,
 } from "@mui/material";
@@ -69,18 +67,15 @@ export function SearchBox() {
                 autoHighlight
                 disableClearable
                 freeSolo
-                getOptionLabel={
-                  (option) => option.name
-                    || search.currentCity
-                }
+                getOptionLabel={(option) => option.name || search.currentCity}
                 onChange={(event, value) => {
                   // console.log(value);
                   let selectedCity = value.name.concat(", ", value.state);
                   setSearch((prev) => {
                     return {
                       ...prev,
-                      currentCity: selectedCity
-                    }
+                      currentCity: selectedCity,
+                    };
                   });
                 }}
                 renderOption={(props, option) => (
@@ -102,13 +97,13 @@ export function SearchBox() {
                       setSearch((prev) => {
                         return {
                           ...prev,
-                          currentCity: event.target.value
-                        }
+                          currentCity: event.target.value,
+                        };
                       });
                     }}
                     inputProps={{
                       ...params.inputProps,
-                      autoComplete: "new-password",
+                      autoComplete: "off",
                       // startAdornment: (
                       //   <InputAdornment position="start">
                       //     <IconButton edge="start">
@@ -133,9 +128,8 @@ export function SearchBox() {
                 autoHighlight
                 disableClearable
                 freeSolo
-                getOptionLabel={
-                  (option) => option.name
-                    || search.destinationCity
+                getOptionLabel={(option) =>
+                  option.name || search.destinationCity
                 }
                 onChange={(event, value) => {
                   // console.log(value);
@@ -143,8 +137,8 @@ export function SearchBox() {
                   setSearch((prev) => {
                     return {
                       ...prev,
-                      destinationCity: selectedCity
-                    }
+                      destinationCity: selectedCity,
+                    };
                   });
                 }}
                 renderOption={(props, option) => (
@@ -166,13 +160,13 @@ export function SearchBox() {
                       setSearch((prev) => {
                         return {
                           ...prev,
-                          destinationCity: event.target.value
-                        }
+                          destinationCity: event.target.value,
+                        };
                       });
                     }}
                     inputProps={{
                       ...params.inputProps,
-                      autoComplete: "new-password",
+                      autoComplete: "off",
                       // startAdornment: (
                       //   <InputAdornment position="start">
                       //     <IconButton edge="start">
@@ -213,8 +207,8 @@ export function SearchBox() {
                   setSearch((prev) => {
                     return {
                       ...prev,
-                      date: newValue
-                    }
+                      date: newValue,
+                    };
                   });
                 }}
                 renderInput={(params) => (
@@ -226,15 +220,15 @@ export function SearchBox() {
                       width: "160px",
                       backgroundColor: "white",
                     }}
-                  // InputProps={{
-                  //   startAdornment: (
-                  //     <InputAdornment position="start">
-                  //       <IconButton edge="start">
-                  //         <img src={dateIcon} alt={"logo"} />
-                  //       </IconButton>
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
+                    // InputProps={{
+                    //   startAdornment: (
+                    //     <InputAdornment position="start">
+                    //       <IconButton edge="start">
+                    //         <img src={dateIcon} alt={"logo"} />
+                    //       </IconButton>
+                    //     </InputAdornment>
+                    //   ),
+                    // }}
                   />
                 )}
               />
