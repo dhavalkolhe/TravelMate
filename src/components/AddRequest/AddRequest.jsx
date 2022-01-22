@@ -244,9 +244,10 @@ function AddRequest() {
                     <img
                       src={currentLocationIcon}
                       alt="logo"
-                      className="date-icon"
+                      className="icons"
                     />
                     <Autocomplete
+                      className="location-input-field"
                       value={currentCity}
                       filterOptions={filterOptions}
                       id="country-select-demo"
@@ -273,7 +274,7 @@ function AddRequest() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Enter Location"
+                          // label="Enter Location"
                           //logic to update state when city is not in list
                           onChange={(event) => {
                             setCurrentCity(event.target.value);
@@ -301,9 +302,10 @@ function AddRequest() {
                     <img
                       src={destinationLocationIcon}
                       alt="logo"
-                      className="date-icon"
+                      className="icons"
                     />
                     <Autocomplete
+                      className="location-input-field"
                       filterOptions={filterOptions}
                       value={destinationCity}
                       id="country-select-demo"
@@ -332,7 +334,7 @@ function AddRequest() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Enter Location"
+                          //label="Enter Location"
                           //logic to update state when city is not in list
                           onChange={(event) => {
                             setDestinationCity(event.target.value);
@@ -351,7 +353,6 @@ function AddRequest() {
                         />
                       )}
                     />
-                    ``
                   </div>
                 </Stack>
 
