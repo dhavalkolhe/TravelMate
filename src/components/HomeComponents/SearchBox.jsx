@@ -185,7 +185,7 @@ export function SearchBox() {
                 )}
               />
             </Box>
-            <Box className="mr">
+            <Box className="mr b-rad">
               <Typography class="subtitle1">Date</Typography>
               {/* <TextField
                 size="small"
