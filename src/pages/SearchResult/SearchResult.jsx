@@ -231,7 +231,8 @@ function SearchResult() {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Enter Location"
+                        placeholder="Enter Location"
+                        // label="Enter Location"
                         //logic to update state when city is not in list
                         onChange={(event, value) => {
                           setCurrentCity(event.target.value);
@@ -282,7 +283,7 @@ function SearchResult() {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Enter Location"
+                        placeholder="Enter Location"
                         //logic to update state when city is not in list
                         onChange={(event, value) => {
                           setDestinationCity(event.target.value);

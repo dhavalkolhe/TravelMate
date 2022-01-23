@@ -131,7 +131,7 @@ const FilterResultsNav = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Enter Location"
+                  placeholder="Enter Location"
                   //logic to update state when city is not in list
                   onChange={(event, value) => {
                     setCurrentCity(event.target.value);
@@ -181,7 +181,7 @@ const FilterResultsNav = ({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Enter Location"
+                  placeholder="Enter Location"
                   //logic to update state when city is not in list
                   onChange={(event, value) => {
                     setDestinationCity(event.target.value);

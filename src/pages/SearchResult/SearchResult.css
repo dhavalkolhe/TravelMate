@@ -83,6 +83,21 @@ body {
 .filter-icon-container {
   display: none;
 }
+
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline:hover:focus {
+  border: none !important;
+}
+
+.css-17pvh7z-MuiAutocomplete-root
+  .MuiOutlinedInput-root
+  .MuiAutocomplete-input {
+  border-radius: 10px;
+}
+
+.css-17pvh7z-MuiAutocomplete-root .MuiOutlinedInput-root {
+  margin: 4px 0;
+}
 @media screen and (max-width: 575px) {
   .filter__results {
     display: none;

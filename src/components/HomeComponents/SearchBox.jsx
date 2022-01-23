@@ -56,8 +56,10 @@ export function SearchBox() {
             }}
             sx={{ flexWrap: "wrap" }}
           >
-            <Box>
-              <Typography class="subtitle1">Traveling from</Typography>
+            <Box className="location-container">
+              <Typography class="subtitle1 location-subtitle">
+                Traveling from
+              </Typography>
               <Autocomplete
                 value={search.currentCity}
                 filterOptions={filterOptions}
@@ -91,7 +93,8 @@ export function SearchBox() {
                   <TextField
                     size="small"
                     {...params}
-                    label="Enter Location"
+                    // label="Enter Location"
+                    placeholder="Enter Location"
                     //logic to update state when city is not in list
                     onChange={(event, value) => {
                       setSearch((prev) => {
@@ -117,8 +120,10 @@ export function SearchBox() {
               />
             </Box>
 
-            <Box>
-              <Typography class="subtitle1">Destination</Typography>
+            <Box className="location-container mr">
+              <Typography class="subtitle1 location-subtitle">
+                Destination
+              </Typography>
               <Autocomplete
                 value={search.destinationCity}
                 filterOptions={filterOptions}
@@ -154,7 +159,8 @@ export function SearchBox() {
                   <TextField
                     size="small"
                     {...params}
-                    label="Enter Location"
+                    placeholder="Enter Location"
+                    // label="Enter Location"
                     //logic to update state when city is not in list
                     onChange={(event, value) => {
                       setSearch((prev) => {
@@ -179,7 +185,7 @@ export function SearchBox() {
                 )}
               />
             </Box>
-            <Box>
+            <Box className="mr">
               <Typography class="subtitle1">Date</Typography>
               {/* <TextField
                 size="small"

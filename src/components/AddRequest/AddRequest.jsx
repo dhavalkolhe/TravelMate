@@ -274,6 +274,7 @@ function AddRequest() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          placeholder="Enter Location"
                           // label="Enter Location"
                           //logic to update state when city is not in list
                           onChange={(event) => {
@@ -281,7 +282,8 @@ function AddRequest() {
                           }}
                           inputProps={{
                             ...params.inputProps,
-                            autoComplete: "new-password",
+                            autoComplete: "off",
+                            // autoComplete: "new-password",
                             // startAdornment: (
                             //   <InputAdornment position="start">
                             //     <IconButton edge="start">
@@ -334,6 +336,7 @@ function AddRequest() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          placeholder="Enter Location"
                           //label="Enter Location"
                           //logic to update state when city is not in list
                           onChange={(event) => {
@@ -341,7 +344,8 @@ function AddRequest() {
                           }}
                           inputProps={{
                             ...params.inputProps,
-                            autoComplete: "new-password",
+                            autoComplete: "off",
+                            // autoComplete: "new-password",
                             // startAdornment: (
                             //   <InputAdornment position="start">
                             //     <IconButton edge="start">
