@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-// import DatePicker from "react-datepicker";
-// import subDays from "date-fns/subDays";
+import DatePicker from "react-datepicker";
+import subDays from "date-fns/subDays";
 import "./AddRequest.css";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import addReqBg from "../../img/addReqBg.svg";
-// import dateIcon from "../../img/dateIcon.svg";
+import dateIcon from "../../img/dateIcon.svg";
 import { UserContext } from "../../context/userContext";
 import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
@@ -361,10 +361,75 @@ function AddRequest() {
                 </Stack>
 
                 <Stack direction="row" className="stack-item">
+                  <Typography class="textfieldHead">Date</Typography>
+                  <div className="date-wrap">
+                    <img src={dateIcon} alt="logo" className="icons" />
+                    <DatePicker
+                      selected={date}
+                      onChange={(date) => {
+                        setDate(date);
+                      }}
+                      closeOnScroll={true}
+                      dateFormat="dd/MM/yyyy"
+                      minDate={subDays(new Date(), 0)}
+                      className="date-picker"
+                    />
+                  </div>
+                </Stack>
+
+                <Stack direction="row" className="stack-item">
+                  <Typography className="textfieldHead">Time</Typography>
+
+                  <Select
+                    id="demo-simple-select-helper"
+                    variant="standard"
+                    value={time}
+                    onChange={(time) => setTime(time.target.value)}
+                    sx={{
+                      width: "185px",
+                      backgroundColor: "white",
+                    }}
+                    className="input-field"
+                  >
+                    <MenuItem value="Any">
+                      <>Any</>
+                    </MenuItem>
+                    <MenuItem value="Morning">Morning</MenuItem>
+                    <MenuItem value="Afternoon">Afternoon</MenuItem>
+                    <MenuItem value="Evening">Evening</MenuItem>
+                    <MenuItem value="Night">Night</MenuItem>
+                  </Select>
+                </Stack>
+
+                <Stack direction="row" className="stack-item">
+                  <Typography className="textfieldHead">Mode</Typography>
+
+                  <Select
+                    id="demo-simple-select-helper"
+                    variant="standard"
+                    value={mode}
+                    onChange={(mode) => setMode(mode.target.value)}
+                    sx={{
+                      width: "185px",
+                      backgroundColor: "white",
+                    }}
+                    className="input-field"
+                  >
+                    <MenuItem value="Any">
+                      <>Any</>
+                    </MenuItem>
+                    <MenuItem value="Personal Car">Personal Car</MenuItem>
+                    <MenuItem value="Cab">Cab</MenuItem>
+                    <MenuItem value="Train">Train</MenuItem>
+                    <MenuItem value="Bus">Bus</MenuItem>
+                    <MenuItem value="Flight">Flight</MenuItem>
+                  </Select>
+                </Stack>
+
+                <Stack direction="row" className="stack-item">
                   <Typography className="textfieldHead">
                     Preffered Gender
                   </Typography>
-
                   <Select
                     id="demo-simple-select-helper"
                     variant="standard"

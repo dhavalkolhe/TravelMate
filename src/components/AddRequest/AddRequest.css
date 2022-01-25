@@ -212,7 +212,7 @@ p {
 @media screen and (max-width: 600px) {
   .wrapper-container {
     width: 19rem !important;
-    height: 490px;
+    height: 560px;
     margin-bottom: 2rem !important;
     float: none;
   }
@@ -281,7 +281,7 @@ p {
 @media screen and (min-width: 600px) and (max-width: 1024px) {
   .wrapper-container {
     width: 22rem !important;
-    height: 490px;
+    height: 560px;
     margin-left: 2rem !important;
     margin-bottom: 2rem !important;
     float: none;
@@ -338,7 +338,7 @@ p {
 @media screen and (min-width: 1024px) and (max-width: 1440px) {
   .wrapper-container {
     width: 25rem !important;
-    height: 490px;
+    height: 560px;
     margin-left: 6rem !important;
     margin-bottom: 2rem !important;
     float: none;
@@ -393,6 +393,9 @@ p {
 }
 
 @media screen and (min-width: 1440px) {
+  .wrapper-container {
+    height: 560px;
+  }
   .input-field {
     width: 62% !important;
     height: auto !important;
@@ -414,5 +417,8 @@ p {
     padding: 0.4rem;
     font-size: 0.9rem;
     border: none;
+  }
+  .css-1p5q5e5-MuiStack-root > :not(style) + :not(style) {
+    margin-top: 0 !important;
   }
 }
