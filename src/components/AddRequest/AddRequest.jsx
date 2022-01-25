@@ -215,6 +215,8 @@ function AddRequest() {
         setNop(1);
         setDescription("");
         setDate(new Date());
+        setMode(draftData.mode);
+        setTime(draftData.time);
       }
     } catch (e) {
       console.log("Error adding document: ", e);
