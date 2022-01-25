@@ -21,6 +21,8 @@ function Card({
   userId,
   gender,
   nop,
+  time,
+  mode,
   rideId,
 }) {
   const [user] = useContext(UserContext);
@@ -159,6 +161,8 @@ function Card({
           loading={loading}
           gender={gender}
           nop={nop}
+          time={time}
+          mode={mode}
         />
       ) : null}
 

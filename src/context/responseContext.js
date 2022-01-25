@@ -54,6 +54,8 @@ const ResponseContextProvider = (props) => {
             userId={doc.data().userId}
             gender={doc.data().gender}
             nop={doc.data().nop}
+            time={doc.data().time}
+            mode={doc.data().mode}
             rideId={doc.id}
           />
         );

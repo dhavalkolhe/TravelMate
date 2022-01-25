@@ -195,6 +195,7 @@ function AddRequest() {
         destinationCity,
         date,
         time,
+        mode,
         gender,
         nop,
         description,

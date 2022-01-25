@@ -42,6 +42,7 @@ p {
   overflow-y: auto;
   position: relative;
   z-index: 1;
+  margin-left: 0.8rem !important;
 }
 
 .pop-up-btn {
@@ -59,4 +60,9 @@ p {
   position: absolute;
   bottom: 0;
   z-index: 0;
+}
+
+.text_container {
+  margin-left: 0.8rem !important;
+  /* margin-bottom: 0.5rem !important;  */
 }
