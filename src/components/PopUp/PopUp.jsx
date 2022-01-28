@@ -39,6 +39,8 @@ const PopUp = ({
   disable,
   gender,
   nop,
+  time,
+  mode,
   sendRequest,
 }) => {
   return (
@@ -101,19 +103,31 @@ const PopUp = ({
         </DialogContentText>
         <DialogContentText
           id="alert-dialog-slide-description"
-          className="info_container"
+          className="info_container text_container"
+        >
+          <p>Time: {time}</p>
+        </DialogContentText>
+        <DialogContentText
+          id="alert-dialog-slide-description"
+          className="info_container text_container"
+        >
+          <p>Mode: {mode}</p>
+        </DialogContentText>
+        <DialogContentText
+          id="alert-dialog-slide-description"
+          className="info_container text_container"
         >
           <p>Preffered Gender: {gender}</p>
         </DialogContentText>
         <DialogContentText
           id="alert-dialog-slide-description"
-          className="info_container"
+          className="info_container text_container"
         >
           <p>No. of Passengers: {nop}</p>
         </DialogContentText>
         <DialogContentText
           id="alert-dialog-slide-description"
-          className="info_container"
+          className="info_container text_container"
         >
           <p>Description</p>
         </DialogContentText>

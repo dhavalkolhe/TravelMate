@@ -75,6 +75,7 @@ const DashboardContextProvider = (props) => {
 
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
+    console.log(rideId);
     return {
       currentCity: rideData.data().currentCity,
       destinationCity: rideData.data().destinationCity,
