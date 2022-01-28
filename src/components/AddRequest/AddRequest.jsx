@@ -1,11 +1,11 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import subDays from "date-fns/subDays";
+import React, { useContext, useState, useEffect } from "react";
+// import DatePicker from "react-datepicker";
+// import subDays from "date-fns/subDays";
 import "./AddRequest.css";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import addReqBg from "../../img/addReqBg.svg";
-import dateIcon from "../../img/dateIcon.svg";
+// import dateIcon from "../../img/dateIcon.svg";
 import { UserContext } from "../../context/userContext";
 import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
@@ -15,6 +15,11 @@ import { About, MadeBy } from "../AboutUs";
 import { Footer } from "../Footer/Footer";
 import { WebsiteInfo } from "../../components/HomeComponents";
 import city from "../../resources/states.json";
+
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import Toast from "../Toast/Toast";
+import { toast } from "react-toastify";
 
 import {
   Box,
@@ -26,6 +31,10 @@ import {
   Select,
   MenuItem,
   InputBase,
+  createFilterOptions,
+  Autocomplete,
+  TextField,
+  FormGroup,
 } from "@mui/material";
 
 // firebase
@@ -46,7 +55,7 @@ function AddRequest() {
   const [draftSaved, setDraftSaved] = useState(false);
   const [authorized, setAuthorized] = useState(true);
 
-  let draftData;
+  let draftData = {};
   const localData = localStorage.getItem("TravelmateRideDrafts");
   if (localData) {
     draftData = JSON.parse(localData);
@@ -63,20 +72,32 @@ function AddRequest() {
     };
   }
 
-  const [user] = useContext(UserContext);
-  const [currentCity, setCurrentCity] = useState("");
-  const [destinationCity, setDestinationCity] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState("Any");
-  const [mode, setMode] = useState("Any");
-  const [gender, setGender] = useState("Any");
-  const [nop, setNop] = useState(1);
-  const [description, setDescription] = useState("");
+  useEffect(() => {
+    if (localData) {
+      setDraftSaved(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const [cities, setCities] = useState(city);
-  const [search, setSearch] = useState("");
-  const [displaySources, setDisplaySources] = useState(false);
-  const [displayDestinations, setDisplayDestinations] = useState(false);
+  const [user] = useContext(UserContext);
+  const [currentCity, setCurrentCity] = useState(draftData.currentCity);
+  const [destinationCity, setDestinationCity] = useState(
+    draftData.destinationCity
+  );
+  const [date, setDate] = useState(new Date(draftData.date));
+  // eslint-disable-next-line
+  const [time, setTime] = useState(draftData.time);
+  // eslint-disable-next-line
+  const [mode, setMode] = useState(draftData.mode);
+  const [gender, setGender] = useState(draftData.gender);
+  const [nop, setNop] = useState(draftData.nop);
+  const [description, setDescription] = useState(draftData.description);
+  // eslint-disable-next-line
+
+  //Toast Function
+  const notify = (type, message) => {
+    toast[type](message);
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -123,6 +144,7 @@ function AddRequest() {
     }
     setDraftSaved(!draftSaved);
   };
+
   const updateUserRides1 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid, "rides", rideId);
     await setDoc(userRideRef, {
@@ -136,51 +158,73 @@ function AddRequest() {
       rides: arrayUnion(rideId),
     });
   };
-  const addRequest = async (e) => {
-    e.preventDefault();
+
+  // Confirm Popup
+  const confirmSubmit = () => {
     if (formValidation()) {
-      if (window.confirm("Do yo want to continue?")) {
-        setDate(date.setHours(0, 0, 0, 0));
-        try {
-          let docref = await addDoc(collection(db, "rides"), {
-            currentCity,
-            destinationCity,
-            date,
-            time,
-            gender,
-            nop,
-            description,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            userId: user.uid,
-          });
+      confirmAlert({
+        message: "Do you want to continue?",
+        buttons: [
+          {
+            label: "Yes",
+            className: "yesButton",
+            onClick: () => {
+              addRequest();
+            },
+          },
+          {
+            label: "No",
+            className: "noButton",
+            //onClick: () => alert("Cancelled"),
+          },
+        ],
+      });
+    } else {
+      //alert("Please enter all the fields!");
+      notify("warning", "Enter Required Fields");
+    }
+  };
 
-          updateUserRides1(docref.id);
-          updateUserRides2(docref.id);
-          alert("Document written");
+  //////////////////////////////
+  const addRequest = async () => {
+    if (!draftSaved) setDate(date.setHours(0, 0, 0, 0));
 
-          setDate(new Date());
-        } catch (e) {
-          console.log("Error adding document: ", e);
-        }
+    try {
+      let docref = await addDoc(collection(db, "rides"), {
+        currentCity,
+        destinationCity,
+        date,
+        time,
+        gender,
+        nop,
+        description,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        userId: user.uid,
+      });
+
+      updateUserRides1(docref.id);
+      updateUserRides2(docref.id);
+      notify("success", "Request Added");
+
+      if (!draftSaved) {
+        setCurrentCity("");
+        setDestinationCity("");
+        setGender("Any");
+        setNop(1);
+        setDescription("");
+        setDate(new Date());
       }
-    } else {
-      alert("Please enter all the fields!");
+    } catch (e) {
+      console.log("Error adding document: ", e);
+      notify("error", "Request Addition Failed");
     }
   };
 
-  const handlelocationSelect = (type, v, v1) => {
-    const selectedCity = v.concat(", ", v1);
-    if (type == "source") {
-      setCurrentCity(selectedCity);
-      setDisplaySources(false);
-      setSearch("");
-    } else {
-      setDestinationCity(selectedCity);
-      setDisplayDestinations(false);
-      setSearch("");
-    }
-  };
+  const OPTIONS_LIMIT = 3;
+  const filterOptions = createFilterOptions({
+    limit: OPTIONS_LIMIT,
+  });
 
   return (
     <Box>
@@ -200,48 +244,58 @@ function AddRequest() {
                     <img
                       src={currentLocationIcon}
                       alt="logo"
-                      className="date-icon"
+                      className="icons"
                     />
-                    <input
-                      placeholder="Location"
-                      onClick={() => setDisplaySources(!displaySources)}
+                    <Autocomplete
                       className="location-input-field"
                       value={currentCity}
-                      onChange={(e) => {
-                        setCurrentCity(e.target.value);
-                        setSearch(e.target.value);
+                      filterOptions={filterOptions}
+                      id="country-select-demo"
+                      sx={{ width: "100%" }}
+                      options={city}
+                      autoHighlight
+                      disableClearable
+                      freeSolo
+                      getOptionLabel={(option) => option.name || currentCity}
+                      onChange={(event, value) => {
+                        // console.log(value);
+                        let selectedCity = value.name.concat(", ", value.state);
+                        setCurrentCity(selectedCity);
                       }}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          {option.name}, {option.state}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Enter Location"
+                          // label="Enter Location"
+                          //logic to update state when city is not in list
+                          onChange={(event) => {
+                            setCurrentCity(event.target.value);
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "off",
+                            // autoComplete: "new-password",
+                            // startAdornment: (
+                            //   <InputAdornment position="start">
+                            //     <IconButton edge="start">
+                            //       <img src={currentLocationIcon} alt={"logo"} />
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                        />
+                      )}
                     />
                   </div>
-                  {displaySources && search ? (
-                    <div className="dataResult-source">
-                      {cities
-                        .filter((value) =>
-                          value.name
-                            .toLowerCase()
-                            .includes(search.toLowerCase())
-                        )
-                        .map((value, key) => {
-                          return (
-                            <div
-                              className="dataItem"
-                              key={value.id}
-                              onClick={() =>
-                                handlelocationSelect(
-                                  "source",
-                                  value.name,
-                                  value.state
-                                )
-                              }
-                            >
-                              <span className="no-text-wrap">
-                                {value.name}, {value.state}
-                              </span>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  ) : null}
                 </Stack>
 
                 <Stack direction="row" className="stack-item">
@@ -250,65 +304,58 @@ function AddRequest() {
                     <img
                       src={destinationLocationIcon}
                       alt="logo"
-                      className="date-icon"
+                      className="icons"
                     />
-                    <input
-                      placeholder="Location"
-                      onClick={() =>
-                        setDisplayDestinations(!displayDestinations)
-                      }
+                    <Autocomplete
                       className="location-input-field"
+                      filterOptions={filterOptions}
                       value={destinationCity}
-                      onChange={(e) => {
-                        setDestinationCity(e.target.value);
-                        setSearch(e.target.value);
+                      id="country-select-demo"
+                      sx={{ width: "100%" }}
+                      options={city}
+                      autoHighlight
+                      disableClearable
+                      freeSolo
+                      getOptionLabel={(option) =>
+                        option.name || destinationCity
+                      }
+                      onChange={(event, value) => {
+                        // console.log(value);
+                        let selectedCity = value.name.concat(", ", value.state);
+                        setDestinationCity(selectedCity);
                       }}
-                    />
-                  </div>
-                  {displayDestinations && search ? (
-                    <div className="dataResult-destination">
-                      {cities
-                        .filter((value) =>
-                          value.name
-                            .toLowerCase()
-                            .includes(search.toLowerCase())
-                        )
-                        .map((value, key) => {
-                          return (
-                            <div
-                              className="dataItem"
-                              key={value.id}
-                              onClick={() =>
-                                handlelocationSelect(
-                                  "destination",
-                                  value.name,
-                                  value.state
-                                )
-                              }
-                            >
-                              <span className="no-text-wrap">
-                                {value.name}, {value.state}
-                              </span>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  ) : null}
-                </Stack>
-
-                <Stack direction="row" className="stack-item">
-                  <Typography class="textfieldHead">Date</Typography>
-                  <div className="date-wrap">
-                    <img src={dateIcon} alt="logo" className="date-icon" />
-                    <DatePicker
-                      selected={date}
-                      onChange={(date) => {
-                        setDate(date);
-                      }}
-                      closeOnScroll={true}
-                      dateFormat="dd/MM/yyyy"
-                      minDate={subDays(new Date(), 0)}
-                      className="date-picker"
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          {option.name}, {option.state}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Enter Location"
+                          //label="Enter Location"
+                          //logic to update state when city is not in list
+                          onChange={(event) => {
+                            setDestinationCity(event.target.value);
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "off",
+                            // autoComplete: "new-password",
+                            // startAdornment: (
+                            //   <InputAdornment position="start">
+                            //     <IconButton edge="start">
+                            //       <img src={currentLocationIcon} alt={"logo"} />
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                        />
+                      )}
                     />
                   </div>
                 </Stack>
@@ -369,37 +416,42 @@ function AddRequest() {
                     />
                   </button>
                 </Stack>
-
-                <Stack direction="row" className="stack-item">
-                  <Typography className="textfieldHead">Description</Typography>
-                  <Box sx={{ width: "16rem" }} className="input-field ">
-                    <InputBase
-                      varient="standard"
-                      color="secondary"
-                      multiline={true}
-                      rows={3}
-                      fullWidth
-                      required
-                      sx={{
-                        backgroundColor: "white",
-                        fontSize: "1rem",
-                      }}
-                      value={description}
-                      onChange={(e) => {
-                        setDescription(e.target.value);
-                      }}
-                      className="description-field"
-                    ></InputBase>
-                  </Box>
-                </Stack>
+                <FormGroup>
+                  <Stack direction="row" className="stack-item">
+                    <Typography className="textfieldHead">
+                      Description
+                    </Typography>
+                    <Box sx={{ width: "16rem" }} className="input-field ">
+                      <FormControl>
+                        <InputBase
+                          varient="standard"
+                          color="secondary"
+                          multiline={true}
+                          rows={3}
+                          fullWidth
+                          required
+                          sx={{
+                            backgroundColor: "white",
+                            fontSize: "1rem",
+                          }}
+                          value={description}
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                          }}
+                          className="description-field"
+                        />
+                      </FormControl>
+                    </Box>
+                  </Stack>
+                </FormGroup>
               </FormControl>
 
               <Stack direction="row" className="btns-wrapper">
-                <Button onClick={addRequest} className="add-req-btn">
+                <Button onClick={confirmSubmit} className="add-req-btn">
                   Add Request
                 </Button>
                 <Button onClick={makeDraft} className="draft-btn">
-                  Draft
+                  {draftSaved ? "Clear Draft " : "Draft"}
                 </Button>
               </Stack>
             </Stack>
@@ -434,6 +486,7 @@ function AddRequest() {
       ) : (
         <h1>Please log in first!</h1>
       )}
+      <Toast />
     </Box>
   );
 }

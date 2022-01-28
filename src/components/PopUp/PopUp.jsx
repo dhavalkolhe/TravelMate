@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Zoom from "@mui/material/Zoom";
-import Loader from "../../components/Loader/Loader";
+// import Loader from "../../components/Loader/Loader";
 import wave from "../../img/popupWave.svg";
 import userIcon from "../../img/user.svg";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
@@ -128,7 +128,7 @@ const PopUp = ({
         id="alert-dialog-slide-description"
         className="wave-container"
       >
-        <img src={wave} className="wave-img" />
+        <img src={wave} alt="img" className="wave-img" />
         <DialogActions>
           <div className="send__container">
             <button

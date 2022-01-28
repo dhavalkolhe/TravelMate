@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
 import { SearchBox } from "./SearchBox";
@@ -8,14 +8,9 @@ import {
   Box,
   Container,
   Grid,
-  Stack,
   Button,
-  Card,
   Typography,
   Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from "@mui/material";
 
 import illustation1 from "../../resources/images/illustration1.svg";

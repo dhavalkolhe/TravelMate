@@ -58,7 +58,7 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  border: 5px solid white;
+  /* border: 5px solid white; */
   position: relative;
   overflow: hidden;
 }
@@ -88,6 +88,9 @@
   letter-spacing: 1px;
 }
 
+.noActiveText {
+  margin-left: 1rem;
+}
 /* media queries for illustration svg */
 @media screen and (max-width: 1530px) {
   .activeOffersContainer {

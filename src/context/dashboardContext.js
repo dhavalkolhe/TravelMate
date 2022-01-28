@@ -14,12 +14,11 @@ const DashboardContextProvider = (props) => {
   const [activeOffers, setActiveOffers] = useState([]);
   const [user] = useContext(UserContext);
 
-  let uid;
-
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        uid = user.uid;
+        // const uid = user.uid;
+        console.log("Authorised");
       } else {
         console.log("Not Authorised");
       }
@@ -33,6 +32,7 @@ const DashboardContextProvider = (props) => {
     return () => {
       unsub();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchData = () => {

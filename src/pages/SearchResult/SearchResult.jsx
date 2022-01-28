@@ -1,25 +1,38 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./SearchResult.css";
 import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import SearchBox from "../../components/SearchBox/SearchBox";
-import currentLocationIcon from "../../img/currentLocationIcon.svg";
-import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
+// import SearchBox from "../../components/SearchBox/SearchBox";
+// import currentLocationIcon from "../../img/currentLocationIcon.svg";
+// import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import { Nav } from "../../components/Nav/Nav";
+import { SearchContext } from "../../context/searchContext";
 
 import { ResponseContext } from "../../context/responseContext";
 
-import { Box, Container } from "@mui/material";
+import city from "../../resources/states.json";
+
+import {
+  Box,
+  Container,
+  Autocomplete,
+  TextField,
+  createFilterOptions,
+} from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
 
 function SearchResult() {
-  const { responseContext, scrollContext, scrollResponseContext } =
-    useContext(ResponseContext);
+  // eslint-disable-next-line
+  const [search, setSearch] = useContext(SearchContext);
+  const {
+    responseContext,
+    //scrollContext, scrollResponseContext
+  } = useContext(ResponseContext);
   const [response] = responseContext;
-  const [scroll, setScroll] = scrollContext;
-  const [scrollResponse, setScrollResponse] = scrollResponseContext;
+  // const [scroll, setScroll] = scrollContext;
+  // const [scrollResponse, setScrollResponse] = scrollResponseContext;
   const [currentCity, setCurrentCity] = useState("");
   const [destinationCity, setDestinationCity] = useState("");
   const [gender, setGender] = useState("Any");
@@ -30,30 +43,22 @@ function SearchResult() {
 
   //+++
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line
   const [skeletonCount, setSkeletonCount] = useState(6);
   const [filteredResponse, setFilteredResponse] = useState();
   const [showFilterNav, setShowFilterNav] = useState(false);
-
-  //scroll detection and managing single request on bottom scroll hit
-  const listInnerRef = useRef();
-  const onScroll = () => {
-    if (!scrollResponse) {
-      if (listInnerRef.current) {
-        const { scrollTop, scrollHeight, clientHeight, scrollBottom } =
-          listInnerRef.current;
-        if (scrollHeight - scrollTop - clientHeight < 1) {
-          console.log("reached bottom");
-          setScroll(!scroll);
-          setScrollResponse(true);
-        }
-      }
-    }
-  };
 
   const handleFilterClick = () => {
     console.log("clicked");
     setShowFilterNav(true);
   };
+  useEffect(() => {
+    setCurrentCity(search.currentCity);
+    setDestinationCity(search.destinationCity);
+    setStartDate(search.startDate);
+    setEndDate(search.endDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   //loading
   useEffect(() => {
@@ -79,17 +84,28 @@ function SearchResult() {
     );
 
     if (currentCity !== "" && x.length) {
-      y = x.filter((response) =>
-        response.props.currentCity.includes(currentCity)
-      );
+      if (z.length === 0)
+        y = x.filter((response) =>
+          response.props.currentCity.includes(currentCity)
+        );
+      else
+        y = z.filter((response) =>
+          response.props.currentCity.includes(currentCity)
+        );
     } else {
       y = [];
     }
 
     if (destinationCity !== "" && y.length) {
-      z = y.filter((response) =>
-        response.props.destinationCity.includes(destinationCity)
-      );
+      if (y.length === 0) {
+        z = x.filter((response) =>
+          response.props.destinationCity.includes(destinationCity)
+        );
+      } else {
+        z = y.filter((response) =>
+          response.props.destinationCity.includes(destinationCity)
+        );
+      }
     } else {
       z = [];
     }
@@ -119,6 +135,11 @@ function SearchResult() {
     // eslint-disable-next-line
   }, [startDate, endDate, currentCity, destinationCity, gender]);
 
+  const OPTIONS_LIMIT = 3;
+  const filterOptions = createFilterOptions({
+    limit: OPTIONS_LIMIT,
+  });
+
   return (
     <Box>
       <Container maxwidth="lg">
@@ -131,7 +152,8 @@ function SearchResult() {
                 sx={{ fontSize: 20 }}
                 className="filter-icon"
                 onClick={() => handleFilterClick()}
-              /><span className="filter-text">Filter</span>
+              />
+              <span className="filter-text">Filter</span>
             </span>
           </h2>
           <div className="container">
@@ -182,21 +204,103 @@ function SearchResult() {
                 <h1 className="tertiary__title">Location</h1>
                 <div className="row">
                   From
-                  <SearchBox
-                    imgSrc={currentLocationIcon}
-                    inputName="currentLocation"
-                    selectedCity={currentCity}
-                    setSelectedCity={setCurrentCity}
+                  <Autocomplete
+                    value={currentCity}
+                    filterOptions={filterOptions}
+                    id="country-select-demo"
+                    sx={{ width: "140px" }}
+                    options={city}
+                    autoHighlight
+                    disableClearable
+                    freeSolo
+                    getOptionLabel={(option) => option.name || currentCity}
+                    onChange={(event, value) => {
+                      // console.log(value);
+                      let selectedCity = value.name.concat(", ", value.state);
+                      setCurrentCity(selectedCity);
+                    }}
+                    renderOption={(props, option) => (
+                      <Box
+                        component="li"
+                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                        {...props}
+                      >
+                        {option.name}, {option.state}
+                      </Box>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Enter Location"
+                        // label="Enter Location"
+                        //logic to update state when city is not in list
+                        onChange={(event, value) => {
+                          setCurrentCity(event.target.value);
+                        }}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "off",
+
+                          // startAdornment: (
+                          //   <InputAdornment position="start">
+                          //     <IconButton edge="start">
+                          //       <img src={currentLocationIcon} alt={"logo"} />
+                          //     </IconButton>
+                          //   </InputAdornment>
+                          // ),
+                        }}
+                      />
+                    )}
                   />
                 </div>
 
                 <div className="row">
                   To
-                  <SearchBox
-                    imgSrc={destinationLocationIcon}
-                    inputName="destinationCity"
-                    selectedCity={destinationCity}
-                    setSelectedCity={setDestinationCity}
+                  <Autocomplete
+                    filterOptions={filterOptions}
+                    value={destinationCity}
+                    id="country-select-demo"
+                    sx={{ width: "140px" }}
+                    options={city}
+                    autoHighlight
+                    disableClearable
+                    freeSolo
+                    getOptionLabel={(option) => option.name || destinationCity}
+                    onChange={(event, value) => {
+                      // console.log(value);
+                      let selectedCity = value.name.concat(", ", value.state);
+                      setDestinationCity(selectedCity);
+                    }}
+                    renderOption={(props, option) => (
+                      <Box
+                        component="li"
+                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                        {...props}
+                      >
+                        {option.name}, {option.state}
+                      </Box>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        placeholder="Enter Location"
+                        //logic to update state when city is not in list
+                        onChange={(event, value) => {
+                          setDestinationCity(event.target.value);
+                        }}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "off",
+                          // startAdornment: (
+                          //   <InputAdornment position="start">
+                          //     <IconButton edge="start">
+                          //       <img src={currentLocationIcon} alt={"logo"} />
+                          //     </IconButton>
+                          //   </InputAdornment>
+                          // ),
+                        }}
+                      />
+                    )}
                   />
                 </div>
               </div>
@@ -219,7 +323,7 @@ function SearchResult() {
                 </div>
               </div>
             </div>
-            <div onScroll={onScroll} ref={listInnerRef} className="results">
+            <div className="results">
               {loading ? (
                 <SkeletonLoader skeletonCount={skeletonCount} />
               ) : (

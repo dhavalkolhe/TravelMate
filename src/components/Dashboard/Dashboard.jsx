@@ -14,6 +14,7 @@ const auth = getAuth();
 function Dashboard() {
   const activeOffers = useContext(DashboardContext);
 
+  // eslint-disable-next-line
   const [user] = useContext(UserContext);
   const [authorized, setAuthorized] = useState(true);
   const [displayName, setDisplayName] = useState("");
@@ -23,18 +24,18 @@ function Dashboard() {
   useEffect(() => {
     let unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAuthorized(true)
+        setAuthorized(true);
         setDisplayName(user.displayName);
         setEmail(user.email);
         setPhotoURL(user.photoURL);
       } else {
-        setAuthorized(false)
+        setAuthorized(false);
       }
     });
     return () => {
       unsub();
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <Box>
@@ -61,14 +62,16 @@ function Dashboard() {
           </div>
           <div className="activeOffersContainer">
             <span className="active-text">Active Offers</span>
-            <div className="activeOffersCards">{activeOffers}</div>
+            {activeOffers.length === 0 ? (
+              <span className="noActiveText">No active Offers</span>
+            ) : (
+              <div className="activeOffersCards">{activeOffers}</div>
+            )}
           </div>
         </div>
-
-      )
-      }
+      )}
     </Box>
-  )
+  );
 }
 
 export default Dashboard;
