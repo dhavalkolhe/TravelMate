@@ -133,25 +133,13 @@ export const Conversations = () => {
     }
   }, [roomsData]);
 
-  const searchBox = useRef(null);
-  const [searchValue, setsearchValue] = useState(searchBox.value);
-
-  useEffect(() => {
-    console.log(searchValue);
-  }, [searchbox.value]);
-
   return (
     <Grid container direction={"column"} columns={22} className="Convcontainer">
       <Grid item xs={1}>
         <Typography variant="h6">Conversations</Typography>
       </Grid>
       <Grid item xs={1}>
-        <OutlinedInput
-          placeholder="Search"
-          sx={{ width: "100%" }}
-          ref={() => searchBox}
-          onChange={(evt) => updateSearchInput(evt)}
-        />
+        <OutlinedInput placeholder="Search" sx={{ width: "100%" }} />
       </Grid>
       <Grid item sx={{ borderTop: "1px solid #313131", marginTop: "10px" }}>
         {roomLoading ? (

@@ -4,7 +4,7 @@ import Loader from "../../components/Loader/Loader";
 import NotificationCard from "./NotificationCard";
 
 //mui
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 
 export const Notification = () => {
   const { noti, load } = useContext(NotificationContext);
@@ -24,16 +24,19 @@ export const Notification = () => {
 
       const x = pendingReq.map((notification, i) => {
         return (
-          <NotificationCard
-            key={i}
-            currentCity={notification.currentCity}
-            destinationCity={notification.destinationCity}
-            displayName={notification.displayName}
-            photoURL={notification.photoURL}
-            reqId={notification.reqId}
-            requestorId={notification.requestorId}
-            rideId={notification.rideId}
-          />
+          <>
+            <NotificationCard
+              key={i}
+              currentCity={notification.currentCity}
+              destinationCity={notification.destinationCity}
+              displayName={notification.displayName}
+              photoURL={notification.photoURL}
+              reqId={notification.reqId}
+              requestorId={notification.requestorId}
+              rideId={notification.rideId}
+            />
+            <Divider />
+          </>
         );
       });
 
