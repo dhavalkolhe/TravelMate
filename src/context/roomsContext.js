@@ -2,13 +2,7 @@ import React, { useEffect, useState, useContext, createContext } from "react";
 import { UserContext } from "./userContext";
 
 import { db } from "../firebase/db";
-import {
-  doc,
-  onSnapshot,
-  getDoc,
-  arrayRemove,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, onSnapshot, getDoc } from "firebase/firestore";
 
 export const RoomsContext = createContext();
 
@@ -76,10 +70,6 @@ const RoomsContextProvider = (props) => {
               setRoomData((prev) => [...prev, masterObj]);
             });
         });
-    } else {
-      await updateDoc(doc(db, "users", user.uid), {
-        rooms: arrayRemove(roomId),
-      });
     }
   };
 
@@ -94,11 +84,13 @@ const RoomsContextProvider = (props) => {
 
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
-    return {
-      rideId,
-      currentCity: rideData.data().currentCity,
-      destinationCity: rideData.data().destinationCity,
-    };
+    if (rideData.exists()) {
+      return {
+        rideId,
+        currentCity: rideData.data().currentCity,
+        destinationCity: rideData.data().destinationCity,
+      };
+    }
   };
 
   return (

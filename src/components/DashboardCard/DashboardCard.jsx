@@ -40,9 +40,16 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
 
   const delRooms = async (roomId) => {
     try {
+      const roomSnap = await getDoc(doc(db, "rooms", roomId));
+      if (roomSnap.data().members.length > 0)
+        roomSnap.data().members.forEach(async (uid) => {
+          await updateDoc(doc(db, "users", uid), {
+            rooms: arrayRemove(roomId),
+          });
+        })
+
       const snapshot = await getDocs(collection(db, "rooms", roomId, "messages"));
       snapshot.forEach(async (msg) => {
-        console.log(msg.id);
         await deleteDoc(doc(db, "rooms", roomId, "messages", msg.id));
       })
       await deleteDoc(doc(db, "rooms", roomId));
