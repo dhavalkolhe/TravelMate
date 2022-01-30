@@ -9,6 +9,7 @@ import {
   updateDoc,
   arrayRemove,
   getDoc,
+  getDocs, collection
 } from "firebase/firestore";
 import { UserContext } from "../../context/userContext";
 import Toast from "../Toast/Toast";
@@ -39,6 +40,11 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
 
   const delRooms = async (roomId) => {
     try {
+      const snapshot = await getDocs(collection(db, "rooms", roomId, "messages"));
+      snapshot.forEach(async (msg) => {
+        console.log(msg.id);
+        await deleteDoc(doc(db, "rooms", roomId, "messages", msg.id));
+      })
       await deleteDoc(doc(db, "rooms", roomId));
       console.log("deleted room from room db");
     } catch (error) {
@@ -84,7 +90,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
       .then(() => {
         console.log("deleted ride collection from user db");
         toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1500 });
-        
+
       })
       .catch((err) => {
         catchError(err);

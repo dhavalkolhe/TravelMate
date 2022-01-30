@@ -88,7 +88,7 @@ export function MessagesBox() {
 
   const isMemberOf = async () => {
     const roomData = await getDoc(doc(db, "rooms", roomId));
-    return roomData.data().members.includes(user.uid);
+    return roomData.data()?.members.includes(user.uid);
   };
 
   useEffect(() => {
