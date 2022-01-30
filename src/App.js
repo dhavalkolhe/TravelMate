@@ -89,7 +89,7 @@ function App() {
                         </ResponseContextProvider>
                       </Route>
 
-                      <Route exact path="/user/notifications">
+                      <Route exact path="/notifications">
                         <Notification />
                       </Route>
 
@@ -101,7 +101,6 @@ function App() {
 
                       <Route exact path="/chat">
                         <RoomsContextProvider>
-                          {/* <ChatList /> */}
                           <ChatPage />
                         </RoomsContextProvider>
                       </Route>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import "./chatComponenets.css";
 
 import {
@@ -12,6 +12,7 @@ import {
 
 import { RoomsContext } from "../../context/roomsContext";
 import { ChatContext } from "../../context/chatContext";
+import { WindowContext } from "../../context";
 
 import Loader from "../../components/Loader/Loader";
 
@@ -49,7 +50,7 @@ const Person = ({ displayName, photoURL, roomId, handleRoomChange }) => {
             />
             <Typography variant={"string"}>{displayName}</Typography>
           </Grid>
-          <Grid
+          {/* <Grid
             item
             sx={{
               height: "32px",
@@ -63,7 +64,7 @@ const Person = ({ displayName, photoURL, roomId, handleRoomChange }) => {
             }}
           >
             2
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </div>
@@ -78,11 +79,14 @@ export const Conversations = () => {
   const [cardData, setCardData] = useState([]);
   const [chatsCount, setChatsCount] = useState(0);
 
+  const { width, height } = useContext(WindowContext);
+
   const { currRoomId, currChatterInfo, messageBoxInfo } =
     useContext(ChatContext);
   const [roomId, setRoomId] = currRoomId;
   const [chatterInfo, setchatterInfo] = currChatterInfo;
   const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
+  const [messageBoxOpenActive, setMessageBoxOpenActive] = useState(false);
 
   const handleRoomChange = (roomId, displayName, photoURL) => {
     setRoomId(roomId);
@@ -90,8 +94,22 @@ export const Conversations = () => {
       displayName: displayName,
       photoURL: photoURL,
     });
-    setMessageBoxOpen(true);
+    setMessageBoxOpenActive(true);
   };
+
+  useEffect(() => {
+    if (width < 900 && messageBoxOpenActive) {
+      setMessageBoxOpen(true);
+    }
+    if (!messageBoxOpen) {
+      setMessageBoxOpenActive(false);
+    }
+    return () => {
+      if (width < 900 && messageBoxOpenActive) {
+        setMessageBoxOpen(true);
+      }
+    };
+  }, [messageBoxOpenActive, messageBoxOpen]);
 
   useEffect(() => {
     if (roomsData.length) {
@@ -115,19 +133,31 @@ export const Conversations = () => {
     }
   }, [roomsData]);
 
+  const searchBox = useRef(null);
+  const [searchValue, setsearchValue] = useState(searchBox.value);
+
+  useEffect(() => {
+    console.log(searchValue);
+  }, [searchbox.value]);
+
   return (
     <Grid container direction={"column"} columns={22} className="Convcontainer">
       <Grid item xs={1}>
         <Typography variant="h6">Conversations</Typography>
       </Grid>
       <Grid item xs={1}>
-        <OutlinedInput placeholder="Search" sx={{ width: "100%" }} />
+        <OutlinedInput
+          placeholder="Search"
+          sx={{ width: "100%" }}
+          ref={() => searchBox}
+          onChange={(evt) => updateSearchInput(evt)}
+        />
       </Grid>
       <Grid item sx={{ borderTop: "1px solid #313131", marginTop: "10px" }}>
         {roomLoading ? (
           <Loader />
         ) : (
-          <div>{chatsCount ? cardData : <p>No Chats!</p>}</div>
+          <>{chatsCount ? cardData : <p>No Chats!</p>}</>
         )}
       </Grid>
     </Grid>

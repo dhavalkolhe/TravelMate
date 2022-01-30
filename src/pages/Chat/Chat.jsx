@@ -75,6 +75,8 @@ export function ChatPage() {
             width: "100vw",
             backgroundColor: "white",
             zIndex: "5",
+            padding: "10px",
+            margin: "0px",
           }}
         >
           <MessagesBox />

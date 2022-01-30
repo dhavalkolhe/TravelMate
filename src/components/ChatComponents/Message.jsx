@@ -46,6 +46,8 @@ function MessageOut({ messageContent }) {
             backgroundColor: "#D1D1E9",
             padding: "10px 20px",
             borderRadius: "20px 20px 0px 20px",
+            marginBottom: "0.5rem",
+            maxWidth: "40%",
           }}
         >
           <Typography>{messageContent}</Typography>
@@ -65,6 +67,7 @@ function MessageIn({ messageContent }) {
             backgroundColor: "#E5E5F3",
             padding: "10px 20px",
             borderRadius: "20px 20px 20px 0px",
+            marginBottom: "0.5rem",
           }}
         >
           <Typography>{messageContent}</Typography>
@@ -240,6 +243,9 @@ export function MessagesBox() {
             direction="column-reverse"
             sx={{
               height: "100%",
+              overflowX: "hidden",
+              overflowY: "scroll",
+              flexWrap: "nowrap",
             }}
           >
             {messageList
@@ -272,7 +278,7 @@ export function MessagesBox() {
             alignItems="center"
             direction="row"
           >
-            <Avatar sx={{ width: 42, height: 42 }} />
+            {/* <Avatar sx={{ width: 42, height: 42 }} /> */}
 
             <OutlinedInput
               placeholder="Type your message here"
@@ -285,6 +291,7 @@ export function MessagesBox() {
               onKeyPress={(event) => {
                 event.key === "Enter" && sendMessage();
               }}
+              autoFocus={true}
             />
 
             <IconButton

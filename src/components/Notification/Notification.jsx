@@ -3,7 +3,8 @@ import { NotificationContext } from "../../context/notificationContext";
 import Loader from "../../components/Loader/Loader";
 import NotificationCard from "./NotificationCard";
 
-//List, ListItem
+//mui
+import { Box } from "@mui/material";
 
 export const Notification = () => {
   const { noti, load } = useContext(NotificationContext);
@@ -48,14 +49,14 @@ export const Notification = () => {
   // }, [cardData])
 
   return (
-    <div>
+    <Box sx={{ padding: "10px" }}>
       {/* Notifications: {notificationCount} */}
       {loading ? (
         <Loader />
       ) : (
-        <div>{notificationCount ? cardData : <p>No Notifications!</p>}</div>
+        <Box>{notificationCount ? cardData : <p>No Notifications!</p>}</Box>
       )}
       {/* {loading && <Loader />} */}
-    </div>
+    </Box>
   );
 };
