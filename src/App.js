@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Components
-import Login from "./components/Login/Login";
+import { Login } from "./components/Login";
 import AddRequest from "./components/AddRequest/AddRequest";
 
 // Contexts
+import { LoginContextProvider, WindowContextProvider } from "./context";
 import UserContextProvider from "./context/userContext";
 import ResponseContextProvider from "./context/responseContext";
 import NotificationContextProvider from "./context/notificationContext";
@@ -22,7 +23,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 // Pages
 import { Home } from "./pages/Home";
-import Notification from "./components/Notification/Notification";
+import { Notification } from "./components/Notification";
 // import { ChatPage } from "./pages/Chat";
 import ChatList from "./components/ChatDemo/ChatList";
 import Chat from "./components/ChatDemo/Chat";
@@ -34,70 +35,97 @@ import { ChatPage } from "./pages/Chat";
 //Test
 // import { SearchBox } from "./components/HomeComponents";
 
+//mui
+import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+
+export const Navigation = () => {
+  const [value, setValue] = useState(0);
+
+  return (
+    <Box sx={{ width: "100vw" }}>
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      >
+        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Add Request" icon={<AddCircleIcon />} />
+        <BottomNavigationAction
+          label="Notifications"
+          icon={<NotificationsIcon />}
+        />
+      </BottomNavigation>
+    </Box>
+  );
+};
+
 function App() {
   return (
-    <UserContextProvider>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <ChatContextProvider>
-          <ResponseContextProvider>
-            <SearchContextProvider>
-              <Router>
-                <Switch>
-                  <Route path="/login">
-                    <Login />
-                  </Route>
+    <WindowContextProvider>
+      <UserContextProvider>
+        <SearchContextProvider>
+          <LoginContextProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <ChatContextProvider>
+                <NotificationContextProvider>
+                  <Router>
+                    <Switch>
+                      <Route path="/login">
+                        <Login />
+                      </Route>
 
-                  <Route exact path="/addRequest">
-                    <AddRequest />
-                  </Route>
+                      <Route exact path="/addRequest">
+                        <AddRequest />
+                      </Route>
 
-                  <Route exact path="/search">
-                    <SearchResult />
-                  </Route>
+                      <Route exact path="/search">
+                        <ResponseContextProvider>
+                          <SearchResult />
+                        </ResponseContextProvider>
+                      </Route>
 
-                  <Route exact path="/user/notifications">
-                    <NotificationContextProvider>
-                      <Notification />
-                    </NotificationContextProvider>
-                  </Route>
+                      <Route exact path="/notifications">
+                        <Notification />
+                      </Route>
 
-                  {/* <Route exact path="/chat">
-                  <ChatPage />
-                </Route>
-            */}
+                      <Route exact path="/dashboard">
+                        <DashboardContextProvider>
+                          <Dashboard />
+                        </DashboardContextProvider>
+                      </Route>
 
-                  <Route exact path="/dashboard">
-                    <DashboardContextProvider>
-                      <Dashboard />
-                    </DashboardContextProvider>
-                  </Route>
+                      <Route exact path="/chat">
+                        <RoomsContextProvider>
+                          <ChatPage />
+                        </RoomsContextProvider>
+                      </Route>
 
-                  <Route exact path="/chat">
-                    <RoomsContextProvider>
-                      {/* <ChatList /> */}
-                      <ChatPage />
-                    </RoomsContextProvider>
-                  </Route>
+                      <Route exact path="/chatlist">
+                        <ChatList />
+                      </Route>
 
-                  <Route exact path="/chatlist">
-                    <ChatList />
-                  </Route>
+                      <Route exact path="/chat/:roomId">
+                        <ChatList />
+                        <Chat />
+                      </Route>
 
-                  <Route exact path="/chat/:roomId">
-                    <ChatList />
-                    <Chat />
-                  </Route>
-
-                  <Route exact path="/">
-                    <Home />
-                  </Route>
-                </Switch>
-              </Router>
-            </SearchContextProvider>
-          </ResponseContextProvider>
-        </ChatContextProvider>
-      </LocalizationProvider>
-    </UserContextProvider>
+                      <Route exact path="/">
+                        <Home />
+                      </Route>
+                    </Switch>
+                  </Router>
+                </NotificationContextProvider>
+              </ChatContextProvider>
+            </LocalizationProvider>
+          </LoginContextProvider>
+        </SearchContextProvider>
+      </UserContextProvider>
+    </WindowContextProvider>
   );
 }
 

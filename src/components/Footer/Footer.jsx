@@ -1,13 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 /* MUI */
 import { Box, Stack, Typography } from "@mui/material";
 
 import vitrendzLogo from "../../resources/images/vitrendzLogo.png";
 import travelMateFullLogo from "../../resources/images/travelMateFullLogo.svg";
-import "./Footer.css";
 
 export function Footer() {
+  const NavLink = ({ title, srcLink }) => {
+    return (
+      <>
+        <Typography variant={"body1"} component={Link} to={"/" + srcLink}>
+          {title}
+        </Typography>
+      </>
+    );
+  };
+
   return (
     <>
       <Box
@@ -17,43 +27,49 @@ export function Footer() {
           marginTop: "4rem",
           padding: "4rem 6rem",
         }}
-        className="main-con"
       >
         <Stack
           direction="row"
           sx={{ display: "flex", justifyContent: "space-between" }}
-          className="footer-container"
         >
           <Stack
-            direction="row"
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "60%",
+            direction={{
+              xs: "column",
+              md: "row",
             }}
-            className="logo-section"
+            spacing={2}
+            justifyContent="space-between"
+            sx={{
+              width: {
+                xs: "100%",
+                sm: "60%",
+              },
+              alignItems: {
+                xs: "center",
+                sm: "flex-start",
+              },
+            }}
           >
-            <Box className="vitrendzLogo">
+            <Box width="200px">
               <img src={vitrendzLogo} alt="VITrendz" />
             </Box>
 
-            <Box className="travelMateFullLogo">
+            <Box width="200px">
               <img src={travelMateFullLogo} alt="Travel Mate" />
             </Box>
           </Stack>
-          <Stack direction="column" className="links-section">
-            <a href="/">
-              <Typography className="footer-links">Home</Typography>
-            </a>
-            <a href="/about">
-              <Typography className="footer-links">About</Typography>
-            </a>
-            <a href="/dashboard">
-              <Typography className="footer-links">Dashboard</Typography>
-            </a>
-            <a href="/addRequest">
-              <Typography className="footer-links">Add Request</Typography>
-            </a>
+
+          <Stack
+            direction="column"
+            spacing={2}
+            sx={{
+              display: { xs: "none", sm: "flex" },
+            }}
+          >
+            <NavLink title={"Home"} srcLink={"/Home"} />
+            <NavLink title={"About"} srcLink={"/#about"} />
+            <NavLink title={"Dashboard"} srcLink={"/dashboard"} />
+            <NavLink title={"Add Request"} srcLink={"/addrequest"} />
           </Stack>
         </Stack>
       </Box>
@@ -61,13 +77,13 @@ export function Footer() {
       <Box
         sx={{
           backgroundColor: "#A7ACCE",
-          height: "40px",
+          height: "35px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Typography sx={{ color: "#001963" }} variant="subtitle2">
+        <Typography sx={{ color: "#001963" }} variant="caption">
           All Rights Reserved © 2021
         </Typography>
       </Box>

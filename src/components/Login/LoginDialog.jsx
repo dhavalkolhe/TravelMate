@@ -2,13 +2,13 @@ import React from "react";
 
 import { Dialog } from "@mui/material";
 
-import { LoginCard } from "./";
+import { Login } from "./";
 
-export function LoginDialog() {
+export function LoginDialog({ loginDialogOpen, handleLoginDialogClose }) {
   return (
     <>
-      <Dialog>
-        <LoginCard />
+      <Dialog open={loginDialogOpen} onClose={handleLoginDialogClose}>
+        <Login />
       </Dialog>
     </>
   );

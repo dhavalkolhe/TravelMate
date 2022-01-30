@@ -22,7 +22,7 @@ const NotificationContextProvider = (props) => {
       }, 2000);
     }
     return () => {
-      unsub();
+      // unsub();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

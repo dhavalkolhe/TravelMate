@@ -15,10 +15,14 @@ import {
 import { db } from "../../firebase/db";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 
+//mui + UI
+import { Box, Stack, Card, Button, Typography } from "@mui/material";
+import googleLogo from "../../resources/icons/googleLogo.svg";
+
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
-function Login() {
+export const Login = () => {
   const [user, setUser] = useContext(UserContext);
 
   const addUser = async (displayName, photoURL, uid) => {
@@ -27,7 +31,7 @@ function Login() {
         displayName,
         photoURL,
         rooms: [],
-        rides: []
+        rides: [],
       });
     } catch (e) {
       console.error("Error adding user: ", e);
@@ -104,24 +108,37 @@ function Login() {
     setIsVerified(true);
   }
 
-  return user.authorized ? (
-    <div>
-      <img src={user.photoURL} alt="user-img" />
-      <br />
-      <button onClick={logOut}>Logout</button>
-    </div>
-  ) : (
-    <div>
-      <Recaptcha
-        sitekey={process.env.REACT_APP_SITE_KEY}
-        render="explicit"
-        onloadCallback={onloadCallback}
-        verifyCallback={verifyCallback}
-        theme="dark"
-      />
-      <button onClick={signIn}>Login with Google</button>
-    </div>
+  return (
+    <Card
+      sx={{
+        minWidth: "315px",
+        maxWidth: "540px",
+        minHeight: "315px",
+        padding: "1rem",
+      }}
+    >
+      <Stack
+        direction="column"
+        flexWrap="nowrap"
+        alignItems="center"
+        spacing={2}
+      >
+        <Box sx={{ width: "64px", height: "64px" }}>
+          <img src={googleLogo} alt="Google" />
+        </Box>
+        <Typography variant="h5">Sign In</Typography>
+        <Recaptcha
+          sitekey={process.env.REACT_APP_SITE_KEY}
+          render="explicit"
+          onloadCallback={onloadCallback}
+          verifyCallback={verifyCallback}
+        />
+        <Stack width="100%" alignItems="flex-end">
+          <Button variant="contained" onClick={signIn}>
+            Sign In
+          </Button>
+        </Stack>
+      </Stack>
+    </Card>
   );
-}
-
-export default Login;
+};

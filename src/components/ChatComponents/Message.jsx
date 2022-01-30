@@ -12,7 +12,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 
-import { ChatContext } from "../../context/chatContext";
+import { ChatContext } from "../../context";
 import { UserContext } from "../../context/userContext";
 
 import { db } from "../../firebase/db";
@@ -46,6 +46,8 @@ function MessageOut({ messageContent }) {
             backgroundColor: "#D1D1E9",
             padding: "10px 20px",
             borderRadius: "20px 20px 0px 20px",
+            marginBottom: "0.5rem",
+            maxWidth: "40%",
           }}
         >
           <Typography>{messageContent}</Typography>
@@ -65,6 +67,7 @@ function MessageIn({ messageContent }) {
             backgroundColor: "#E5E5F3",
             padding: "10px 20px",
             borderRadius: "20px 20px 20px 0px",
+            marginBottom: "0.5rem",
           }}
         >
           <Typography>{messageContent}</Typography>
@@ -172,6 +175,13 @@ export function MessagesBox() {
     //eslint-disable-next-line
   }, [socket]);
 
+  const { messageBoxInfo } = useContext(ChatContext);
+  const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
+
+  function handleMessageBoxOpen() {
+    setMessageBoxOpen(false);
+  }
+
   return (
     <>
       {!joined ? (
@@ -219,7 +229,7 @@ export function MessagesBox() {
                   {chatterInfo.displayName}
                 </Typography>
               </Stack>
-              <IconButton>
+              <IconButton onClick={handleMessageBoxOpen}>
                 <CloseIcon fontSize="large" />
               </IconButton>
             </Stack>
@@ -233,6 +243,9 @@ export function MessagesBox() {
             direction="column-reverse"
             sx={{
               height: "100%",
+              overflowX: "hidden",
+              overflowY: "scroll",
+              flexWrap: "nowrap",
             }}
           >
             {messageList
@@ -259,48 +272,41 @@ export function MessagesBox() {
               })}
           </Grid>
 
-          <Grid
-            item
-            container
+          <Stack
             spacing={1}
-            xs={1}
             className="messageInput"
             alignItems="center"
+            direction="row"
           >
-            <Grid item xs={0.5}>
-              <Avatar sx={{ width: 42, height: 42 }} />
-            </Grid>
+            {/* <Avatar sx={{ width: 42, height: 42 }} /> */}
 
-            <Grid item xs>
-              <OutlinedInput
-                placeholder="Type your message here"
-                sx={{ width: "100%" }}
-                type="text"
-                value={currentMessage}
-                onChange={(event) => {
-                  setCurrentMessage(event.target.value);
-                }}
-                onKeyPress={(event) => {
-                  event.key === "Enter" && sendMessage();
-                }}
-              />
-            </Grid>
+            <OutlinedInput
+              placeholder="Type your message here"
+              sx={{ width: "100%" }}
+              type="text"
+              value={currentMessage}
+              onChange={(event) => {
+                setCurrentMessage(event.target.value);
+              }}
+              onKeyPress={(event) => {
+                event.key === "Enter" && sendMessage();
+              }}
+              autoFocus={true}
+            />
 
-            <Grid item xs={0.5}>
-              <IconButton
-                fontSize="large"
-                sx={{
-                  backgroundColor: "#001963",
-                  "&:hover": {
-                    backgroundColor: "#103193",
-                  },
-                }}
-                onClick={sendMessage}
-              >
-                <SendIcon sx={{ color: "white" }} />
-              </IconButton>
-            </Grid>
-          </Grid>
+            <IconButton
+              fontSize="large"
+              sx={{
+                backgroundColor: "#001963",
+                "&:hover": {
+                  backgroundColor: "#103193",
+                },
+              }}
+              onClick={sendMessage}
+            >
+              <SendIcon sx={{ color: "white" }} />
+            </IconButton>
+          </Stack>
         </Grid>
       )}
     </>
