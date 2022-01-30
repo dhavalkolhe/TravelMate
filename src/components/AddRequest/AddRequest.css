@@ -95,6 +95,7 @@ p {
 }
 
 .description-field {
+  width: 270px !important;
   height: 8rem !important;
   border-radius: 0.2rem;
 }
@@ -120,55 +121,16 @@ p {
   align-items: center;
   width: 62%;
 }
-
-.css-1b19uim-MuiInputBase-root-MuiInput-root:before {
-  border-bottom: none !important;
+.pd-l {
+  padding-left: 2.8rem;
 }
-
-.css-1b19uim-MuiInputBase-root-MuiInput-root {
-  padding-left: 1rem !important;
-}
-
-.css-1b19uim-MuiInputBase-root-MuiInput-root:after {
-  border-bottom: none !important;
-}
-
-/* Global */
-.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
-  position: relative !important;
-  height: 32px !important;
-  border: none !important;
-}
-
-.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
-  /* background-color: #fff; */
-  border: none !important;
-}
-
-.css-1d3z3hw-MuiOutlinedInput-notchedOutline:hover:focus {
-  border: none !important;
-}
-/* /// */
-/* target-input-autocomplete  page specific*/
-.css-dd2h8b-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
-  position: absolute !important;
-  padding-left: none !important;
-  height: auto !important;
-  width: 13.5vw !important;
-  /* border: 1px solid red !important; */
-}
-.css-dd2h8b-MuiAutocomplete-root .MuiOutlinedInput-root {
-  padding: 9px 0px !important;
-}
-
-/* description box fix */
-.css-1nrlq1o-MuiFormControl-root {
-  width: 100%;
-}
-/* ////////// */
 
 .no-text-wrap {
   white-space: nowrap;
+}
+
+.css-1p5q5e5-MuiStack-root > :not(style) + :not(style) {
+  margin-top: 2rem !important;
 }
 
 /*Confirm alert popUp*/
@@ -225,9 +187,6 @@ p {
     width: 50% !important;
     height: auto !important;
   }
-  .location-input-field {
-    height: 32px !important;
-  }
   .location-wrap {
     width: 50%;
   }
@@ -235,6 +194,7 @@ p {
     width: 70px;
   }
   .description-field {
+    width: 132px !important;
     height: 5rem !important;
     border-radius: 0.2rem;
   }
@@ -254,27 +214,12 @@ p {
     font-size: 0.9rem;
     border: none;
   }
-  .dataResult-source {
-    margin-left: 41.4%;
-    margin-top: 8.4rem;
-    width: 48.5%;
-  }
-  .dataResult-destination {
-    margin-left: 41.4%;
-    margin-top: 8.4rem;
-    width: 48.5%;
-  }
   .dataItem {
     font-size: 0.9rem;
     padding-left: 1.5rem;
   }
   .react-confirm-alert-body {
     max-width: 300px;
-  }
-  .css-dd2h8b-MuiAutocomplete-root
-    .MuiOutlinedInput-root
-    .MuiAutocomplete-input {
-    width: 70px !important;
   }
 }
 
@@ -299,9 +244,6 @@ p {
     width: 60% !important;
     height: auto !important;
   }
-  .location-input-field {
-    height: 32px !important;
-  }
   .location-wrap {
     width: 60%;
   }
@@ -309,6 +251,7 @@ p {
     width: 110px;
   }
   .description-field {
+    width: 175px !important;
     height: 5rem !important;
     border-radius: 0.2rem;
   }
@@ -327,11 +270,6 @@ p {
     margin-left: 36.8%;
     margin-top: 8.4rem;
     width: 58.5%;
-  }
-  .css-dd2h8b-MuiAutocomplete-root
-    .MuiOutlinedInput-root
-    .MuiAutocomplete-input {
-    width: 115px !important;
   }
 }
 
@@ -356,9 +294,6 @@ p {
     width: 60% !important;
     height: auto !important;
   }
-  .location-input-field {
-    height: 32px !important;
-  }
   .location-wrap {
     width: 60%;
   }
@@ -366,6 +301,7 @@ p {
     width: 140px;
   }
   .description-field {
+    width: 206px !important;
     height: 5rem !important;
     border-radius: 0.2rem;
   }
@@ -385,11 +321,6 @@ p {
     margin-top: 8.4rem;
     width: 59%;
   }
-  .css-dd2h8b-MuiAutocomplete-root
-    .MuiOutlinedInput-root
-    .MuiAutocomplete-input {
-    width: 145px !important;
-  }
 }
 
 @media screen and (min-width: 1440px) {
@@ -401,9 +332,6 @@ p {
     height: auto !important;
   }
 
-  .location-input-field {
-    height: 32px !important;
-  }
   .num-input {
     width: 200px;
   }
@@ -417,8 +345,5 @@ p {
     padding: 0.4rem;
     font-size: 0.9rem;
     border: none;
-  }
-  .css-1p5q5e5-MuiStack-root > :not(style) + :not(style) {
-    margin-top: 0 !important;
   }
 }

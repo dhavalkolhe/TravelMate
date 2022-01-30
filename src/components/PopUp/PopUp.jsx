@@ -113,12 +113,12 @@ const PopUp = ({
         >
           <p>Mode: {mode}</p>
         </DialogContentText>
-        <DialogContentText
+        {/* <DialogContentText
           id="alert-dialog-slide-description"
           className="info_container text_container"
         >
           <p>Preffered Gender: {gender}</p>
-        </DialogContentText>
+        </DialogContentText> */}
         <DialogContentText
           id="alert-dialog-slide-description"
           className="info_container text_container"

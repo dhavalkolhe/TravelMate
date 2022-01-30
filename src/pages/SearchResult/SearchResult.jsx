@@ -13,6 +13,8 @@ import { ResponseContext } from "../../context/responseContext";
 
 import city from "../../resources/states.json";
 
+import { makeStyles } from "@material-ui/core/styles";
+
 import {
   Box,
   Container,
@@ -35,7 +37,8 @@ function SearchResult() {
   // const [scrollResponse, setScrollResponse] = scrollResponseContext;
   const [currentCity, setCurrentCity] = useState("");
   const [destinationCity, setDestinationCity] = useState("");
-  const [gender, setGender] = useState("Any");
+  const [time, setTime] = useState("Any");
+  const [mode, setMode] = useState("Any");
   const [startDate, setStartDate] = useState(new Date().setHours(0, 0, 0, 0));
   const [endDate, setEndDate] = useState(
     new Date(new Date().setMonth(new Date().getMonth() + 6))
@@ -76,6 +79,7 @@ function SearchResult() {
     let y = [];
     let z = [];
     let g = [];
+    let h = [];
 
     x = response.filter(
       (response) =>
@@ -110,19 +114,35 @@ function SearchResult() {
       z = [];
     }
 
-    if (gender && gender !== "Any") {
+    if (time && time !== "Any") {
       if (z.length) {
-        g = z.filter((response) => response.props.gender === gender);
+        g = z.filter((response) => response.props.time === time);
       } else if (y.length) {
-        g = y.filter((response) => response.props.gender === gender);
+        g = y.filter((response) => response.props.time === time);
       } else if (x.length) {
-        g = x.filter((response) => response.props.gender === gender);
+        g = x.filter((response) => response.props.time === time);
       }
     } else {
       g = [];
     }
 
-    g.length
+    if (mode && mode !== "Any") {
+      if (g.length) {
+        h = g.filter((response) => response.props.mode === mode);
+      } else if (z.length) {
+        h = z.filter((response) => response.props.mode === mode);
+      } else if (y.length) {
+        h = y.filter((response) => response.props.mode === mode);
+      } else if (x.length) {
+        h = x.filter((response) => response.props.mode === mode);
+      }
+    } else {
+      h = [];
+    }
+
+    h.length
+      ? setFilteredResponse(h)
+      : g.length
       ? setFilteredResponse(g)
       : z.length
       ? setFilteredResponse(z)
@@ -133,12 +153,48 @@ function SearchResult() {
       : setFilteredResponse([]);
 
     // eslint-disable-next-line
-  }, [startDate, endDate, currentCity, destinationCity, gender]);
+  }, [startDate, endDate, currentCity, destinationCity, time, mode]);
 
   const OPTIONS_LIMIT = 3;
   const filterOptions = createFilterOptions({
     limit: OPTIONS_LIMIT,
   });
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
+        // Default transform is "translate(14px, 20px) scale(1)""
+        // This lines up the label with the initial cursor position in the input
+        // after changing its padding-left.
+        transform: "translate(34px, 20px) scale(1);",
+      },
+    },
+    inputRoot: {
+      '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
+        // Default left padding is 6px
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+      '&[class*="MuiOutlinedInput-root"]': {
+        // Default left padding is 6px
+
+        backgroundColor: "white",
+      },
+
+      "& .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+    },
+  }));
+
+  const classes = useStyles();
 
   return (
     <Box>
@@ -167,8 +223,10 @@ function SearchResult() {
                 setCurrentCity={setCurrentCity}
                 destinationCity={destinationCity}
                 setDestinationCity={setDestinationCity}
-                gender={gender}
-                setGender={setGender}
+                time={time}
+                setTime={setTime}
+                mode={mode}
+                setMode={setMode}
                 showFilterNav={showFilterNav}
                 setShowFilterNav={setShowFilterNav}
               />
@@ -203,8 +261,9 @@ function SearchResult() {
               <div>
                 <h1 className="tertiary__title">Location</h1>
                 <div className="row">
-                  From
+                  <span className="pd-r">From</span>
                   <Autocomplete
+                    classes={classes}
                     value={currentCity}
                     filterOptions={filterOptions}
                     id="country-select-demo"
@@ -255,8 +314,9 @@ function SearchResult() {
                 </div>
 
                 <div className="row">
-                  To
+                  <span className="pd-r">To</span>
                   <Autocomplete
+                    classes={classes}
                     filterOptions={filterOptions}
                     value={destinationCity}
                     id="country-select-demo"
@@ -305,20 +365,41 @@ function SearchResult() {
                 </div>
               </div>
 
-              <div>
-                <h1 className="tertiary__title">Preferred Gender</h1>
+              <div className="bottom-con">
+                <h1 className="tertiary__title pd-b ">Time</h1>
                 <div className="row">
                   <select
-                    name="gender"
+                    name="time"
                     required
-                    defaultValue={gender}
-                    onChange={(gender) => setGender(gender.target.value)}
+                    defaultValue={time}
+                    onChange={(time) => setTime(time.target.value)}
                     className="input"
                   >
                     <option value="Any">Any</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                    <option value="Evening">Evening</option>
+                    <option value="Night">Night</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="bottom-con">
+                <h1 className="tertiary__title pd-b ">Mode</h1>
+                <div className="row">
+                  <select
+                    name="mode"
+                    required
+                    defaultValue={mode}
+                    onChange={(mode) => setMode(mode.target.value)}
+                    className="input"
+                  >
+                    <option value="Any">Any</option>
+                    <option value="Personal Car">Personal Car</option>
+                    <option value="Cab">Cab</option>
+                    <option value="Train">Train</option>
+                    <option value="Bus">Bus</option>
+                    <option value="Flight">Flight</option>
                   </select>
                 </div>
               </div>
