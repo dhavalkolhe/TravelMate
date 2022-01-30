@@ -11,6 +11,8 @@ import "./FilterResultsNav.css";
 
 import city from "../../resources/states.json";
 
+import { makeStyles } from "@material-ui/core/styles";
+
 import {
   Box,
   Autocomplete,
@@ -27,38 +29,53 @@ const FilterResultsNav = ({
   setCurrentCity,
   destinationCity,
   setDestinationCity,
-  gender,
-  setGender,
   showFilterNav,
+  time,
+  setTime,
+  mode,
+  setMode,
   setShowFilterNav,
 }) => {
-  // const filterRef = useRef(null);
-
-  // useEffect(() => {
-  //   const checkIfClickedOutside = (e) => {
-  //     // If the menu is open and the clicked target is not within the menu,
-  //     // then close the menu
-  //     if (
-  //       showFilterNav &&
-  //       filterRef.current &&
-  //       !filterRef.current.contains(e.target)
-  //     ) {
-  //       setShowFilterNav(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", checkIfClickedOutside);
-
-  //   return () => {
-  //     // Cleanup the event listener
-  //     document.removeEventListener("mousedown", checkIfClickedOutside);
-  //   };
-  // }, [showFilterNav]);
-
   const OPTIONS_LIMIT = 3;
   const filterOptions = createFilterOptions({
     limit: OPTIONS_LIMIT,
   });
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
+        // Default transform is "translate(14px, 20px) scale(1)""
+        // This lines up the label with the initial cursor position in the input
+        // after changing its padding-left.
+        transform: "translate(34px, 20px) scale(1);",
+      },
+    },
+    inputRoot: {
+      '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
+        // Default left padding is 6px
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+      '&[class*="MuiOutlinedInput-root"]': {
+        // Default left padding is 6px
+
+        backgroundColor: "white",
+      },
+
+      "& .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+    },
+  }));
+
+  const classes = useStyles();
 
   return (
     <div className="overlay">
@@ -103,8 +120,9 @@ const FilterResultsNav = ({
         <div>
           <h1 className="tertiary__title">Location</h1>
           <div className="row">
-            From
+            <span className="pd-r">From</span>
             <Autocomplete
+              classes={classes}
               value={currentCity}
               filterOptions={filterOptions}
               id="country-select-demo"
@@ -132,6 +150,7 @@ const FilterResultsNav = ({
                 <TextField
                   {...params}
                   placeholder="Enter Location"
+                  // label="Enter Location"
                   //logic to update state when city is not in list
                   onChange={(event, value) => {
                     setCurrentCity(event.target.value);
@@ -139,6 +158,7 @@ const FilterResultsNav = ({
                   inputProps={{
                     ...params.inputProps,
                     autoComplete: "off",
+
                     // startAdornment: (
                     //   <InputAdornment position="start">
                     //     <IconButton edge="start">
@@ -153,10 +173,11 @@ const FilterResultsNav = ({
           </div>
 
           <div className="row">
-            To
+            <span className="pd-r">To</span>
             <Autocomplete
-              value={destinationCity}
+              classes={classes}
               filterOptions={filterOptions}
+              value={destinationCity}
               id="country-select-demo"
               sx={{ width: "140px" }}
               options={city}
@@ -200,24 +221,44 @@ const FilterResultsNav = ({
                 />
               )}
             />
-            ;
           </div>
         </div>
 
         <div>
-          <h1 className="tertiary__title">Preferred Gender</h1>
+          <h1 className="tertiary__title">Time</h1>
           <div className="row">
             <select
-              name="gender"
+              name="time"
               required
-              defaultValue={gender}
-              onChange={(gender) => setGender(gender.target.value)}
+              defaultValue={time}
+              onChange={(time) => setTime(time.target.value)}
               className="input"
             >
               <option value="Any">Any</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="Morning">Morning</option>
+              <option value="Afternoon">Afternoon</option>
+              <option value="Evening">Evening</option>
+              <option value="Night">Night</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <h1 className="tertiary__title">Mode</h1>
+          <div className="row">
+            <select
+              name="mode"
+              required
+              defaultValue={mode}
+              onChange={(mode) => setMode(mode.target.value)}
+              className="input"
+            >
+              <option value="Any">Any</option>
+              <option value="Personal Car">Personal Car</option>
+              <option value="Cab">Cab</option>
+              <option value="Train">Train</option>
+              <option value="Bus">Bus</option>
+              <option value="Flight">Flight</option>
             </select>
           </div>
         </div>

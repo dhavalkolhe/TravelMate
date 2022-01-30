@@ -21,6 +21,8 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
+import { makeStyles } from "@material-ui/core/styles";
+
 import {
   Box,
   Container,
@@ -185,6 +187,36 @@ function AddRequest() {
     }
   };
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
+        // Default transform is "translate(14px, 20px) scale(1)""
+        // This lines up the label with the initial cursor position in the input
+        // after changing its padding-left.
+        transform: "translate(34px, 20px) scale(1);",
+      },
+    },
+    inputRoot: {
+      '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
+        // Default left padding is 6px
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+      "& .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+      },
+    },
+  }));
+
+  const classes = useStyles();
+
   //////////////////////////////
   const addRequest = async () => {
     if (!draftSaved) setDate(date.setHours(0, 0, 0, 0));
@@ -241,7 +273,11 @@ function AddRequest() {
             <Typography className="title">Add Request</Typography>
             <Stack spacing={2}>
               <FormControl>
-                <Stack direction="row" className="stack-item">
+                <Stack
+                  sx={{ flexWrap: "nowrap" }}
+                  direction="row"
+                  className="stack-item"
+                >
                   <Typography class="textfieldHead">Traveling from</Typography>
                   <div className="location-wrap">
                     <img
@@ -250,7 +286,8 @@ function AddRequest() {
                       className="icons"
                     />
                     <Autocomplete
-                      className="location-input-field"
+                      // className="location-input-field"
+                      classes={classes}
                       value={currentCity}
                       filterOptions={filterOptions}
                       id="country-select-demo"
@@ -301,7 +338,11 @@ function AddRequest() {
                   </div>
                 </Stack>
 
-                <Stack direction="row" className="stack-item">
+                <Stack
+                  sx={{ flexWrap: "nowrap" }}
+                  direction="row"
+                  className="stack-item"
+                >
                   <Typography class="textfieldHead">Destination</Typography>
                   <div className="location-wrap">
                     <img
@@ -310,7 +351,8 @@ function AddRequest() {
                       className="icons"
                     />
                     <Autocomplete
-                      className="location-input-field"
+                      // className="location-input-field"
+                      classes={classes}
                       filterOptions={filterOptions}
                       value={destinationCity}
                       id="country-select-demo"
@@ -363,7 +405,11 @@ function AddRequest() {
                   </div>
                 </Stack>
 
-                <Stack direction="row" className="stack-item">
+                <Stack
+                  sx={{ flexWrap: "nowrap" }}
+                  direction="row"
+                  className="stack-item"
+                >
                   <Typography class="textfieldHead">Date</Typography>
                   <div className="date-wrap">
                     <img src={dateIcon} alt="logo" className="icons" />
@@ -380,7 +426,11 @@ function AddRequest() {
                   </div>
                 </Stack>
 
-                <Stack direction="row" className="stack-item">
+                <Stack
+                  sx={{ flexWrap: "nowrap" }}
+                  direction="row"
+                  className="stack-item"
+                >
                   <Typography className="textfieldHead">Time</Typography>
 
                   <Select
@@ -392,7 +442,8 @@ function AddRequest() {
                       width: "185px",
                       backgroundColor: "white",
                     }}
-                    className="input-field"
+                    className="input-field  pd-l"
+                    disableUnderline
                   >
                     <MenuItem value="Any">
                       <>Any</>
@@ -404,7 +455,11 @@ function AddRequest() {
                   </Select>
                 </Stack>
 
-                <Stack direction="row" className="stack-item">
+                <Stack
+                  sx={{ flexWrap: "nowrap" }}
+                  direction="row"
+                  className="stack-item"
+                >
                   <Typography className="textfieldHead">Mode</Typography>
 
                   <Select
@@ -416,7 +471,8 @@ function AddRequest() {
                       width: "185px",
                       backgroundColor: "white",
                     }}
-                    className="input-field"
+                    className="input-field pd-l"
+                    disableUnderline
                   >
                     <MenuItem value="Any">
                       <>Any</>
@@ -429,30 +485,11 @@ function AddRequest() {
                   </Select>
                 </Stack>
 
-                <Stack direction="row" className="stack-item">
-                  <Typography className="textfieldHead">
-                    Preffered Gender
-                  </Typography>
-                  <Select
-                    id="demo-simple-select-helper"
-                    variant="standard"
-                    value={gender}
-                    onChange={(gender) => setGender(gender.target.value)}
-                    sx={{
-                      width: "185px",
-                      backgroundColor: "white",
-                    }}
-                    className="input-field"
-                  >
-                    <MenuItem value="Any">
-                      <>Any</>
-                    </MenuItem>
-                    <MenuItem value="Male">Male</MenuItem>
-                    <MenuItem value="Female">Female</MenuItem>
-                  </Select>
-                </Stack>
-
-                <Stack direction="row" className="stack-item">
+                <Stack
+                  sx={{ flexWrap: "nowrap" }}
+                  direction="row"
+                  className="stack-item"
+                >
                   <Typography className="textfieldHead">
                     No. of Passengers
                   </Typography>
@@ -485,11 +522,15 @@ function AddRequest() {
                   </button>
                 </Stack>
                 <FormGroup>
-                  <Stack direction="row" className="stack-item">
+                  <Stack
+                    sx={{ flexWrap: "nowrap" }}
+                    direction="row"
+                    className="stack-item"
+                  >
                     <Typography className="textfieldHead">
                       Description
                     </Typography>
-                    <Box sx={{ width: "16rem" }} className="input-field ">
+                    <Box sx={{ width: "16rem" }} className="input-field">
                       <FormControl>
                         <InputBase
                           varient="standard"

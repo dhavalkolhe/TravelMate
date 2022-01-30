@@ -37,7 +37,7 @@ body {
 .filter__results {
   min-width: 262px;
   width: 17vw;
-  height: 100%;
+  height: fit-content;
   padding: 20px 25px;
   margin-right: 10px;
   background: #e5e5f3;
@@ -51,6 +51,11 @@ body {
   flex-direction: row;
   overflow-y: auto;
   flex-wrap: wrap;
+}
+
+.bottom-con {
+  display: flex;
+  align-items: center;
 }
 
 .tertiary__title {
@@ -77,22 +82,23 @@ body {
   width: 8.5rem;
   margin-left: 1.5rem;
   padding: 0.4rem;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   text-align: center;
 }
 .filter-icon-container {
   display: none;
 }
 
-.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root:hover
-  .MuiOutlinedInput-notchedOutline:hover:focus {
-  border: none !important;
+select {
+  border: none;
 }
 
-.css-17pvh7z-MuiAutocomplete-root
-  .MuiOutlinedInput-root
-  .MuiAutocomplete-input {
-  border-radius: 5px;
+.pd-b {
+  padding-bottom: 10px;
+}
+
+.pd-r {
+  padding-right: 20px;
 }
 
 .css-17pvh7z-MuiAutocomplete-root .MuiOutlinedInput-root {

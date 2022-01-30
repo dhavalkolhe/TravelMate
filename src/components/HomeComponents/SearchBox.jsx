@@ -2,12 +2,15 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
-//import locationIcon from "../../resources/icons/locationIcon.svg";
-// import destinationIcon from "../../resources/icons/destinationIcon.svg";
+// import locationIcon from "../../resources/icons/locationIcon.svg";
+// import currentLocationIcon from "../../img/currentLocationIcon.svg";
+// import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 // import dateIcon from "../../resources/icons/dateIcon.svg";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { SearchContext } from "../../context/searchContext";
 import city from "../../resources/states.json";
+
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Box,
@@ -18,6 +21,8 @@ import {
   TextField,
   createFilterOptions,
   Autocomplete,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 
 import DatePicker from "@mui/lab/DatePicker";
@@ -28,6 +33,43 @@ export function SearchBox() {
   const filterOptions = createFilterOptions({
     limit: OPTIONS_LIMIT,
   });
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
+        // Default transform is "translate(14px, 20px) scale(1)""
+        // This lines up the label with the initial cursor position in the input
+        // after changing its padding-left.
+        transform: "translate(34px, 20px) scale(1);",
+      },
+    },
+    inputRoot: {
+      '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
+        // Default left padding is 6px
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+      '&[class*="MuiOutlinedInput-root"]': {
+        // Default left padding is 6px
+
+        backgroundColor: "white",
+      },
+
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "transparent",
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "black",
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "blue",
+      },
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
     <Stack
       direction="column"
@@ -61,6 +103,7 @@ export function SearchBox() {
                 Traveling from
               </Typography>
               <Autocomplete
+                classes={classes}
                 value={search.currentCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
@@ -125,6 +168,7 @@ export function SearchBox() {
                 Destination
               </Typography>
               <Autocomplete
+                classes={classes}
                 value={search.destinationCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
@@ -176,7 +220,7 @@ export function SearchBox() {
                       // startAdornment: (
                       //   <InputAdornment position="start">
                       //     <IconButton edge="start">
-                      //       <img src={currentLocationIcon} alt={"logo"} />
+                      //       <img src={destinationLocationIcon} alt={"logo"} />
                       //     </IconButton>
                       //   </InputAdornment>
                       // ),
@@ -185,7 +229,7 @@ export function SearchBox() {
                 )}
               />
             </Box>
-            <Box className="mr b-rad">
+            <Box className="mr pd-b">
               <Typography class="subtitle1">Date</Typography>
               {/* <TextField
                 size="small"
@@ -224,6 +268,7 @@ export function SearchBox() {
                     // placeholder="DD-MM-YYYY"
                     sx={{
                       width: "160px",
+                      height: "40px",
                       backgroundColor: "white",
                     }}
                     // InputProps={{
@@ -239,23 +284,24 @@ export function SearchBox() {
                 )}
               />
             </Box>
-
-            <Link to="/search">
-              <Button
-                variant="contained"
-                startIcon={<SearchOutlinedIcon />}
-                sx={{
-                  backgroundColor: "#001963",
-                  "&:hover": {
-                    backgroundColor: "#062580",
-                  },
-                  height: "40px",
-                  width: "150px",
-                }}
-              >
-                Search
-              </Button>
-            </Link>
+            <Box className="pd-b">
+              <Link to="/search">
+                <Button
+                  variant="contained"
+                  startIcon={<SearchOutlinedIcon />}
+                  sx={{
+                    backgroundColor: "#001963",
+                    "&:hover": {
+                      backgroundColor: "#062580",
+                    },
+                    height: "40px",
+                    width: "150px",
+                  }}
+                >
+                  Search
+                </Button>
+              </Link>
+            </Box>
           </Stack>
         </FormControl>
 
