@@ -1,10 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
 import { UserContext } from "../../context/userContext";
+import { LoginContext } from "../../context";
 
 import { LoginDialog } from "../Login";
+import { Notification } from "../../components/Notification";
 
 // import gsap from "gsap";
 import {
@@ -22,6 +24,7 @@ import {
   ListItemText,
   ButtonBase,
   Typography,
+  IconButton,
   Button,
 } from "@mui/material";
 // import CloseIcon from "@mui/icons-material/Close";
@@ -30,7 +33,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
-// import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
+import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
@@ -50,22 +53,123 @@ const UserInfo = ({ displayName, photoURL }) => {
   );
 };
 
-const LoginButton = () => {
-  return (
-    <>
-      <Button>Login</Button>
-    </>
-  );
-};
-
 export const Nav = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  //User Menu
+  const [userMenu, setUserMenu] = useState(null);
+  const openUserMenu = Boolean(userMenu);
+  const handleClickUserMenu = (event) => setUserMenu(event.currentTarget);
+  const handleCloseUserMenu = () => setUserMenu(null);
+  const UserMenu = () => {
+    return (
+      <Menu
+        anchorEl={userMenu}
+        open={openUserMenu}
+        onClose={handleCloseUserMenu}
+        onClick={handleCloseUserMenu}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    );
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  //Notifications
+  const [notifMenu, setNotifMenu] = useState(null);
+  const openNotifMenu = Boolean(notifMenu);
+  const handleClickNotifMenu = (event) => {
+    setNotifMenu(event.currentTarget);
+    console.log(notifMenu);
+  };
+  const handleCloseNotifMenu = () => setNotifMenu(null);
+  const NotifMenu = () => {
+    return (
+      <Menu
+        anchorEl={notifMenu}
+        open={openNotifMenu}
+        onClose={handleCloseNotifMenu}
+        onClick={handleCloseNotifMenu}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        {/* <MenuItem>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem> */}
+        <Notification />
+      </Menu>
+    );
   };
 
   const [drawerState, setdrawerState] = useState(false);
@@ -106,6 +210,28 @@ export const Nav = () => {
     </Box>
   );
 
+  const { userLogged, loginDialog } = useContext(LoginContext);
+  const [loggedIn] = userLogged;
+  const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
+
+  const handleLoginDialogClose = () => {
+    setLoginDialogOpen(false);
+  };
+
+  const LoginButton = () => {
+    return (
+      <>
+        <Button
+          onClick={() => {
+            setLoginDialogOpen(true);
+          }}
+        >
+          Login
+        </Button>
+      </>
+    );
+  };
+
   return (
     <>
       <Box className="navContainer">
@@ -113,7 +239,6 @@ export const Nav = () => {
           <Box component={Link} to="/" width={{ xs: "8rem", lg: "10rem" }}>
             <img src={travelMateLogoSvg} alt="Travel Mate" />
           </Box>
-
           <Grid
             sx={{
               display: {
@@ -137,13 +262,14 @@ export const Nav = () => {
               </Grid>
             </Grid>
           </Grid>
-
           <Stack spacing={2} direction="row" alignItems="center">
-            {/* <Tooltip title={"Notifications"}>
-              <IconButton size="large">
+            <IconButton size="large" onClick={handleClickNotifMenu}>
+              <Tooltip title={"Notifications"}>
                 <NotificationsNoneRoundedIcon />
-              </IconButton>
-            </Tooltip> */}
+              </Tooltip>
+            </IconButton>
+
+            <NotifMenu />
 
             <Box
               sx={{
@@ -175,7 +301,7 @@ export const Nav = () => {
               <img src={menuIcon} alt="Menu" />
             </Box>
 
-            {user.authorized ? (
+            {loggedIn ? (
               <Box
                 spacing={2}
                 sx={{
@@ -187,7 +313,7 @@ export const Nav = () => {
                   alignItems: "center",
                   cursor: "pointer",
                 }}
-                onClick={handleClick}
+                onClick={handleClickUserMenu}
               >
                 <UserInfo
                   displayName={user.displayName}
@@ -197,77 +323,21 @@ export const Nav = () => {
             ) : (
               <>
                 <LoginButton />
-                <LoginDialog />
+                <LoginDialog
+                  loginDialogOpen={loginDialogOpen}
+                  handleLoginDialogClose={handleLoginDialogClose}
+                />
               </>
             )}
           </Stack>
         </Box>
       </Box>
 
+      <UserMenu />
+
       <Drawer anchor={"right"} open={drawerState} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
     </>
   );
 };

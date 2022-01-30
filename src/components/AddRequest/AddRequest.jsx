@@ -11,7 +11,7 @@ import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
 import minus from "../../img/minus.svg";
 import { Nav } from "../Nav/Nav";
-import { About, MadeBy } from "../AboutUs/AboutUs";
+import { About, MadeBy } from "../AboutUs";
 import { Footer } from "../Footer/Footer";
 import { WebsiteInfo } from "../../components/HomeComponents";
 import city from "../../resources/states.json";

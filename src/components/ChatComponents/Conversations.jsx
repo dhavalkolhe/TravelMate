@@ -1,14 +1,22 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import "./chatComponenets.css";
 
-import { Avatar, Grid, Typography, OutlinedInput } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Avatar,
+  Grid,
+  Typography,
+  OutlinedInput,
+} from "@mui/material";
 
 import { RoomsContext } from "../../context/roomsContext";
 import { ChatContext } from "../../context/chatContext";
+import { WindowContext } from "../../context";
 
 import Loader from "../../components/Loader/Loader";
 
-function Person({ displayName, photoURL, roomId, handleRoomChange }) {
+const Person = ({ displayName, photoURL, roomId, handleRoomChange }) => {
   return (
     <div onClick={() => handleRoomChange(roomId, displayName, photoURL)}>
       <Grid
@@ -42,7 +50,7 @@ function Person({ displayName, photoURL, roomId, handleRoomChange }) {
             />
             <Typography variant={"string"}>{displayName}</Typography>
           </Grid>
-          <Grid
+          {/* <Grid
             item
             sx={{
               height: "32px",
@@ -56,14 +64,14 @@ function Person({ displayName, photoURL, roomId, handleRoomChange }) {
             }}
           >
             2
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </div>
   );
-}
+};
 
-export function Conversations() {
+export const Conversations = () => {
   const { roomData, loading } = useContext(RoomsContext);
   const [roomsData] = roomData;
   const [roomLoading] = loading;
@@ -71,11 +79,14 @@ export function Conversations() {
   const [cardData, setCardData] = useState([]);
   const [chatsCount, setChatsCount] = useState(0);
 
-  const { currRoomId, currChatterInfo } = useContext(ChatContext);
-  // eslint-disable-next-line
+  const { width, height } = useContext(WindowContext);
+
+  const { currRoomId, currChatterInfo, messageBoxInfo } =
+    useContext(ChatContext);
   const [roomId, setRoomId] = currRoomId;
-  // eslint-disable-next-line
   const [chatterInfo, setchatterInfo] = currChatterInfo;
+  const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
+  const [messageBoxOpenActive, setMessageBoxOpenActive] = useState(false);
 
   const handleRoomChange = (roomId, displayName, photoURL) => {
     setRoomId(roomId);
@@ -83,7 +94,22 @@ export function Conversations() {
       displayName: displayName,
       photoURL: photoURL,
     });
+    setMessageBoxOpenActive(true);
   };
+
+  useEffect(() => {
+    if (width < 900 && messageBoxOpenActive) {
+      setMessageBoxOpen(true);
+    }
+    if (!messageBoxOpen) {
+      setMessageBoxOpenActive(false);
+    }
+    return () => {
+      if (width < 900 && messageBoxOpenActive) {
+        setMessageBoxOpen(true);
+      }
+    };
+  }, [messageBoxOpenActive, messageBoxOpen]);
 
   useEffect(() => {
     if (roomsData.length) {
@@ -105,7 +131,6 @@ export function Conversations() {
       setCardData(x);
       setChatsCount(x.length);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomsData]);
 
   return (
@@ -120,9 +145,9 @@ export function Conversations() {
         {roomLoading ? (
           <Loader />
         ) : (
-          <div>{chatsCount ? cardData : <p>No Chats!</p>}</div>
+          <>{chatsCount ? cardData : <p>No Chats!</p>}</>
         )}
       </Grid>
     </Grid>
   );
-}
+};

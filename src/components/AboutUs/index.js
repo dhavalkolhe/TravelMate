@@ -1,1 +1,2 @@
-export { About, MadeBy } from "./AboutUs";
+export { About } from "./AboutUs";
+export { MadeBy } from "./MadeBy";
