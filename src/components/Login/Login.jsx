@@ -67,6 +67,7 @@ export const Login = () => {
           displayName,
           photoURL,
           uid,
+          email
         });
 
         userExists(uid).then((res) => {

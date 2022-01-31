@@ -32,19 +32,7 @@ export function About() {
             lineHeight: "2rem",
           }}
         >
-          VITrendz is cofounded by a group of individuals who strive to make
-          lives at VIT easier. It is an organization that helps students at VIT
-          by providing them various services and academic resources. It provides
-          entertainment, study materials, interactive help and a vast stream of
-          other facilities to VITians based on their changing requirements.
-          <br /> <br />
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa enim
-          asperiores voluptatibus, tempora nostrum minima sapiente repellat
-          laborum quasi eius. Nihil architecto quas cumque aut ut, veritatis
-          omnis. Architecto, magni! Maxime fugit animi voluptatibus ipsum
-          eligendi, beatae quisquam repellat aliquid quam consectetur quas
-          temporibus in labore accusamus inventore error eveniet culpa nulla ab
-          magni quasi corrupti eos provident reiciendis. Minus.
+          VITrendz is a student-run organization that was founded in the year 2020. We are an all-in-one platform that entertains, educates, and helps students. We provide several services and academic resources to make their lives easier. We have an ever-growing student community of 19.3K on Instagram, 6K+ on Telegram, 470 on LinkedIn, 2.3K+ on Discord, and 3.5K+ on Youtube.
         </Typography>
       </Stack>
     </>
