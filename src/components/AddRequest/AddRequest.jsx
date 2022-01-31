@@ -50,12 +50,16 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { LoginContext } from "../../context/loginContext";
+import { Redirect } from "react-router-dom"
 
 const auth = getAuth();
 
 function AddRequest() {
   const [draftSaved, setDraftSaved] = useState(false);
-  const [authorized, setAuthorized] = useState(true);
+  const { loginDialog } = useContext(LoginContext);
+  const [user] = useContext(UserContext);
+  const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
 
   let draftData = {};
   const localData = localStorage.getItem("TravelmateRideDrafts");
@@ -81,7 +85,6 @@ function AddRequest() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [user] = useContext(UserContext);
   const [currentCity, setCurrentCity] = useState(draftData.currentCity);
   const [destinationCity, setDestinationCity] = useState(
     draftData.destinationCity
@@ -100,16 +103,6 @@ function AddRequest() {
   const notify = (type, message) => {
     toast[type](message);
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthorized(true);
-      } else {
-        setAuthorized(false);
-      }
-    });
-  }, []);
 
   const formValidation = () => {
     if (currentCity && destinationCity && date && time && gender && nop && mode)
@@ -267,7 +260,7 @@ function AddRequest() {
         <Nav />
       </Container>
 
-      {authorized ? (
+      {user.authorized ? (
         <div>
           <Container maxWidth="xl" className="wrapper-container">
             <Typography className="title">Add Request</Typography>
@@ -593,7 +586,10 @@ function AddRequest() {
           <Footer />
         </div>
       ) : (
-        <h1>Please log in first!</h1>
+        <div>
+          < Redirect to="/" />
+          {setLoginDialogOpen(true)}
+        </div>
       )}
       <Toast />
     </Box>

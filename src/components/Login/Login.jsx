@@ -10,6 +10,8 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "firebase/auth";
+import Toast from "../Toast/Toast";
+import { toast } from "react-toastify";
 
 // firestore
 import { db } from "../../firebase/db";
@@ -24,6 +26,10 @@ const auth = getAuth();
 
 export const Login = () => {
   const [user, setUser] = useContext(UserContext);
+
+  const notify = (type, message) => {
+    toast[type](message);
+  };
 
   const addUser = async (displayName, photoURL, uid) => {
     try {
@@ -52,7 +58,7 @@ export const Login = () => {
   const signIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        const { displayName, photoURL, uid } = result.user;
+        const { displayName, photoURL, uid, email } = result.user;
         console.log(result.user);
         const authorized = result.user.accessToken ? true : false;
 
@@ -92,13 +98,13 @@ export const Login = () => {
   // eslint-disable-next-line
   const [isVerfied, setIsVerified] = useState(false);
 
-  // function login() {
-  //   if (isVerfied) {
-  //     signIn();
-  //   } else {
-  //     alert("Verify captcha first");
-  //   }
-  // }
+  function login() {
+    if (isVerfied) {
+      signIn();
+    } else {
+      notify("error", "Verify captcha first")
+    }
+  }
 
   function onloadCallback() {
     console.log("Captcha loaded successfully");
@@ -134,11 +140,12 @@ export const Login = () => {
           verifyCallback={verifyCallback}
         />
         <Stack width="100%" alignItems="flex-end">
-          <Button variant="contained" onClick={signIn}>
+          <Button variant="contained" onClick={login}>
             Sign In
           </Button>
         </Stack>
       </Stack>
+      <Toast />
     </Card>
   );
 };

@@ -195,7 +195,7 @@ export const Nav = () => {
       <List>
         {["Home", "About", "Dashboard", "Add Request"].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemText primary={text} />
+            <ListItemText primary={text} component={Link} to={`/${text}`} />
           </ListItem>
         ))}
       </List>
