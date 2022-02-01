@@ -59,7 +59,6 @@ export const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const { displayName, photoURL, uid, email } = result.user;
-        console.log(result.user);
         const authorized = result.user.accessToken ? true : false;
 
         setUser({

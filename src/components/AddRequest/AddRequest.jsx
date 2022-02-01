@@ -49,11 +49,10 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { LoginContext } from "../../context/loginContext";
 import { Redirect } from "react-router-dom"
 
-const auth = getAuth();
 
 function AddRequest() {
   const [draftSaved, setDraftSaved] = useState(false);

@@ -102,9 +102,9 @@ function NotificationCard({
         </Typography>
         {loading && <Loader size={20} />}
         {accepted ? (
-          <Typography style={{ color: "green" }}>Request Accepted</Typography>
+          <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
         ) : rejected ? (
-          <Typography style={{ color: "red" }}>Request Rejected</Typography>
+          <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
         ) : (
           <Box>
             <Button onClick={handleAccept}>Accept</Button>
