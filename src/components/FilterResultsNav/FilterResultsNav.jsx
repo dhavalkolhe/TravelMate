@@ -224,7 +224,7 @@ const FilterResultsNav = ({
           </div>
         </div>
 
-        <div>
+        <div className="row-flex">
           <h1 className="tertiary__title">Time</h1>
           <div className="row">
             <select
@@ -243,7 +243,7 @@ const FilterResultsNav = ({
           </div>
         </div>
 
-        <div>
+        <div className="row-flex">
           <h1 className="tertiary__title">Mode</h1>
           <div className="row">
             <select

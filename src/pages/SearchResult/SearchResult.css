@@ -92,6 +92,10 @@ body {
 select {
   border: none;
 }
+select:focus {
+  border: none;
+  outline: none;
+}
 
 .pd-b {
   padding-bottom: 10px;
@@ -105,6 +109,9 @@ select {
   margin: 4px 0;
 }
 @media screen and (max-width: 575px) {
+  .results::-webkit-scrollbar {
+    display: none;
+  }
   .filter__results {
     display: none;
   }

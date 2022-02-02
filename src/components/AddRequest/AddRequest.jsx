@@ -51,8 +51,8 @@ import {
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { LoginContext } from "../../context/loginContext";
-import { Redirect } from "react-router-dom"
-
+import { Redirect } from "react-router-dom";
+import { maxHeight } from "@mui/system";
 
 function AddRequest() {
   const [draftSaved, setDraftSaved] = useState(false);
@@ -586,7 +586,7 @@ function AddRequest() {
         </div>
       ) : (
         <div>
-          < Redirect to="/" />
+          <Redirect to="/" />
           {setLoginDialogOpen(true)}
         </div>
       )}
