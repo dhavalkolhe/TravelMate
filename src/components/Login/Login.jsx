@@ -88,8 +88,7 @@ export const Login = () => {
   const [isVerfied, setIsVerified] = useState(false);
 
   function login() {
-    if (isVerfied || true) {
-      //changed for testing
+    if (isVerfied) {
       signIn();
     } else {
       notify("error", "Verify captcha first");
@@ -103,6 +102,8 @@ export const Login = () => {
   function verifyCallback() {
     setIsVerified(true);
   }
+
+  console.log(process.env.REACT_APP_SITE_KEY);
 
   return (
     <Card

@@ -35,10 +35,11 @@ import Logout from "@mui/icons-material/Logout";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
-
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
 import chatIconDot from "../../resources/images/chatIconDot.svg";
+import chatIconBlank from "../../resources/images/chatIconBlank.svg";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 import "../../firebase/firebase";
@@ -248,10 +249,12 @@ export const Nav = () => {
             setloginLoading(true);
             setTimeout(() => setLoginDialogOpen(true), 800);
           }}
-          variant="contained"
+          variant="text"
           startIcon={<LoginRoundedIcon />}
           loading={loginLoading}
           loadingPosition="start"
+          color="primary"
+          // sx={{ color: "theme.palette.theme.text" }}
         >
           Login
         </LoadingButton>
@@ -308,7 +311,7 @@ export const Nav = () => {
           <Stack spacing={2} direction="row" alignItems="center">
             {user.authorized && (
               <>
-                <IconButton size="large" onClick={handleClickNotifMenu}>
+                <IconButton size="medium" onClick={handleClickNotifMenu}>
                   <Tooltip title={"Notifications"}>
                     <NotificationsNoneRoundedIcon />
                   </Tooltip>
@@ -317,25 +320,28 @@ export const Nav = () => {
                 <NotifMenu />
 
                 <Box
-                  sx={{
-                    height: "32px",
-                    width: "32px",
-                    cursor: "pointer",
-                  }}
+                // sx={{
+                //   // height: "32px",
+                //   // width: "32px",
+                //   cursor: "pointer",
+                // }}
                 >
+                  {/* <ButtonBase
+                    sx={{
+                      borderRadius: "25px",
+                      height: "120%",
+                      width: "110%",
+                    }}
+                  > */}
                   <Tooltip title={"Chat"}>
-                    <ButtonBase
-                      sx={{
-                        borderRadius: "25px",
-                        height: "120%",
-                        width: "110%",
-                      }}
-                    >
-                      <Link to="/chat">
-                        <img src={chatIconDot} alt="Chat Icon" />
-                      </Link>
-                    </ButtonBase>
+                    <Link to="/chat">
+                      {/* <img src={chatIconBlank} alt="Chat" /> */}
+                      <IconButton size="medium">
+                        <ChatBubbleOutlineOutlinedIcon />
+                      </IconButton>
+                    </Link>
                   </Tooltip>
+                  {/* </ButtonBase> */}
                 </Box>
 
                 <Box

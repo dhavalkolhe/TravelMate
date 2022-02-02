@@ -28,7 +28,8 @@ import {
   increment,
   orderBy,
   collection,
-  getDocs, deleteDoc
+  getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 // import Message from "./Message";
@@ -141,11 +142,11 @@ export function MessagesBox() {
       masterArr.push({
         ...doc.data(),
         timestamp: doc.data().timestamp.toDate(),
-        id: doc.id
+        id: doc.id,
       });
     });
     return masterArr;
-  }
+  };
 
   useEffect(() => {
     if (roomId) {
@@ -163,20 +164,21 @@ export function MessagesBox() {
       limit = docSnap.data().limit;
     }
 
-   
-     if (limit > 0) {
-       if (limit == 1) {
-         notify("warning", "Message limit exceeded! We will delete the older messages.");
-       }
+    if (limit > 0) {
+      if (limit == 1) {
+        notify(
+          "warning",
+          "Message limit exceeded! We will delete the older messages."
+        );
+      }
       await updateDoc(doc(db, "rooms", roomId), {
         limit: increment(-1),
       });
-    }
-    else {
+    } else {
       fetchSavedMessages().then(async (masterArr) => {
         let temp = masterArr[0].id;
         await deleteDoc(doc(db, "rooms", roomId, "messages", temp));
-      })
+      });
     }
     await setDoc(
       doc(db, "rooms", roomId, "messages", messageData.msgId),
@@ -216,8 +218,12 @@ export function MessagesBox() {
   const { messageBoxInfo } = useContext(ChatContext);
   const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
 
-  function handleMessageBoxOpen() {
+  function handleMessageBoxClose() {
     setMessageBoxOpen(false);
+    setchatterInfo({
+      displayName: null,
+      photoURL: null,
+    });
   }
 
   return (
@@ -267,7 +273,7 @@ export function MessagesBox() {
                   {chatterInfo.displayName}
                 </Typography>
               </Stack>
-              <IconButton onClick={handleMessageBoxOpen}>
+              <IconButton onClick={handleMessageBoxClose}>
                 <CloseIcon fontSize="large" />
               </IconButton>
             </Stack>
@@ -346,7 +352,6 @@ export function MessagesBox() {
             </IconButton>
           </Stack>
           <Toast />
-
         </Grid>
       )}
     </>

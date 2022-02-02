@@ -7,6 +7,7 @@ const theme = createTheme({
     type: "light",
     primary: {
       main: "#001963",
+      light: "#505CA9",
     },
     secondary: {
       main: "#E45858",
@@ -16,6 +17,9 @@ const theme = createTheme({
     },
     text: {
       primary: "#2B2C34",
+    },
+    neutral: {
+      main: "#D1D1E9",
     },
   },
 });
