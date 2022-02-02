@@ -24,8 +24,20 @@ import {
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
-
+import { LoginContext } from "../../context/loginContext";
+import { UserContext } from "../../context/userContext";
+import { Redirect } from "react-router-dom"
+/*
+<div>
+          < Redirect to="/" />
+          {setLoginDialogOpen(true)}
+        </div>
+*/
 function SearchResult() {
+  const [user] = useContext(UserContext);
+  const { loginDialog } = useContext(LoginContext);
+  const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
+
   // eslint-disable-next-line
   const [search, setSearch] = useContext(SearchContext);
   const {
@@ -143,14 +155,14 @@ function SearchResult() {
     h.length
       ? setFilteredResponse(h)
       : g.length
-      ? setFilteredResponse(g)
-      : z.length
-      ? setFilteredResponse(z)
-      : y.length
-      ? setFilteredResponse(y)
-      : x.length
-      ? setFilteredResponse(x)
-      : setFilteredResponse([]);
+        ? setFilteredResponse(g)
+        : z.length
+          ? setFilteredResponse(z)
+          : y.length
+            ? setFilteredResponse(y)
+            : x.length
+              ? setFilteredResponse(x)
+              : setFilteredResponse([]);
 
     // eslint-disable-next-line
   }, [startDate, endDate, currentCity, destinationCity, time, mode]);
@@ -212,209 +224,215 @@ function SearchResult() {
               <span className="filter-text">Filter</span>
             </span>
           </h2>
-          <div className="container">
-            {showFilterNav ? (
-              <FilterResultsNav
-                startDate={startDate}
-                setStartDate={setStartDate}
-                endDate={endDate}
-                setEndDate={setEndDate}
-                currentCity={currentCity}
-                setCurrentCity={setCurrentCity}
-                destinationCity={destinationCity}
-                setDestinationCity={setDestinationCity}
-                time={time}
-                setTime={setTime}
-                mode={mode}
-                setMode={setMode}
-                showFilterNav={showFilterNav}
-                setShowFilterNav={setShowFilterNav}
-              />
-            ) : null}
+          {!user.authorized ? (<div>
+            < Redirect to="/" />
+            {setLoginDialogOpen(true)}
+          </div>) : (
+            <div className="container">
+              {showFilterNav ? (
+                <FilterResultsNav
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                  endDate={endDate}
+                  setEndDate={setEndDate}
+                  currentCity={currentCity}
+                  setCurrentCity={setCurrentCity}
+                  destinationCity={destinationCity}
+                  setDestinationCity={setDestinationCity}
+                  time={time}
+                  setTime={setTime}
+                  mode={mode}
+                  setMode={setMode}
+                  showFilterNav={showFilterNav}
+                  setShowFilterNav={setShowFilterNav}
+                />
+              ) : null}
 
-            <div className="filter__results">
-              <p className="secondary__title">Filter Results</p>
-              <div>
-                <h1 className="tertiary__title">Date</h1>
-                <div className="row">
-                  From
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    minDate={new Date()}
-                    dateFormat="dd-MMM-yyyy"
-                    className="input"
-                  />
+              <div className="filter__results">
+                <p className="secondary__title">Filter Results</p>
+                <div>
+                  <h1 className="tertiary__title">Date</h1>
+                  <div className="row">
+                    From
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      minDate={new Date()}
+                      dateFormat="dd-MMM-yyyy"
+                      className="input"
+                    />
+                  </div>
+
+                  <div className="row">
+                    To
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      minDate={new Date()}
+                      dateFormat="dd-MMM-yyyy"
+                      className="input"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <h1 className="tertiary__title">Location</h1>
+                  <div className="row">
+                    <span className="pd-r">From</span>
+                    <Autocomplete
+                      classes={classes}
+                      value={currentCity}
+                      filterOptions={filterOptions}
+                      id="country-select-demo"
+                      sx={{ width: "140px" }}
+                      options={city}
+                      autoHighlight
+                      disableClearable
+                      freeSolo
+                      getOptionLabel={(option) => option.name || currentCity}
+                      onChange={(event, value) => {
+                        // console.log(value);
+                        let selectedCity = value.name.concat(", ", value.state);
+                        setCurrentCity(selectedCity);
+                      }}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          {option.name}, {option.state}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Enter Location"
+                          // label="Enter Location"
+                          //logic to update state when city is not in list
+                          onChange={(event, value) => {
+                            setCurrentCity(event.target.value);
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "off",
+
+                            // startAdornment: (
+                            //   <InputAdornment position="start">
+                            //     <IconButton edge="start">
+                            //       <img src={currentLocationIcon} alt={"logo"} />
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
+
+                  <div className="row">
+                    <span className="pd-r">To</span>
+                    <Autocomplete
+                      classes={classes}
+                      filterOptions={filterOptions}
+                      value={destinationCity}
+                      id="country-select-demo"
+                      sx={{ width: "140px" }}
+                      options={city}
+                      autoHighlight
+                      disableClearable
+                      freeSolo
+                      getOptionLabel={(option) => option.name || destinationCity}
+                      onChange={(event, value) => {
+                        // console.log(value);
+                        let selectedCity = value.name.concat(", ", value.state);
+                        setDestinationCity(selectedCity);
+                      }}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          {option.name}, {option.state}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder="Enter Location"
+                          //logic to update state when city is not in list
+                          onChange={(event, value) => {
+                            setDestinationCity(event.target.value);
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "off",
+                            // startAdornment: (
+                            //   <InputAdornment position="start">
+                            //     <IconButton edge="start">
+                            //       <img src={currentLocationIcon} alt={"logo"} />
+                            //     </IconButton>
+                            //   </InputAdornment>
+                            // ),
+                          }}
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
 
-                <div className="row">
-                  To
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    minDate={new Date()}
-                    dateFormat="dd-MMM-yyyy"
-                    className="input"
-                  />
+                <div className="bottom-con">
+                  <h1 className="tertiary__title pd-b ">Time</h1>
+                  <div className="row">
+                    <select
+                      name="time"
+                      required
+                      defaultValue={time}
+                      onChange={(time) => setTime(time.target.value)}
+                      className="input"
+                    >
+                      <option value="Any">Any</option>
+                      <option value="Morning">Morning</option>
+                      <option value="Afternoon">Afternoon</option>
+                      <option value="Evening">Evening</option>
+                      <option value="Night">Night</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="bottom-con">
+                  <h1 className="tertiary__title pd-b ">Mode</h1>
+                  <div className="row">
+                    <select
+                      name="mode"
+                      required
+                      defaultValue={mode}
+                      onChange={(mode) => setMode(mode.target.value)}
+                      className="input"
+                    >
+                      <option value="Any">Any</option>
+                      <option value="Personal Car">Personal Car</option>
+                      <option value="Cab">Cab</option>
+                      <option value="Train">Train</option>
+                      <option value="Bus">Bus</option>
+                      <option value="Flight">Flight</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h1 className="tertiary__title">Location</h1>
-                <div className="row">
-                  <span className="pd-r">From</span>
-                  <Autocomplete
-                    classes={classes}
-                    value={currentCity}
-                    filterOptions={filterOptions}
-                    id="country-select-demo"
-                    sx={{ width: "140px" }}
-                    options={city}
-                    autoHighlight
-                    disableClearable
-                    freeSolo
-                    getOptionLabel={(option) => option.name || currentCity}
-                    onChange={(event, value) => {
-                      // console.log(value);
-                      let selectedCity = value.name.concat(", ", value.state);
-                      setCurrentCity(selectedCity);
-                    }}
-                    renderOption={(props, option) => (
-                      <Box
-                        component="li"
-                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                        {...props}
-                      >
-                        {option.name}, {option.state}
-                      </Box>
-                    )}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        placeholder="Enter Location"
-                        // label="Enter Location"
-                        //logic to update state when city is not in list
-                        onChange={(event, value) => {
-                          setCurrentCity(event.target.value);
-                        }}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "off",
-
-                          // startAdornment: (
-                          //   <InputAdornment position="start">
-                          //     <IconButton edge="start">
-                          //       <img src={currentLocationIcon} alt={"logo"} />
-                          //     </IconButton>
-                          //   </InputAdornment>
-                          // ),
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className="row">
-                  <span className="pd-r">To</span>
-                  <Autocomplete
-                    classes={classes}
-                    filterOptions={filterOptions}
-                    value={destinationCity}
-                    id="country-select-demo"
-                    sx={{ width: "140px" }}
-                    options={city}
-                    autoHighlight
-                    disableClearable
-                    freeSolo
-                    getOptionLabel={(option) => option.name || destinationCity}
-                    onChange={(event, value) => {
-                      // console.log(value);
-                      let selectedCity = value.name.concat(", ", value.state);
-                      setDestinationCity(selectedCity);
-                    }}
-                    renderOption={(props, option) => (
-                      <Box
-                        component="li"
-                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                        {...props}
-                      >
-                        {option.name}, {option.state}
-                      </Box>
-                    )}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        placeholder="Enter Location"
-                        //logic to update state when city is not in list
-                        onChange={(event, value) => {
-                          setDestinationCity(event.target.value);
-                        }}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "off",
-                          // startAdornment: (
-                          //   <InputAdornment position="start">
-                          //     <IconButton edge="start">
-                          //       <img src={currentLocationIcon} alt={"logo"} />
-                          //     </IconButton>
-                          //   </InputAdornment>
-                          // ),
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-
-              <div className="bottom-con">
-                <h1 className="tertiary__title pd-b ">Time</h1>
-                <div className="row">
-                  <select
-                    name="time"
-                    required
-                    defaultValue={time}
-                    onChange={(time) => setTime(time.target.value)}
-                    className="input"
-                  >
-                    <option value="Any">Any</option>
-                    <option value="Morning">Morning</option>
-                    <option value="Afternoon">Afternoon</option>
-                    <option value="Evening">Evening</option>
-                    <option value="Night">Night</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="bottom-con">
-                <h1 className="tertiary__title pd-b ">Mode</h1>
-                <div className="row">
-                  <select
-                    name="mode"
-                    required
-                    defaultValue={mode}
-                    onChange={(mode) => setMode(mode.target.value)}
-                    className="input"
-                  >
-                    <option value="Any">Any</option>
-                    <option value="Personal Car">Personal Car</option>
-                    <option value="Cab">Cab</option>
-                    <option value="Train">Train</option>
-                    <option value="Bus">Bus</option>
-                    <option value="Flight">Flight</option>
-                  </select>
-                </div>
+              <div className="results">
+                {loading ? (
+                  <SkeletonLoader skeletonCount={skeletonCount} />
+                ) : (
+                  filteredResponse
+                )}
               </div>
             </div>
-            <div className="results">
-              {loading ? (
-                <SkeletonLoader skeletonCount={skeletonCount} />
-              ) : (
-                filteredResponse
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </Container>
     </Box>
+
   );
 }
 

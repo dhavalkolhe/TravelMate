@@ -24,6 +24,11 @@
   cursor: pointer;
 }
 
+.row-flex {
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (min-width: 575px) {
   .overlay {
     display: none;

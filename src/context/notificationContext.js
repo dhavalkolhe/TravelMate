@@ -12,18 +12,13 @@ const NotificationContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let unsub;
     if (user.authorized) {
-      fetchData().then((res) => {
-        unsub = res;
-      });
+      fetchData();
       setTimeout(() => {
         setLoading(false);
       }, 2000);
     }
-    return () => {
-      // unsub();
-    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 

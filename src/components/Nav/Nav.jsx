@@ -38,6 +38,19 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
 import chatIconDot from "../../resources/images/chatIconDot.svg";
+import "../../firebase/firebase";
+import {
+  getAuth,
+  signOut,
+} from "firebase/auth";
+import Toast from "../Toast/Toast";
+import { toast } from "react-toastify";
+
+const notify = (type, message) => {
+  toast[type](message);
+};
+
+const auth = getAuth();
 
 const UserInfo = ({ displayName, photoURL }) => {
   return (
@@ -101,7 +114,7 @@ export const Nav = () => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={logOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
@@ -183,7 +196,7 @@ export const Nav = () => {
     setdrawerState(open);
   };
 
-  const [user] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   const list = () => (
     <Box
@@ -195,7 +208,7 @@ export const Nav = () => {
       <List>
         {["Home", "About", "Dashboard", "Add Request"].map((text, index) => (
           <ListItem button key={text}>
-            <ListItemText primary={text} />
+            <ListItemText primary={text} component={Link} to={`/${text}`} />
           </ListItem>
         ))}
       </List>
@@ -230,6 +243,21 @@ export const Nav = () => {
         </Button>
       </>
     );
+  };
+
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        setUser({
+          authorized: false,
+          displayName: "",
+          photoURL: "",
+        });
+      })
+      .catch((error) => {
+        notify("error", "Error signing out user")
+        console.log(error.message);
+      });
   };
 
   return (

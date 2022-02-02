@@ -6,44 +6,37 @@ import dashBg from "../../img/dashBg.svg";
 import "./Dashboard.css";
 
 import { DashboardContext } from "../../context/dashboardContext";
+import { LoginContext } from "../../context/loginContext";
 import { UserContext } from "../../context/userContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Redirect } from "react-router-dom"
 
 const auth = getAuth();
 
 function Dashboard() {
   const activeOffers = useContext(DashboardContext);
-
+  const { loginDialog } = useContext(LoginContext);
+  const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
   // eslint-disable-next-line
+
   const [user] = useContext(UserContext);
   const [authorized, setAuthorized] = useState(true);
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [photoURL, setPhotoURL] = useState("");
 
-  useEffect(() => {
-    let unsub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthorized(true);
-        setDisplayName(user.displayName);
-        setEmail(user.email);
-        setPhotoURL(user.photoURL);
-      } else {
-        setAuthorized(false);
-      }
-    });
-    return () => {
-      unsub();
-    };
-  }, []);
+
 
   return (
     <Box>
       <Container maxWidth="lg">
         <Nav />
       </Container>
-      {!authorized ? (
-        <h1>Please Login first</h1>
+      {!user.authorized ? (
+        <div>
+          <Redirect to="/" />
+          {setLoginDialogOpen(true)}
+        </div>
       ) : (
         <div>
           <Box className="dashBg-container">
@@ -54,11 +47,11 @@ function Dashboard() {
           </Box>
           <div className="profile">
             <div className="profile-img-container">
-              <img className="profile-img" src={photoURL} alt="user-img" />
+              <img className="profile-img" src={user.photoURL} alt="user-img" />
             </div>
 
-            <span className="profile-name">{displayName}</span>
-            <span className="profile-email">{email}</span>
+            <span className="profile-name">{user.displayName}</span>
+            <span className="profile-email">{user.email}</span>
           </div>
           <div className="activeOffersContainer">
             <span className="active-text">Active Offers</span>

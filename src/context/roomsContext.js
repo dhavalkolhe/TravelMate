@@ -12,12 +12,9 @@ const RoomsContextProvider = (props) => {
   const [roomLoading, setRoomLoading] = useState(true);
 
   useEffect(() => {
-    let unsub;
     if (user.authorized) {
       try {
-        fetchData().then((res) => {
-          unsub = res;
-        });
+        fetchData();
         setTimeout(() => {
           setRoomLoading(false);
         }, 2000);
@@ -25,9 +22,6 @@ const RoomsContextProvider = (props) => {
         console.log(err);
       }
     }
-    return () => {
-      unsub();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 

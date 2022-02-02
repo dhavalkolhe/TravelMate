@@ -15,6 +15,9 @@ import SendIcon from "@mui/icons-material/Send";
 import { ChatContext } from "../../context";
 import { UserContext } from "../../context/userContext";
 
+import Toast from "../Toast/Toast";
+import { toast } from "react-toastify";
+
 import { db } from "../../firebase/db";
 import {
   doc,
@@ -25,7 +28,7 @@ import {
   increment,
   orderBy,
   collection,
-  getDocs,
+  getDocs, deleteDoc
 } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 // import Message from "./Message";
@@ -94,6 +97,10 @@ export function MessagesBox() {
     return roomData.data()?.members.includes(user.uid);
   };
 
+  const notify = (type, message) => {
+    toast[type](message);
+  };
+
   useEffect(() => {
     if (roomId) {
       isMemberOf().then((res) => {
@@ -117,15 +124,28 @@ export function MessagesBox() {
     let masterArr = [];
     const q = collection(db, "rooms", roomId, "messages");
 
+    //   onSnapshot(query(q, orderBy("timestamp", "asc")), (querySnapshot) => {
+    //     querySnapshot.docs.forEach((doc) => {
+    //       masterArr.push({
+    //         ...doc.data(),
+    //         timestamp: doc.data().timestamp.toDate(),
+    //         id: doc.id
+    //       });
+    //     });
+    //     console.log(masterArr);
+    //     return masterArr;
+    //   });
+    // }
     const querySnapshot = await getDocs(query(q, orderBy("timestamp", "asc")));
     querySnapshot.forEach((doc) => {
       masterArr.push({
         ...doc.data(),
         timestamp: doc.data().timestamp.toDate(),
+        id: doc.id
       });
     });
     return masterArr;
-  };
+  }
 
   useEffect(() => {
     if (roomId) {
@@ -137,13 +157,31 @@ export function MessagesBox() {
   }, [roomId]);
 
   const saveMessage = async (messageData) => {
+    let limit = 0;
+    const docSnap = await getDoc(doc(db, "rooms", roomId));
+    if (docSnap.exists()) {
+      limit = docSnap.data().limit;
+    }
+
+   
+     if (limit > 0) {
+       if (limit == 1) {
+         notify("warning", "Message limit exceeded! We will delete the older messages.");
+       }
+      await updateDoc(doc(db, "rooms", roomId), {
+        limit: increment(-1),
+      });
+    }
+    else {
+      fetchSavedMessages().then(async (masterArr) => {
+        let temp = masterArr[0].id;
+        await deleteDoc(doc(db, "rooms", roomId, "messages", temp));
+      })
+    }
     await setDoc(
       doc(db, "rooms", roomId, "messages", messageData.msgId),
       messageData
     );
-    await updateDoc(doc(db, "rooms", roomId), {
-      limit: increment(-1),
-    });
   };
 
   const sendMessage = async () => {
@@ -307,6 +345,8 @@ export function MessagesBox() {
               <SendIcon sx={{ color: "white" }} />
             </IconButton>
           </Stack>
+          <Toast />
+
         </Grid>
       )}
     </>
