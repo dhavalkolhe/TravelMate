@@ -113,6 +113,7 @@ export function SearchSection() {
           left: "0px",
           display: "flex",
           justifyContent: "flex-end",
+          pointerEvents: "none",
         }}
       >
         <img src={bgvector1} alt="illus" />
@@ -128,6 +129,7 @@ export function SearchSection() {
             },
             display: "flex",
             justifyContent: "flex-end",
+            pointerEvents: "none",
           }}
         >
           <img src={illustation1} alt="illus" />

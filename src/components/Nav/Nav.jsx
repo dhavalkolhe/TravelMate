@@ -27,6 +27,7 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 // import CloseIcon from "@mui/icons-material/Close";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
@@ -34,15 +35,16 @@ import Logout from "@mui/icons-material/Logout";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
-
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
 import chatIconDot from "../../resources/images/chatIconDot.svg";
+import chatIconBlank from "../../resources/images/chatIconBlank.svg";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+
 import "../../firebase/firebase";
-import {
-  getAuth,
-  signOut,
-} from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
+
 import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
@@ -108,12 +110,12 @@ export const Nav = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={logOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
@@ -232,15 +234,30 @@ export const Nav = () => {
   };
 
   const LoginButton = () => {
+    const [loginLoading, setloginLoading] = useState(false);
+
+    useEffect(() => {
+      if (loginDialogOpen) {
+        setloginLoading(true);
+      }
+    }, [loginDialogOpen]);
+
     return (
       <>
-        <Button
+        <LoadingButton
           onClick={() => {
-            setLoginDialogOpen(true);
+            setloginLoading(true);
+            setTimeout(() => setLoginDialogOpen(true), 800);
           }}
+          variant="text"
+          startIcon={<LoginRoundedIcon />}
+          loading={loginLoading}
+          loadingPosition="start"
+          color="primary"
+          // sx={{ color: "theme.palette.theme.text" }}
         >
           Login
-        </Button>
+        </LoadingButton>
       </>
     );
   };
@@ -255,7 +272,7 @@ export const Nav = () => {
         });
       })
       .catch((error) => {
-        notify("error", "Error signing out user")
+        notify("error", "Error signing out user");
         console.log(error.message);
       });
   };
@@ -290,44 +307,56 @@ export const Nav = () => {
               </Grid>
             </Grid>
           </Grid>
+
           <Stack spacing={2} direction="row" alignItems="center">
-            <IconButton size="large" onClick={handleClickNotifMenu}>
-              <Tooltip title={"Notifications"}>
-                <NotificationsNoneRoundedIcon />
-              </Tooltip>
-            </IconButton>
+            {user.authorized && (
+              <>
+                <IconButton size="medium" onClick={handleClickNotifMenu}>
+                  <Tooltip title={"Notifications"}>
+                    <NotificationsNoneRoundedIcon />
+                  </Tooltip>
+                </IconButton>
 
-            <NotifMenu />
+                <NotifMenu />
 
-            <Box
-              sx={{
-                height: "32px",
-                width: "32px",
-                cursor: "pointer",
-              }}
-            >
-              <Tooltip title={"Chat"}>
-                <ButtonBase
-                  sx={{ borderRadius: "25px", height: "120%", width: "110%" }}
+                <Box
+                // sx={{
+                //   // height: "32px",
+                //   // width: "32px",
+                //   cursor: "pointer",
+                // }}
                 >
-                  <Link to="/chat">
-                    <img src={chatIconDot} alt="Chat Icon" />
-                  </Link>
-                </ButtonBase>
-              </Tooltip>
-            </Box>
+                  {/* <ButtonBase
+                    sx={{
+                      borderRadius: "25px",
+                      height: "120%",
+                      width: "110%",
+                    }}
+                  > */}
+                  <Tooltip title={"Chat"}>
+                    <Link to="/chat">
+                      {/* <img src={chatIconBlank} alt="Chat" /> */}
+                      <IconButton size="medium">
+                        <ChatBubbleOutlineOutlinedIcon />
+                      </IconButton>
+                    </Link>
+                  </Tooltip>
+                  {/* </ButtonBase> */}
+                </Box>
 
-            <Box
-              onClick={toggleDrawer(true)}
-              sx={{
-                display: {
-                  xs: "flex",
-                  md: "none",
-                },
-              }}
-            >
-              <img src={menuIcon} alt="Menu" />
-            </Box>
+                <Box
+                  onClick={toggleDrawer(true)}
+                  sx={{
+                    display: {
+                      xs: "flex",
+                      md: "none",
+                    },
+                  }}
+                >
+                  <img src={menuIcon} alt="Menu" />
+                </Box>
+              </>
+            )}
 
             {loggedIn ? (
               <Box

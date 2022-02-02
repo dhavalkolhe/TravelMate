@@ -10,6 +10,9 @@ import { Conversations, MessagesBox } from "../../components/ChatComponents";
 import { Container, Box, Stack, Grid } from "@mui/material";
 
 function DesktopChatSection() {
+  const { currChatterInfo } = useContext(ChatContext);
+  const [chatterInfo] = currChatterInfo;
+
   return (
     <>
       <Container
@@ -50,7 +53,7 @@ function DesktopChatSection() {
             xs={12}
             sx={{ display: { xs: "none", md: "block" } }}
           >
-            <MessagesBox />
+            {chatterInfo.displayName && <MessagesBox />}
           </Grid>
         </Grid>
       </Container>
