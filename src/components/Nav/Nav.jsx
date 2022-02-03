@@ -140,7 +140,6 @@ export const Nav = () => {
         anchorEl={notifMenu}
         open={openNotifMenu}
         onClose={handleCloseNotifMenu}
-        onClick={handleCloseNotifMenu}
         PaperProps={{
           elevation: 0,
           sx: {

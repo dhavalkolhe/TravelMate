@@ -1,19 +1,25 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, useContext } from "react";
 import Card from "../components/Card/Card";
 import { db } from "../firebase/db";
 import { collection, query, orderBy } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
+import { UserContext } from "./userContext";
 
 export const ResponseContext = createContext();
 
 const ResponseContextProvider = (props) => {
   const [response, setResponse] = useState([]);
+  const [user] = useContext(UserContext);
 
   /////lazy loading
   // const [scroll, setScroll] = useState(true);
   // const [scrollResponse, setScrollResponse] = useState();
   // const [lastCard, setLastCard] = useState(null);
   // const [isEmpty, setIsEmpty] = useState(false);
+
+  // useEffect(() => {
+  //   console.log(response);
+  // }, [response])
 
   useEffect(() => {
     let unsubscribe;
@@ -62,7 +68,8 @@ const ResponseContextProvider = (props) => {
       });
 
       // const lastCard = querySnapshot.docs[querySnapshot.docs.length - 1];
-      const y = [...response, ...x];
+      let y = [...response, ...x];
+      y = y.filter((e) => e.props.userId !== user.uid);
       setResponse((response) => [...new Set(y)]);
       // setLastCard(lastCard);
       // setScrollResponse(false);

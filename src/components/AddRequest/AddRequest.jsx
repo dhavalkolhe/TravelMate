@@ -49,15 +49,14 @@ import {
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { LoginContext } from "../../context/loginContext";
 import { Redirect } from "react-router-dom";
-import { maxHeight } from "@mui/system";
 
 function AddRequest() {
   const [draftSaved, setDraftSaved] = useState(false);
   const { loginDialog } = useContext(LoginContext);
   const [user] = useContext(UserContext);
+  // eslint-disable-next-line
   const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
 
   let draftData = {};
@@ -71,7 +70,6 @@ function AddRequest() {
       date: new Date(),
       time: "Any",
       mode: "Any",
-      gender: "Any",
       nop: 1,
       description: "",
     };
@@ -89,14 +87,10 @@ function AddRequest() {
     draftData.destinationCity
   );
   const [date, setDate] = useState(new Date(draftData.date));
-  // eslint-disable-next-line
   const [time, setTime] = useState(draftData.time);
-  // eslint-disable-next-line
   const [mode, setMode] = useState(draftData.mode);
-  const [gender, setGender] = useState(draftData.gender);
   const [nop, setNop] = useState(draftData.nop);
   const [description, setDescription] = useState(draftData.description);
-  // eslint-disable-next-line
 
   //Toast Function
   const notify = (type, message) => {
@@ -104,8 +98,13 @@ function AddRequest() {
   };
 
   const formValidation = () => {
-    if (currentCity && destinationCity && date && time && gender && nop && mode)
-      return true;
+    if (currentCity && destinationCity && date && time && nop && mode) {
+      setDate(new Date(date.setHours(0, 0, 0, 0)))
+      if (date >= new Date(new Date().setHours(0, 0, 0, 0)))
+        return true;
+      else
+        notify("warning", "Date cannot be in past");
+    }
     else return false;
   };
 
@@ -118,9 +117,8 @@ function AddRequest() {
         date,
         time,
         mode,
-        gender,
         nop,
-        description,
+        description
       };
       localStorage.setItem("TravelmateRideDrafts", JSON.stringify(draft));
     } else {
@@ -130,7 +128,6 @@ function AddRequest() {
         date: new Date(),
         time: "Any",
         mode: "Any",
-        gender: "Any",
         nop: 1,
         description: "",
       };
@@ -139,14 +136,14 @@ function AddRequest() {
     setDraftSaved(!draftSaved);
   };
 
-  const updateUserRides1 = async (rideId) => {
+  const updateUserRides2 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid, "rides", rideId);
     await setDoc(userRideRef, {
       rooms: [],
       requests: [],
     });
   };
-  const updateUserRides2 = async (rideId) => {
+  const updateUserRides1 = async (rideId) => {
     const userRideRef = doc(db, "users", user.uid);
     await updateDoc(userRideRef, {
       rides: arrayUnion(rideId),
@@ -220,12 +217,11 @@ function AddRequest() {
         date,
         time,
         mode,
-        gender,
         nop,
         description,
         displayName: user.displayName,
         photoURL: user.photoURL,
-        userId: user.uid,
+        userId: user.uid
       });
 
       updateUserRides1(docref.id);
@@ -235,7 +231,6 @@ function AddRequest() {
       if (!draftSaved) {
         setCurrentCity("");
         setDestinationCity("");
-        setGender("Any");
         setNop(1);
         setDescription("");
         setDate(new Date());

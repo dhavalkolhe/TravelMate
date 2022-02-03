@@ -51,16 +51,23 @@ const DashboardContextProvider = (props) => {
               })
               .then(() => {
                 const x = activeRides.map((doc, i) => {
-                  return (
-                    <DashboardCard
-                      key={Math.random(i + 1, 50 * i)}
-                      currentCity={doc.currentCity.split(",")[0]}
-                      destinationCity={doc.destinationCity.split(",")[0]}
-                      date={doc.date}
-                      nop={doc.nop}
-                      rideId={doc.rideId}
-                    />
-                  );
+                  if (
+                    doc.currentCity &&
+                    doc.destinationCity &&
+                    doc.date &&
+                    doc.nop &&
+                    doc.rideId
+                  )
+                    return (
+                      <DashboardCard
+                        key={Math.random(i + 1, 50 * i)}
+                        currentCity={doc.currentCity.split(",")[0]}
+                        destinationCity={doc.destinationCity.split(",")[0]}
+                        date={doc.date}
+                        nop={doc.nop}
+                        rideId={doc.rideId}
+                      />
+                    );
                 });
                 setActiveOffers(x);
               });
@@ -76,13 +83,19 @@ const DashboardContextProvider = (props) => {
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
     console.log(rideId);
-    return {
-      currentCity: rideData.data().currentCity,
-      destinationCity: rideData.data().destinationCity,
-      date: rideData.data().date.toDate().toDateString(),
-      nop: rideData.data().nop,
-      rideId,
-    };
+    if (
+      rideData.data().currentCity &&
+      rideData.data().destinationCity &&
+      rideData.data().date &&
+      rideData.data().nop
+    )
+      return {
+        currentCity: rideData.data().currentCity,
+        destinationCity: rideData.data().destinationCity,
+        date: rideData.data().date.toDate().toDateString(),
+        nop: rideData.data().nop,
+        rideId,
+      };
   };
 
   return (

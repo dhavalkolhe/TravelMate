@@ -65,7 +65,7 @@ const NotificationContextProvider = (props) => {
 
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
-    if (rideData)
+    if (rideData.data().currentCity && rideData.data().destinationCity)
       return {
         rideId: rideId,
         currentCity: rideData.data().currentCity,
@@ -75,11 +75,12 @@ const NotificationContextProvider = (props) => {
 
   const fetchRequestorData = async (requestorId) => {
     const requestorData = await getDoc(doc(db, "users", requestorId));
-    return {
-      requestorId: requestorId,
-      displayName: requestorData.data().displayName,
-      photoURL: requestorData.data().photoURL,
-    };
+    if (requestorData.data().displayName && requestorData.data().photoURL)
+      return {
+        requestorId: requestorId,
+        displayName: requestorData.data().displayName,
+        photoURL: requestorData.data().photoURL,
+      };
   };
 
   return (

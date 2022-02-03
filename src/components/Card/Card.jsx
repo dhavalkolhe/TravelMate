@@ -9,7 +9,8 @@ import PopUp from "../PopUp/PopUp";
 import Loader from "../../components/Loader/Loader";
 
 import { db } from "../../firebase/db";
-import { setDoc, getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { SentReqContext } from "../../context/sentRequests";
 
 function Card({
   currentCity,
@@ -30,27 +31,20 @@ function Card({
   const [disable, setDisable] = useState(false);
   const [sendText, setSendText] = useState("Send Request");
   const [loading, setLoading] = useState(false);
+  const [sentReq] = useContext(SentReqContext);
 
   useEffect(() => {
     userId === user.uid ? setDisable(true) : setDisable(false);
   }, [user, userId]);
 
-  const reqExists = async () => {
-    const docRef = doc(
-      db,
-      "users",
-      userId,
-      "requests",
-      user.uid + "-" + rideId
-    );
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return true;
-    } else {
-      return false;
+  useEffect(() => {
+    if (sentReq.includes(rideId)) {
+      setDisable(true)
+      setSendText("Request sent ✅");
     }
-  };
+  }, [sentReq])
+
+
 
   const updateuserRidesReq = async () => {
     const userRideRef = doc(db, "users", userId, "rides", rideId);
@@ -72,25 +66,24 @@ function Card({
   };
   const sendRequest = () => {
     if (user.authorized) {
-      setSendText("");
+      setSendText("")
       setLoading(true);
-
-      reqExists().then((res) => {
-        if (res) {
+      try {
+        addReq();
+        updateDoc(doc(db, "users", user.uid), {
+          sentRequests: arrayUnion(rideId)
+        }).then(() => {
           setLoading(false);
-          setSendText("Request already sent ✅");
+          setSendText("Request sent ✅");
           setDisable(true);
-        } else {
-          try {
-            addReq();
-            setLoading(false);
-            setSendText("Request sent ✅");
-            setDisable(true);
-          } catch (e) {
-            console.error("Error sending req : ", e);
-          }
-        }
-      });
+
+        })
+
+
+      } catch (e) {
+        console.error("Error sending req : ", e);
+      }
+
     } else {
       console.log("Not authorized");
     }

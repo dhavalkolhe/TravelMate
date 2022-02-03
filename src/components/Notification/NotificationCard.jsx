@@ -37,12 +37,7 @@ function NotificationCard({
       limit: 50,
     });
   };
-  const updateUserRideRooms = async (roomId) => {
-    const userRideRef = doc(db, "users", user.uid, "rides", rideId);
-    await updateDoc(userRideRef, {
-      rooms: arrayUnion(roomId),
-    });
-  };
+
   const updateUserRooms = async (roomId) => {
     const userRoomRef = doc(db, "users", user.uid);
     await updateDoc(userRoomRef, {
@@ -65,7 +60,10 @@ function NotificationCard({
       });
       createChatRoom(roomId);
       updateUserRooms(roomId);
-      updateUserRideRooms(roomId);
+
+      await updateDoc(doc(db, "rides", rideId), {
+        rooms: arrayUnion(roomId)
+      })
     } catch (err) {
       console.log("accept err : ", err);
     }
@@ -75,10 +73,11 @@ function NotificationCard({
 
   const handleReject = async () => {
     setLoading(true);
-    await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
 
-    setLoading(false);
-    setRejected(true);
+    deleteDoc(doc(db, "users", user.uid, "requests", reqId)).then(() => {
+      setLoading(false);
+      setRejected(true);
+    })
   };
 
   return (
@@ -100,19 +99,25 @@ function NotificationCard({
         <Typography variant="caption">
           {currentCity} - {destinationCity}
         </Typography>
-        {loading && <Loader size={20} />}
+        {loading && <Loader size={15} />}
         {accepted ? (
-          <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
+          <div>
+            <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
+          </div>
         ) : rejected ? (
-          <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
-        ) : (
-          <Box>
-            <Button onClick={handleAccept}>Accept</Button>
-            <Button onClick={handleReject}>Reject</Button>
-          </Box>
-        )}
-      </Box>
-    </Stack>
+          <div>
+            <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
+          </div>
+        ) : loading ? (<div></div>)
+          : (
+            <Box>
+              <Button onClick={handleAccept}>Accept</Button>
+              <Button onClick={handleReject}>Reject</Button>
+            </Box>
+          )
+        }
+      </Box >
+    </Stack >
   );
 }
 

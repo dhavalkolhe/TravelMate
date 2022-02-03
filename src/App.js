@@ -18,6 +18,7 @@ import RoomsContextProvider from "./context/roomsContext";
 import ChatContextProvider from "./context/chatContext";
 import SearchContextProvider from "./context/searchContext";
 import DashboardContextProvider from "./context/dashboardContext";
+import SentReqContextProvider from "./context/sentRequests";
 
 import "./firebase/firebase";
 
@@ -78,52 +79,37 @@ function App() {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <ChatContextProvider>
                   <NotificationContextProvider>
-                    <Router>
-                      <Switch>
-                        {/* <Route path="/login">
-                        <Login />
-                      </Route> */}
+                    <SentReqContextProvider>
+                      <Router>
+                        <Switch>
+                          <Route exact path="/addRequest">
+                            <AddRequest />
+                          </Route>
 
-                        <Route exact path="/addRequest">
-                          <AddRequest />
-                        </Route>
+                          <Route exact path="/search">
+                            <ResponseContextProvider>
+                              <SearchResult />
+                            </ResponseContextProvider>
+                          </Route>
 
-                        <Route exact path="/search">
-                          <ResponseContextProvider>
-                            <SearchResult />
-                          </ResponseContextProvider>
-                        </Route>
+                          <Route exact path="/dashboard">
+                            <DashboardContextProvider>
+                              <Dashboard />
+                            </DashboardContextProvider>
+                          </Route>
 
-                        {/* <Route exact path="/notifications">
-                        <Notification />
-                      </Route> */}
+                          <Route exact path="/chat">
+                            <RoomsContextProvider>
+                              <ChatPage />
+                            </RoomsContextProvider>
+                          </Route>
 
-                        <Route exact path="/dashboard">
-                          <DashboardContextProvider>
-                            <Dashboard />
-                          </DashboardContextProvider>
-                        </Route>
-
-                        <Route exact path="/chat">
-                          <RoomsContextProvider>
-                            <ChatPage />
-                          </RoomsContextProvider>
-                        </Route>
-
-                        {/* <Route exact path="/chatlist">
-                        <ChatList />
-                      </Route>
-
-                      <Route exact path="/chat/:roomId">
-                        <ChatList />
-                        <Chat />
-                      </Route> */}
-
-                        <Route exact path="/">
-                          <Home />
-                        </Route>
-                      </Switch>
-                    </Router>
+                          <Route exact path="/">
+                            <Home />
+                          </Route>
+                        </Switch>
+                      </Router>
+                    </SentReqContextProvider>
                   </NotificationContextProvider>
                 </ChatContextProvider>
               </LocalizationProvider>

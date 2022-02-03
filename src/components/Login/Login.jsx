@@ -103,7 +103,6 @@ export const Login = () => {
     setIsVerified(true);
   }
 
-  console.log(process.env.REACT_APP_SITE_KEY);
 
   return (
     <Card

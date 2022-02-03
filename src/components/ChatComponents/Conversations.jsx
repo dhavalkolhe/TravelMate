@@ -16,9 +16,9 @@ import { WindowContext } from "../../context";
 
 import Loader from "../../components/Loader/Loader";
 
-const Person = ({ displayName, photoURL, roomId, handleRoomChange }) => {
+const Person = ({ displayName, photoURL, roomId, handleRoomChange, currentCity, destinationCity }) => {
   return (
-    <div onClick={() => handleRoomChange(roomId, displayName, photoURL)}>
+    <div onClick={() => handleRoomChange(roomId, displayName, photoURL, currentCity, destinationCity)}>
       <Grid
         item
         container
