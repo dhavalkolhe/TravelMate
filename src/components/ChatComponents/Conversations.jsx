@@ -16,9 +16,26 @@ import { WindowContext } from "../../context";
 
 import Loader from "../../components/Loader/Loader";
 
-const Person = ({ displayName, photoURL, roomId, handleRoomChange, currentCity, destinationCity }) => {
+const Person = ({
+  displayName,
+  photoURL,
+  roomId,
+  handleRoomChange,
+  currentCity,
+  destinationCity,
+}) => {
   return (
-    <div onClick={() => handleRoomChange(roomId, displayName, photoURL, currentCity, destinationCity)}>
+    <div
+      onClick={() =>
+        handleRoomChange(
+          roomId,
+          displayName,
+          photoURL,
+          currentCity,
+          destinationCity
+        )
+      }
+    >
       <Grid
         item
         container
@@ -134,18 +151,37 @@ export const Conversations = () => {
   }, [roomsData]);
 
   return (
-    <Grid container direction={"column"} columns={22} className="Convcontainer">
+    <Grid
+      container
+      direction={"column"}
+      columns={22}
+      className="Convcontainer"
+      sx={{
+        flexWrap: "nowrap",
+      }}
+    >
       <Grid item xs={1}>
         <Typography variant="h6">Conversations</Typography>
       </Grid>
       <Grid item xs={1}>
         <OutlinedInput placeholder="Search" sx={{ width: "100%" }} />
       </Grid>
-      <Grid item sx={{ borderTop: "1px solid #313131", marginTop: "10px" }}>
+      <Grid
+        item
+        className="conversationsContainer"
+        sx={{
+          borderTop: "1px solid #313131",
+          marginTop: "10px",
+          overflowX: "hidden",
+          overflowY: "scroll",
+          flexWrap: "nowrap",
+          height: "100%",
+        }}
+      >
         {roomLoading ? (
           <Loader />
         ) : (
-          <>{chatsCount ? cardData : <p>No Chats!</p>}</>
+          <>{chatsCount ? <>{cardData}</> : <p>No Chats!</p>}</>
         )}
       </Grid>
     </Grid>

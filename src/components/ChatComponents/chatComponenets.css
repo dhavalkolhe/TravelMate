@@ -19,9 +19,32 @@
 
 .messageBox {
   width: 100%;
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.messageBox::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
 }
 
 .messageInput {
   width: 100%;
   min-height: 60px;
+}
+
+/*Conversations*/
+.conversationsContainer {
+  width: 100%;
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.conversationsContainer::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
 }
