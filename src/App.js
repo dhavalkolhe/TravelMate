@@ -35,6 +35,8 @@ import Chat from "./components/ChatDemo/Chat";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { ChatPage } from "./pages/Chat";
 
+import { BottomNav } from "./components/Nav";
+
 // import { MessagesBox } from "./components/ChatComponents";
 
 //Test
@@ -84,28 +86,38 @@ function App() {
                         <Switch>
                           <Route exact path="/addRequest">
                             <AddRequest />
+                            <BottomNav />
+                          </Route>
+
+                          <Route exact path="/notifications">
+                            <Notification />
+                            <BottomNav />
                           </Route>
 
                           <Route exact path="/search">
                             <ResponseContextProvider>
                               <SearchResult />
+                              <BottomNav />
                             </ResponseContextProvider>
                           </Route>
 
                           <Route exact path="/dashboard">
                             <DashboardContextProvider>
                               <Dashboard />
+                              <BottomNav />
                             </DashboardContextProvider>
                           </Route>
 
                           <Route exact path="/chat">
                             <RoomsContextProvider>
                               <ChatPage />
+                              <BottomNav />
                             </RoomsContextProvider>
                           </Route>
 
                           <Route exact path="/">
                             <Home />
+                            <BottomNav />
                           </Route>
                         </Switch>
                       </Router>

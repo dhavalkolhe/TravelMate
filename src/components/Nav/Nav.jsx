@@ -323,7 +323,16 @@ export const Nav = () => {
           <Stack spacing={2} direction="row" alignItems="center">
             {user.authorized && (
               <>
-                <IconButton size="medium" onClick={handleClickNotifMenu}>
+                <IconButton
+                  size="medium"
+                  onClick={handleClickNotifMenu}
+                  sx={{
+                    display: {
+                      xs: "none",
+                      md: "block",
+                    },
+                  }}
+                >
                   <Tooltip title={"Notifications"}>
                     <NotificationsNoneRoundedIcon />
                   </Tooltip>
@@ -332,11 +341,17 @@ export const Nav = () => {
                 <NotifMenu />
 
                 <Box
-                // sx={{
-                //   // height: "32px",
-                //   // width: "32px",
-                //   cursor: "pointer",
-                // }}
+                  sx={{
+                    display: {
+                      xs: "none",
+                      md: "block",
+                    },
+                  }}
+                  // sx={{
+                  //   // height: "32px",
+                  //   // width: "32px",
+                  //   cursor: "pointer",
+                  // }}
                 >
                   {/* <ButtonBase
                     sx={{

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 
 /* Componenets */
-import { Nav } from "../../components/Nav";
+import { Nav, BottomNav } from "../../components/Nav";
 import {
   SearchSection,
   StepsInfo,
@@ -48,6 +48,9 @@ export function Home() {
         <Link to="/searchRequests">Search Requests</Link>
       </div> */}
       </Container>
+
+      {/* <BottomNav /> */}
+
       <WebsiteInfo />
       <Container maxWidth="lg">
         <About />
