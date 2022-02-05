@@ -207,19 +207,32 @@ export const Nav = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {["Home", "About", "Dashboard", "Add Request"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} component={Link} to={`/${text}`} />
-          </ListItem>
-        ))}
+        <ListItem button key={"home"}>
+          <Link to={`/`}>
+            <ListItemText primary={"Home"} />
+          </Link>
+        </ListItem>
+        <ListItem button key={"about"}>
+          <Link to={`/#about`}>
+            <ListItemText primary={"About"} />
+          </Link>
+        </ListItem>
+        <ListItem button key={"dashboard"}>
+          <Link to={`/dashboard`}>
+            <ListItemText primary={"Dashboard"} />
+          </Link>
+        </ListItem>
+        <ListItem button key={"addRequest"}>
+          <Link to={`/addRequest`}>
+            <ListItemText primary={"Add Request"} />
+          </Link>
+        </ListItem>
       </List>
       <Divider />
       <List>
-        {["Profile", "Settings", "Logout"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key={"logout"} onClick={logOut}>
+          <ListItemText primary={"Logout"} />
+        </ListItem>
       </List>
     </Box>
   );
