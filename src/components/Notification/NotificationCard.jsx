@@ -13,6 +13,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
+
 //mui
 import { Box, Stack, Typography, Button, Avatar } from "@mui/material";
 
@@ -26,11 +27,9 @@ function NotificationCard({
   rideId,
 }) {
   const [user] = useContext(UserContext);
-  const [accepted, setAccepted] = useState(false);
-  const [rejected, setRejected] = useState(false);
+  // const [accepted, setAccepted] = useState(false);
+  // const [rejected, setRejected] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => { console.log("state up", accepted); }, [accepted])
 
 
   const createChatRoom = async (roomId) => {
@@ -81,7 +80,7 @@ function NotificationCard({
       updateUserRideRooms(roomId);
 
       setLoading(false);
-      setAccepted(true);
+      // setAccepted(true);
     } catch (err) {
       console.log("accept err : ", err);
     }
@@ -99,7 +98,7 @@ function NotificationCard({
       console.log(err);
     }
     setLoading(false);
-    setRejected(true);
+    // setRejected(true);
   };
 
   return (
@@ -122,7 +121,7 @@ function NotificationCard({
           {currentCity} - {destinationCity}
         </Typography>
         {loading && <Loader size={15} />}
-        {accepted ? (
+        {/* {accepted ? (
           <div>
             <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
           </div>
@@ -131,13 +130,13 @@ function NotificationCard({
             <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
           </div>
         ) : loading ? (<div></div>)
-          : (
-            <Box>
-              <Button onClick={handleAccept}>Accept</Button>
-              <Button onClick={handleReject}>Reject</Button>
-            </Box>
-          )
-        }
+          : ( */}
+        <Box>
+          <Button onClick={handleAccept}>Accept</Button>
+          <Button onClick={handleReject}>Reject</Button>
+        </Box>
+        {/* )
+        } */}
       </Box >
     </Stack >
   );

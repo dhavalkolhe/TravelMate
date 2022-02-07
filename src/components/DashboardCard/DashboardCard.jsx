@@ -85,19 +85,15 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
 
     deleteDoc(doc(db, "rides", rideId))
       .then(() => {
-        console.log("deleted ride from ride db");
         return updateDoc(doc(db, "users", user.uid), {
           rides: arrayRemove(rideId),
         })
       })
       .then(() => {
-        console.log("deleted ride arr from user db");
         return deleteAllRideMisc()
       })
       .then(() => {
-        console.log("deleted ride collection from user db");
         toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1500 });
-
       })
       .catch((err) => {
         catchError(err);
