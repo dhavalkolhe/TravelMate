@@ -99,13 +99,10 @@ function AddRequest() {
 
   const formValidation = () => {
     if (currentCity && destinationCity && date && time && nop && mode) {
-      setDate(new Date(date.setHours(0, 0, 0, 0)))
-      if (date >= new Date(new Date().setHours(0, 0, 0, 0)))
-        return true;
-      else
-        notify("warning", "Date cannot be in past");
-    }
-    else return false;
+      setDate(new Date(date.setHours(0, 0, 0, 0)));
+      if (date >= new Date(new Date().setHours(0, 0, 0, 0))) return true;
+      else notify("warning", "Date cannot be in past");
+    } else return false;
   };
 
   const makeDraft = (e) => {
@@ -118,7 +115,7 @@ function AddRequest() {
         time,
         mode,
         nop,
-        description
+        description,
       };
       localStorage.setItem("TravelmateRideDrafts", JSON.stringify(draft));
     } else {
@@ -221,7 +218,7 @@ function AddRequest() {
         description,
         displayName: user.displayName,
         photoURL: user.photoURL,
-        userId: user.uid
+        userId: user.uid,
       });
 
       updateUserRides1(docref.id);
