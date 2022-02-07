@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./NotificationCard.css";
 import { UserContext } from "../../context/userContext";
 import Loader from "../../components/Loader/Loader";
@@ -9,7 +9,7 @@ import {
   updateDoc,
   doc,
   setDoc,
-  arrayUnion,
+  arrayUnion, arrayRemove,
   deleteDoc,
 } from "firebase/firestore";
 
@@ -30,6 +30,9 @@ function NotificationCard({
   const [rejected, setRejected] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => { console.log("state up", accepted); }, [accepted])
+
+
   const createChatRoom = async (roomId) => {
     await setDoc(doc(db, "rooms", roomId), {
       members: [user.uid, requestorId],
@@ -37,20 +40,35 @@ function NotificationCard({
       limit: 50,
     });
   };
-
+  const updateUserRideRooms = async (roomId) => {
+    try {
+      const userRideRef = doc(db, "users", user.uid, "rides", rideId);
+      await updateDoc(userRideRef, {
+        rooms: arrayUnion(roomId),
+      });
+    }
+    catch (err) {
+      console.log(err);
+    }
+  };
   const updateUserRooms = async (roomId) => {
-    const userRoomRef = doc(db, "users", user.uid);
-    await updateDoc(userRoomRef, {
-      rooms: arrayUnion(roomId),
-    });
+    try {
+      const userRoomRef = doc(db, "users", user.uid);
+      await updateDoc(userRoomRef, {
+        rooms: arrayUnion(roomId),
+      });
 
-    const requestorRoomRef = doc(db, "users", requestorId);
-    await updateDoc(requestorRoomRef, {
-      rooms: arrayUnion(roomId),
-    });
+      const requestorRoomRef = doc(db, "users", requestorId);
+      await updateDoc(requestorRoomRef, {
+        rooms: arrayUnion(roomId),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleAccept = async () => {
     setLoading(true);
+
     let roomId = uuidv4();
 
     try {
@@ -60,24 +78,28 @@ function NotificationCard({
       });
       createChatRoom(roomId);
       updateUserRooms(roomId);
+      updateUserRideRooms(roomId);
 
-      await updateDoc(doc(db, "rides", rideId), {
-        rooms: arrayUnion(roomId)
-      })
+      setLoading(false);
+      setAccepted(true);
     } catch (err) {
       console.log("accept err : ", err);
     }
-    setLoading(false);
-    setAccepted(true);
   };
 
   const handleReject = async () => {
     setLoading(true);
-
-    deleteDoc(doc(db, "users", user.uid, "requests", reqId)).then(() => {
-      setLoading(false);
-      setRejected(true);
-    })
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
+      const userRef = doc(db, "users", requestorId);
+      await updateDoc(userRef, {
+        sentRequests: arrayRemove(rideId),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+    setRejected(true);
   };
 
   return (
