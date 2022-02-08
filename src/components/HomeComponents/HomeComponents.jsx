@@ -31,7 +31,7 @@ export function SearchSection() {
   const handleSearchClose = () => {
     setSearchOpen(false);
   };
-
+  // eslint-disable-next-line
   const { width, height } = useContext(WindowContext);
 
   return (

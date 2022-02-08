@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
 /* MUI */
 import { Stack, Typography } from "@mui/material";
 
@@ -22,7 +20,11 @@ export function About() {
         >
           <Typography variant="h3">About Us</Typography>
 
-          <a href="https://vitrendz.com/" target="_blank">
+          <a
+            href="https://vitrendz.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Typography variant="subtitle1" color="#F03E51">
               <u>vitrendz.com</u>
             </Typography>

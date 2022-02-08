@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Components
-import { Login } from "./components/Login";
+// import { Login } from "./components/Login";
 import AddRequest from "./components/AddRequest/AddRequest";
 
 // Contexts
@@ -29,8 +29,6 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { Home } from "./pages/Home";
 import { Notification } from "./components/Notification";
 // import { ChatPage } from "./pages/Chat";
-import ChatList from "./components/ChatDemo/ChatList";
-import Chat from "./components/ChatDemo/Chat";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { ChatPage } from "./pages/Chat";
 
@@ -48,7 +46,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { MobileFullscreen } from "react-mobile-fullscreen";
 
 const auth = getAuth();
 
@@ -75,19 +72,8 @@ export const Navigation = () => {
   );
 };
 
-const Mask = (props) => {
-  return (
-    <>
-      {/* {props.fullscreenType === "native"
-        ? "Click Me!"
-        : props.fullscreenType === "minimal-ui"
-        ? "Swipe Up!"
-        : "Mask won't be rendered"} */}
-    </>
-  );
-};
-
 function App() {
+  // eslint-disable-next-line
   const [user, setUser] = useContext(UserContext);
   const [u, setU] = useState(auth.currentUser);
 
@@ -114,7 +100,7 @@ function App() {
   window.addEventListener("storage", () => {
     const changedData = JSON.parse(window.localStorage.getItem("user"));
 
-    if (JSON.stringify(u) != JSON.stringify(changedData)) {
+    if (JSON.stringify(u) !== JSON.stringify(changedData)) {
       // localStorage.setItem("user", JSON.stringify(u));
       setUser({
         authorized: false,

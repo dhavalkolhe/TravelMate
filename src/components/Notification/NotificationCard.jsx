@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import "./NotificationCard.css";
 import { UserContext } from "../../context/userContext";
 import Loader from "../../components/Loader/Loader";
@@ -15,7 +15,7 @@ import {
 
 
 //mui
-import { Box, Stack, Typography, Button, Avatar } from "@mui/material";
+import { Box, Stack, Typography, Button } from "@mui/material";
 
 function NotificationCard({
   currentCity,

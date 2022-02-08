@@ -165,7 +165,7 @@ export function MessagesBox() {
     }
 
     if (limit > 0) {
-      if (limit == 1) {
+      if (limit === 1) {
         notify(
           "warning",
           "Message limit exceeded! We will delete the older messages."
@@ -216,6 +216,7 @@ export function MessagesBox() {
   }, [socket]);
 
   const { messageBoxInfo } = useContext(ChatContext);
+  // eslint-disable-next-line
   const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
 
   function handleMessageBoxClose() {

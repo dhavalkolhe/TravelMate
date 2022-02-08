@@ -1,16 +1,7 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./chatComponenets.css";
 
-import {
-  Box,
-  Stack,
-  Avatar,
-  Grid,
-  Typography,
-  OutlinedInput,
-} from "@mui/material";
-
-import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
+import { Stack, Avatar, Grid, Typography, OutlinedInput } from "@mui/material";
 
 import { RoomsContext } from "../../context/roomsContext";
 import { ChatContext } from "../../context/chatContext";
@@ -104,17 +95,16 @@ export const Conversations = () => {
 
   const [cardData, setCardData] = useState([]);
   const [chatsCount, setChatsCount] = useState(0);
-
-  const { width, height } = useContext(WindowContext);
+  const { width } = useContext(WindowContext);
 
   const { currRoomId, currChatterInfo, messageBoxInfo } =
     useContext(ChatContext);
+  // eslint-disable-next-line
   const [roomId, setRoomId] = currRoomId;
+  // eslint-disable-next-line
   const [chatterInfo, setchatterInfo] = currChatterInfo;
   const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
   const [messageBoxOpenActive, setMessageBoxOpenActive] = useState(false);
-
-  const [searchResults, setSearchResults] = useState(null);
 
   const handleRoomChange = (roomId, displayName, photoURL) => {
     setRoomId(roomId);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
@@ -6,9 +6,7 @@ import "./Nav.css";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 export const BottomNav = () => {
   const [value, setValue] = React.useState("recents");

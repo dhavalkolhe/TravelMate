@@ -54,7 +54,7 @@ export function Article() {
             alignItems="flex-end"
             width="100%"
           >
-            <a href={link} rel="noreferrer" target="_blank">
+            <a href={link} target="_blank" rel="noopener noreferrer">
               <Button
                 variant="contained"
                 endIcon={<KeyboardArrowRightIcon />}

@@ -4,12 +4,7 @@ import Recaptcha from "react-recaptcha";
 
 // firebase
 import "../../firebase/firebase";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-} from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
@@ -26,6 +21,7 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
 export const Login = () => {
+  // eslint-disable-next-line
   const [user, setUser] = useContext(UserContext);
 
   const notify = (type, message) => {

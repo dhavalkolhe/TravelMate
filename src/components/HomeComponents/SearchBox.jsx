@@ -21,8 +21,6 @@ import {
   TextField,
   createFilterOptions,
   Autocomplete,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
 
 import DatePicker from "@mui/lab/DatePicker";

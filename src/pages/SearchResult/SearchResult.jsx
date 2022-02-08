@@ -26,7 +26,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
 import { LoginContext } from "../../context/loginContext";
 import { UserContext } from "../../context/userContext";
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
 /*
 <div>
           < Redirect to="/" />
@@ -36,6 +36,7 @@ import { Redirect } from "react-router-dom"
 function SearchResult() {
   const [user] = useContext(UserContext);
   const { loginDialog } = useContext(LoginContext);
+  // eslint-disable-next-line
   const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
 
   // eslint-disable-next-line
@@ -155,14 +156,14 @@ function SearchResult() {
     h.length
       ? setFilteredResponse(h)
       : g.length
-        ? setFilteredResponse(g)
-        : z.length
-          ? setFilteredResponse(z)
-          : y.length
-            ? setFilteredResponse(y)
-            : x.length
-              ? setFilteredResponse(x)
-              : setFilteredResponse([]);
+      ? setFilteredResponse(g)
+      : z.length
+      ? setFilteredResponse(z)
+      : y.length
+      ? setFilteredResponse(y)
+      : x.length
+      ? setFilteredResponse(x)
+      : setFilteredResponse([]);
 
     // eslint-disable-next-line
   }, [startDate, endDate, currentCity, destinationCity, time, mode]);
@@ -224,10 +225,12 @@ function SearchResult() {
               <span className="filter-text">Filter</span>
             </span>
           </h2>
-          {!user.authorized ? (<div>
-            < Redirect to="/" />
-            {setLoginDialogOpen(true)}
-          </div>) : (
+          {!user.authorized ? (
+            <div>
+              <Redirect to="/" />
+              {setLoginDialogOpen(true)}
+            </div>
+          ) : (
             <div className="container">
               {showFilterNav ? (
                 <FilterResultsNav
@@ -341,7 +344,9 @@ function SearchResult() {
                       autoHighlight
                       disableClearable
                       freeSolo
-                      getOptionLabel={(option) => option.name || destinationCity}
+                      getOptionLabel={(option) =>
+                        option.name || destinationCity
+                      }
                       onChange={(event, value) => {
                         // console.log(value);
                         let selectedCity = value.name.concat(", ", value.state);
@@ -432,7 +437,6 @@ function SearchResult() {
         </div>
       </Container>
     </Box>
-
   );
 }
 

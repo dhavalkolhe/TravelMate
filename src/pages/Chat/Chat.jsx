@@ -7,7 +7,7 @@ import { Nav } from "../../components/Nav";
 import { Conversations, MessagesBox } from "../../components/ChatComponents";
 
 /* MUI */
-import { Container, Box, Stack, Grid } from "@mui/material";
+import { Container, Box, Grid } from "@mui/material";
 
 function DesktopChatSection() {
   const { currChatterInfo } = useContext(ChatContext);

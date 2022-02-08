@@ -22,10 +22,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  ButtonBase,
   Typography,
   IconButton,
-  Button,
   Badge,
 } from "@mui/material";
 
@@ -33,8 +31,6 @@ import { styled } from "@mui/material/styles";
 
 import LoadingButton from "@mui/lab/LoadingButton";
 // import CloseIcon from "@mui/icons-material/Close";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -42,14 +38,11 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
-import chatIconDot from "../../resources/images/chatIconDot.svg";
-import chatIconBlank from "../../resources/images/chatIconBlank.svg";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 import "../../firebase/firebase";
 import { getAuth, signOut } from "firebase/auth";
 
-import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
 const notify = (type, message) => {
