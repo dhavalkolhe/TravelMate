@@ -26,7 +26,11 @@ import {
   Typography,
   IconButton,
   Button,
+  Badge,
 } from "@mui/material";
+
+import { styled } from "@mui/material/styles";
+
 import LoadingButton from "@mui/lab/LoadingButton";
 // import CloseIcon from "@mui/icons-material/Close";
 import PersonAdd from "@mui/icons-material/PersonAdd";
@@ -289,6 +293,17 @@ export const Nav = () => {
       });
   };
 
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: 1,
+      top: 2,
+      height: "16px",
+      width: "16px",
+      minWidth: "0",
+      fontSize: "10px",
+    },
+  }));
+
   return (
     <>
       <Box className="navContainer">
@@ -334,7 +349,9 @@ export const Nav = () => {
                   }}
                 >
                   <Tooltip title={"Notifications"}>
-                    <NotificationsNoneRoundedIcon />
+                    <StyledBadge badgeContent={1} color="primary">
+                      <NotificationsNoneRoundedIcon />
+                    </StyledBadge>
                   </Tooltip>
                 </IconButton>
 
