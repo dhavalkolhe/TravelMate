@@ -67,7 +67,7 @@ export function Footer() {
             }}
           >
             <NavLink title={"Home"} srcLink={"/Home"} />
-            <NavLink title={"About"} srcLink={"/#about"} />
+            {/* <NavLink title={"About"} srcLink={"/#about"} /> */}
             <NavLink title={"Dashboard"} srcLink={"/dashboard"} />
             <NavLink title={"Add Request"} srcLink={"/addrequest"} />
           </Stack>

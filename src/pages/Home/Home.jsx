@@ -54,7 +54,7 @@ export function Home() {
       <WebsiteInfo />
       <Container maxWidth="lg">
         <About />
-        <MadeBy />
+        {/* <MadeBy /> */}
       </Container>
       <Footer />
     </homeContext.Provider>

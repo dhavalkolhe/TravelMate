@@ -212,11 +212,11 @@ export const Nav = () => {
             <ListItemText primary={"Home"} />
           </Link>
         </ListItem>
-        <ListItem button key={"about"}>
+        {/* <ListItem button key={"about"}>
           <Link to={`/#about`}>
             <ListItemText primary={"About"} />
           </Link>
-        </ListItem>
+        </ListItem> */}
         <ListItem button key={"dashboard"}>
           <Link to={`/dashboard`}>
             <ListItemText primary={"Dashboard"} />
@@ -308,9 +308,9 @@ export const Nav = () => {
               <Grid item component={Link} to="/">
                 Home
               </Grid>
-              <Grid item component={Link} to="/#about">
+              {/* <Grid item component={Link} to="/#about">
                 About
-              </Grid>
+              </Grid> */}
               <Grid item component={Link} to="/dashboard">
                 Dashboard
               </Grid>
