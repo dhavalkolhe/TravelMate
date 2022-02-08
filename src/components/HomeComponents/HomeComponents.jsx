@@ -178,21 +178,25 @@ export function WebsiteInfo() {
           image={websiteInfoIcon1}
           head={"Trust who you travel with"}
           data={
-            "Travelmate enforces strict privacy policies to protect members against disclosure, unauthorized access. The use of secured servers, designated data protection, implementation of appropriate security measures to prevent and protect personal data should put minds at ease."
+            "Travelmate enforces strict privacy policies to protect members against disclosure, unauthorized access."
+            // The use of secured servers, designated data protection, implementation of appropriate security measures to prevent and protect personal data should put minds at ease.
           }
         />
         <Item
           image={websiteInfoIcon2}
           head={"Search, Connect and GO!"}
           data={
-            "Enter your travel location and connect with your travel buddy without any hassels. All you need to do is enter your departure and arrival destination and push a request for your travel buddy to find you. Your request will be enlisted and your travel mate can connect with you only if you approve the request."
+            "Enter your travel location and connect with your travel buddy without any hassels. "
+            // All you need to do is enter your departure and arrival destination and push a request for your travel buddy to find you. Your request will be enlisted and your travel mate can connect with you only if you approve the request.
           }
         />
         <Item
           image={websiteInfoIcon3}
           head={"Chat within the Website"}
-          data={`Travel mate is focused on providing a secure instant messaging chat platform to its users for them to connect and share their travel details with each other. It comes in built-in security feature wherein an user's chat option is enabled only if your travel mate approves your request.
-            Hence, ensuring safety and security.`}
+          data={`Travel mate is focused on providing a secure instant messaging chat platform to its users for them to connect. `}
+        // and share their travel details with each other.
+        // It comes in built-in security feature wherein an user's chat option is enabled only if your travel mate approves your request.
+        // Hence, ensuring safety and security.
         />
       </Grid>
     </Box>
