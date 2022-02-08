@@ -9,12 +9,15 @@ import {
   updateDoc,
   arrayRemove,
   getDoc,
-  getDocs, collection
+  getDocs,
+  collection,
 } from "firebase/firestore";
 import { UserContext } from "../../context/userContext";
 import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const [user] = useContext(UserContext);
@@ -22,7 +25,12 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
 
   const catchError = (err) => {
     console.log("Error in deleting : ", err.message);
-    toast.update(tid, { render: "Failed to delete ride!", type: "error", isLoading: false, autoClose: 1000 });
+    toast.update(tid, {
+      render: "Failed to delete ride!",
+      type: "error",
+      isLoading: false,
+      autoClose: 1000,
+    });
   };
   //Toast Function
   // const notify = (type, message) => {
@@ -32,9 +40,8 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
     try {
       await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
       console.log("deleted req from user req db");
-
     } catch (error) {
-      catchError(error)
+      catchError(error);
     }
   };
 
@@ -46,16 +53,18 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
           await updateDoc(doc(db, "users", uid), {
             rooms: arrayRemove(roomId),
           });
-        })
+        });
 
-      const snapshot = await getDocs(collection(db, "rooms", roomId, "messages"));
+      const snapshot = await getDocs(
+        collection(db, "rooms", roomId, "messages")
+      );
       snapshot.forEach(async (msg) => {
         await deleteDoc(doc(db, "rooms", roomId, "messages", msg.id));
-      })
+      });
       await deleteDoc(doc(db, "rooms", roomId));
       console.log("deleted room from room db");
     } catch (error) {
-      catchError(error)
+      catchError(error);
     }
   };
 
@@ -76,30 +85,60 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
       }
       return deleteDoc(doc(db, "users", user.uid, "rides", rideId));
     } catch (error) {
-      catchError(error)
+      catchError(error);
     }
   };
   const deleteRide = () => {
-    tid = toast.loading("Please wait...")
-    toast.update(tid, { render: "Deleting Ride..", type: "pending", isLoading: true });
+    tid = toast.loading("Please wait...");
+    toast.update(tid, {
+      render: "Deleting Ride..",
+      type: "pending",
+      isLoading: true,
+    });
 
     deleteDoc(doc(db, "rides", rideId))
       .then(() => {
         return updateDoc(doc(db, "users", user.uid), {
           rides: arrayRemove(rideId),
-        })
+        });
       })
       .then(() => {
-        return deleteAllRideMisc()
+        return deleteAllRideMisc();
       })
       .then(() => {
-        toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1500 });
+        toast.update(tid, {
+          render: "Ride Deleted",
+          type: "success",
+          isLoading: false,
+          autoClose: 1500,
+        });
       })
       .catch((err) => {
         catchError(err);
-      })
+      });
   };
 
+  // Confirm Popup
+  const confirmDelete = () => {
+    confirmAlert({
+      message: "Do you want to delete?",
+      buttons: [
+        {
+          label: "Yes",
+          className: "yesButton",
+          onClick: () => {
+            // addRequest();
+            deleteRide();
+          },
+        },
+        {
+          label: "No",
+          className: "noButton",
+          //onClick: () => alert("Cancelled"),
+        },
+      ],
+    });
+  };
 
   return (
     <div className="dashCardContainer">
@@ -117,7 +156,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
             ? destinationCity.slice(0, 6) + "..."
             : destinationCity}
         </span>
-        <span className="dashDeleteIcon" onClick={deleteRide}>
+        <span className="dashDeleteIcon" onClick={confirmDelete}>
           <img src={deleteIcon} alt="delete-icon" />
         </span>
       </div>
