@@ -20,6 +20,7 @@ import { setDoc, doc, getDoc } from "firebase/firestore";
 //mui + UI
 import { Box, Stack, Card, Button, Typography } from "@mui/material";
 import googleLogo from "../../resources/icons/googleLogo.svg";
+import travelmateLogo from "../../resources/icons/travelmateLogo.svg";
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
@@ -103,7 +104,6 @@ export const Login = () => {
     setIsVerified(true);
   }
 
-
   return (
     <Card
       sx={{
@@ -119,16 +119,32 @@ export const Login = () => {
         alignItems="center"
         spacing={2}
       >
-        <Box sx={{ width: "64px", height: "64px" }}>
+        <Box sx={{ width: "50px", height: "50px" }}>
           <img src={googleLogo} alt="Google" />
         </Box>
-        <Typography variant="h5">Sign In</Typography>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          Sign In
+        </Typography>
+        <Box sx={{ display: "flex" }}>
+          <Typography>to continue to</Typography>
+          <Box sx={{ width: "90px", height: "50px", marginLeft: "10px" }}>
+            <img src={travelmateLogo} alt="travelmate" />
+          </Box>
+        </Box>
+
         <Recaptcha
           sitekey={process.env.REACT_APP_SITE_KEY}
           render="explicit"
           onloadCallback={onloadCallback}
           verifyCallback={verifyCallback}
         />
+        {/* <Typography variant="subtitle2" sx={{ fontSize: "11px" }}>
+          By signing in you agree to the{" "}
+          <b>
+            <a href="https://www.google.co.in/">Terms and Conditions</a>
+          </b>
+        </Typography> */}
+
         <Stack width="100%" alignItems="flex-end">
           <Button variant="contained" onClick={login}>
             Sign In
