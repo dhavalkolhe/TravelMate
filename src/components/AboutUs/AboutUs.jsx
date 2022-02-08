@@ -21,9 +21,12 @@ export function About() {
           }}
         >
           <Typography variant="h3">About Us</Typography>
-          <Typography variant="subtitle1" color="#F03E51" component={Link}>
-            <u>vitrendz.com</u>
-          </Typography>
+
+          <a href="https://vitrendz.com/" target="_blank">
+            <Typography variant="subtitle1" color="#F03E51">
+              <u>vitrendz.com</u>
+            </Typography>
+          </a>
         </Stack>
         <Typography
           sx={{
@@ -32,7 +35,12 @@ export function About() {
             lineHeight: "2rem",
           }}
         >
-          VITrendz is a student-run organization that was founded in the year 2020. We are an all-in-one platform that entertains, educates, and helps students. We provide several services and academic resources to make their lives easier. We have an ever-growing student community of 19.3K on Instagram, 6K+ on Telegram, 470 on LinkedIn, 2.3K+ on Discord, and 3.5K+ on Youtube.
+          VITrendz is a student-run organization that was founded in the year
+          2020. We are an all-in-one platform that entertains, educates, and
+          helps students. We provide several services and academic resources to
+          make their lives easier. We have an ever-growing student community of
+          19.3K on Instagram, 6K+ on Telegram, 470 on LinkedIn, 2.3K+ on
+          Discord, and 3.5K+ on Youtube.
         </Typography>
       </Stack>
     </>
