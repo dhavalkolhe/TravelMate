@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./NotificationCard.css";
 import { UserContext } from "../../context/userContext";
 import Loader from "../../components/Loader/Loader";
@@ -9,9 +9,10 @@ import {
   updateDoc,
   doc,
   setDoc,
-  arrayUnion,
+  arrayUnion, arrayRemove,
   deleteDoc,
 } from "firebase/firestore";
+
 
 //mui
 import { Box, Stack, Typography, Button, Avatar } from "@mui/material";
@@ -26,9 +27,10 @@ function NotificationCard({
   rideId,
 }) {
   const [user] = useContext(UserContext);
-  const [accepted, setAccepted] = useState(false);
-  const [rejected, setRejected] = useState(false);
+  // const [accepted, setAccepted] = useState(false);
+  // const [rejected, setRejected] = useState(false);
   const [loading, setLoading] = useState(false);
+
 
   const createChatRoom = async (roomId) => {
     await setDoc(doc(db, "rooms", roomId), {
@@ -38,24 +40,34 @@ function NotificationCard({
     });
   };
   const updateUserRideRooms = async (roomId) => {
-    const userRideRef = doc(db, "users", user.uid, "rides", rideId);
-    await updateDoc(userRideRef, {
-      rooms: arrayUnion(roomId),
-    });
+    try {
+      const userRideRef = doc(db, "users", user.uid, "rides", rideId);
+      await updateDoc(userRideRef, {
+        rooms: arrayUnion(roomId),
+      });
+    }
+    catch (err) {
+      console.log(err);
+    }
   };
   const updateUserRooms = async (roomId) => {
-    const userRoomRef = doc(db, "users", user.uid);
-    await updateDoc(userRoomRef, {
-      rooms: arrayUnion(roomId),
-    });
+    try {
+      const userRoomRef = doc(db, "users", user.uid);
+      await updateDoc(userRoomRef, {
+        rooms: arrayUnion(roomId),
+      });
 
-    const requestorRoomRef = doc(db, "users", requestorId);
-    await updateDoc(requestorRoomRef, {
-      rooms: arrayUnion(roomId),
-    });
+      const requestorRoomRef = doc(db, "users", requestorId);
+      await updateDoc(requestorRoomRef, {
+        rooms: arrayUnion(roomId),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleAccept = async () => {
     setLoading(true);
+
     let roomId = uuidv4();
 
     try {
@@ -66,19 +78,27 @@ function NotificationCard({
       createChatRoom(roomId);
       updateUserRooms(roomId);
       updateUserRideRooms(roomId);
+
+      setLoading(false);
+      // setAccepted(true);
     } catch (err) {
       console.log("accept err : ", err);
     }
-    setLoading(false);
-    setAccepted(true);
   };
 
   const handleReject = async () => {
     setLoading(true);
-    await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
-
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
+      const userRef = doc(db, "users", requestorId);
+      await updateDoc(userRef, {
+        sentRequests: arrayRemove(rideId),
+      });
+    } catch (err) {
+      console.log(err);
+    }
     setLoading(false);
-    setRejected(true);
+    // setRejected(true);
   };
 
   return (
@@ -100,19 +120,25 @@ function NotificationCard({
         <Typography variant="caption">
           {currentCity} - {destinationCity}
         </Typography>
-        {loading && <Loader size={20} />}
-        {accepted ? (
-          <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
+        {loading && <Loader size={15} />}
+        {/* {accepted ? (
+          <div>
+            <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
+          </div>
         ) : rejected ? (
-          <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
-        ) : (
-          <Box>
-            <Button onClick={handleAccept}>Accept</Button>
-            <Button onClick={handleReject}>Reject</Button>
-          </Box>
-        )}
-      </Box>
-    </Stack>
+          <div>
+            <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
+          </div>
+        ) : loading ? (<div></div>)
+          : ( */}
+        <Box>
+          <Button onClick={handleAccept}>Accept</Button>
+          <Button onClick={handleReject}>Reject</Button>
+        </Box>
+        {/* )
+        } */}
+      </Box >
+    </Stack >
   );
 }
 

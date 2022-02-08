@@ -1,0 +1,1 @@
+export { logOutUser } from "./firebaseUtils";

@@ -27,6 +27,7 @@ import {
   IconButton,
   Button,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 // import CloseIcon from "@mui/icons-material/Close";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
@@ -34,15 +35,16 @@ import Logout from "@mui/icons-material/Logout";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
-
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
 import chatIconDot from "../../resources/images/chatIconDot.svg";
+import chatIconBlank from "../../resources/images/chatIconBlank.svg";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+
 import "../../firebase/firebase";
-import {
-  getAuth,
-  signOut,
-} from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
+
 import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
@@ -108,12 +110,12 @@ export const Nav = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={logOut}>
           <ListItemIcon>
             <Logout fontSize="small" />
@@ -138,7 +140,6 @@ export const Nav = () => {
         anchorEl={notifMenu}
         open={openNotifMenu}
         onClose={handleCloseNotifMenu}
-        onClick={handleCloseNotifMenu}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -206,19 +207,32 @@ export const Nav = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {["Home", "About", "Dashboard", "Add Request"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} component={Link} to={`/${text}`} />
-          </ListItem>
-        ))}
+        <ListItem button key={"home"}>
+          <Link to={`/`}>
+            <ListItemText primary={"Home"} />
+          </Link>
+        </ListItem>
+        <ListItem button key={"about"}>
+          <Link to={`/#about`}>
+            <ListItemText primary={"About"} />
+          </Link>
+        </ListItem>
+        <ListItem button key={"dashboard"}>
+          <Link to={`/dashboard`}>
+            <ListItemText primary={"Dashboard"} />
+          </Link>
+        </ListItem>
+        <ListItem button key={"addRequest"}>
+          <Link to={`/addRequest`}>
+            <ListItemText primary={"Add Request"} />
+          </Link>
+        </ListItem>
       </List>
       <Divider />
       <List>
-        {["Profile", "Settings", "Logout"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key={"logout"} onClick={logOut}>
+          <ListItemText primary={"Logout"} />
+        </ListItem>
       </List>
     </Box>
   );
@@ -232,15 +246,30 @@ export const Nav = () => {
   };
 
   const LoginButton = () => {
+    const [loginLoading, setloginLoading] = useState(false);
+
+    useEffect(() => {
+      if (loginDialogOpen) {
+        setloginLoading(true);
+      }
+    }, [loginDialogOpen]);
+
     return (
       <>
-        <Button
+        <LoadingButton
           onClick={() => {
-            setLoginDialogOpen(true);
+            setloginLoading(true);
+            setTimeout(() => setLoginDialogOpen(true), 800);
           }}
+          variant="text"
+          startIcon={<LoginRoundedIcon />}
+          loading={loginLoading}
+          loadingPosition="start"
+          color="primary"
+          // sx={{ color: "theme.palette.theme.text" }}
         >
           Login
-        </Button>
+        </LoadingButton>
       </>
     );
   };
@@ -255,7 +284,7 @@ export const Nav = () => {
         });
       })
       .catch((error) => {
-        notify("error", "Error signing out user")
+        notify("error", "Error signing out user");
         console.log(error.message);
       });
   };
@@ -290,44 +319,71 @@ export const Nav = () => {
               </Grid>
             </Grid>
           </Grid>
+
           <Stack spacing={2} direction="row" alignItems="center">
-            <IconButton size="large" onClick={handleClickNotifMenu}>
-              <Tooltip title={"Notifications"}>
-                <NotificationsNoneRoundedIcon />
-              </Tooltip>
-            </IconButton>
-
-            <NotifMenu />
-
-            <Box
-              sx={{
-                height: "32px",
-                width: "32px",
-                cursor: "pointer",
-              }}
-            >
-              <Tooltip title={"Chat"}>
-                <ButtonBase
-                  sx={{ borderRadius: "25px", height: "120%", width: "110%" }}
+            {user.authorized && (
+              <>
+                <IconButton
+                  size="medium"
+                  onClick={handleClickNotifMenu}
+                  sx={{
+                    display: {
+                      xs: "none",
+                      md: "block",
+                    },
+                  }}
                 >
-                  <Link to="/chat">
-                    <img src={chatIconDot} alt="Chat Icon" />
-                  </Link>
-                </ButtonBase>
-              </Tooltip>
-            </Box>
+                  <Tooltip title={"Notifications"}>
+                    <NotificationsNoneRoundedIcon />
+                  </Tooltip>
+                </IconButton>
 
-            <Box
-              onClick={toggleDrawer(true)}
-              sx={{
-                display: {
-                  xs: "flex",
-                  md: "none",
-                },
-              }}
-            >
-              <img src={menuIcon} alt="Menu" />
-            </Box>
+                <NotifMenu />
+
+                <Box
+                  sx={{
+                    display: {
+                      xs: "none",
+                      md: "block",
+                    },
+                  }}
+                  // sx={{
+                  //   // height: "32px",
+                  //   // width: "32px",
+                  //   cursor: "pointer",
+                  // }}
+                >
+                  {/* <ButtonBase
+                    sx={{
+                      borderRadius: "25px",
+                      height: "120%",
+                      width: "110%",
+                    }}
+                  > */}
+                  <Tooltip title={"Chat"}>
+                    <Link to="/chat">
+                      {/* <img src={chatIconBlank} alt="Chat" /> */}
+                      <IconButton size="medium">
+                        <ChatBubbleOutlineOutlinedIcon />
+                      </IconButton>
+                    </Link>
+                  </Tooltip>
+                  {/* </ButtonBase> */}
+                </Box>
+
+                <Box
+                  onClick={toggleDrawer(true)}
+                  sx={{
+                    display: {
+                      xs: "flex",
+                      md: "none",
+                    },
+                  }}
+                >
+                  <img src={menuIcon} alt="Menu" />
+                </Box>
+              </>
+            )}
 
             {loggedIn ? (
               <Box

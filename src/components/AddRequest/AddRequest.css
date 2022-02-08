@@ -209,7 +209,7 @@ p {
     height: auto;
   }
   .date-picker {
-    width: 90px;
+    width: 130px;
     padding: 0.4rem;
     font-size: 0.9rem;
     border: none;
@@ -220,6 +220,9 @@ p {
   }
   .react-confirm-alert-body {
     max-width: 300px;
+  }
+  .icons {
+    display: none;
   }
 }
 

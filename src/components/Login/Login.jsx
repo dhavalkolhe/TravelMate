@@ -66,7 +66,7 @@ export const Login = () => {
           displayName,
           photoURL,
           uid,
-          email
+          email,
         });
 
         userExists(uid).then((res) => {
@@ -82,19 +82,8 @@ export const Login = () => {
       });
   };
 
-  const logOut = () => {
-    signOut(auth)
-      .then(() => {
-        setUser({
-          authorized: false,
-          displayName: "",
-          photoURL: "",
-        });
-      })
-      .catch((error) => {
-        alert("Error signing out user : ", error.message);
-      });
-  };
+  //logout function moved to firebaseUtils.js
+
   // eslint-disable-next-line
   const [isVerfied, setIsVerified] = useState(false);
 
@@ -102,7 +91,7 @@ export const Login = () => {
     if (isVerfied) {
       signIn();
     } else {
-      notify("error", "Verify captcha first")
+      notify("error", "Verify captcha first");
     }
   }
 
@@ -113,6 +102,7 @@ export const Login = () => {
   function verifyCallback() {
     setIsVerified(true);
   }
+
 
   return (
     <Card

@@ -12,10 +12,10 @@ const UserContextProvider = (props) => {
   const [user, setUser] = useState(data);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        user = {};
-        user.authorized = false;
+    onAuthStateChanged(auth, (userFound) => {
+      if (!userFound) {
+        setUser({});
+        setUser((prev) => ({ ...prev, authorized: false }));
       }
     });
   }, []);

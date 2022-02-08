@@ -45,11 +45,9 @@ export const Notification = () => {
     }
   }, [notificationData]);
 
-  // useEffect(() => {
-  //     if (cardData.length) {
-  //         setLoading(false);
-  //     }
-  // }, [cardData])
+  useEffect(() => {
+    console.log(cardData);
+  }, [cardData])
 
   return (
     <Box sx={{ padding: "10px" }}>

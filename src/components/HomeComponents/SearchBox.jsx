@@ -306,8 +306,17 @@ export function SearchBox() {
         </FormControl>
 
         <Box display="flex" justifyContent="space-between">
-          <Typography class="redText">Add request</Typography>
-          <Typography class="redText">
+          <Typography class="redText" component={Link} to="/addRequest">
+            Add request
+          </Typography>
+          <Typography
+            class="redText"
+            component={Link}
+            to="/#"
+            onClick={() =>
+              (window.location = "mailto:vitrendzvellore@gmail.com")
+            }
+          >
             <u>Help?!</u>
           </Typography>
         </Box>

@@ -30,42 +30,79 @@ const NotificationContextProvider = (props) => {
     const unsub = onSnapshot(
       collection(db, "users", user.uid, "requests"),
       (recievedReqSnap) => {
-        recievedReqSnap.docChanges().forEach(
-          (change) => {
-            if (change.type === "added") {
-              let masterObj = {
-                reqId: change.doc.id,
-                status: change.doc.data().status,
-                roomId: change.doc.data().roomId,
-              };
+        setNotificationData([]);
+        recievedReqSnap.docs.forEach((snap) => {
+          let masterObj = {
+            reqId: snap.id,
+            status: snap.data().status,
+            roomId: snap.data().roomId,
+          };
 
-              fetchRequestorData(change.doc.data().requestorId)
+          fetchRequestorData(snap.data().requestorId)
+            .then((res) => {
+              masterObj = { ...masterObj, ...res };
+            })
+            .then(() => {
+              fetchRideData(snap.data().rideId)
                 .then((res) => {
                   masterObj = { ...masterObj, ...res };
                 })
                 .then(() => {
-                  fetchRideData(change.doc.data().rideId)
-                    .then((res) => {
-                      masterObj = { ...masterObj, ...res };
-                    })
-                    .then(() => {
-                      setNotificationData((prev) => [...prev, masterObj]);
-                    });
+                  setNotificationData((prev) => [...prev, masterObj]);
                 });
-            }
-          },
-          (err) => {
-            console.log("notification data err : ", err);
-          }
-        );
+            });
+        });
+      },
+      (err) => {
+        console.log("notification data err : ", err);
       }
     );
     return unsub;
   };
+  // const fetchData = async () => {
+  //   const unsub = onSnapshot(
+  //     collection(db, "users", user.uid, "requests"),
+  //     (recievedReqSnap) => {
+  //       recievedReqSnap.docChanges().forEach(
+  //         (change) => {
+  //           if (change.type === "added") {
+  //             let masterObj = {
+  //               reqId: change.doc.id,
+  //               status: change.doc.data().status,
+  //               roomId: change.doc.data().roomId,
+  //             };
+
+  //             fetchRequestorData(change.doc.data().requestorId)
+  //               .then((res) => {
+  //                 masterObj = { ...masterObj, ...res };
+  //               })
+  //               .then(() => {
+  //                 fetchRideData(change.doc.data().rideId)
+  //                   .then((res) => {
+  //                     masterObj = { ...masterObj, ...res };
+  //                   })
+  //                   .then(() => {
+  //                     setNotificationData((prev) => [...prev, masterObj]);
+  //                   });
+  //               });
+  //           }
+  //         },
+  //         (err) => {
+  //           console.log("notification data err : ", err);
+  //         }
+  //       );
+  //     }
+  //   );
+  //   return unsub;
+  // };
 
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
-    if (rideData)
+    if (
+      rideData.data() &&
+      rideData.data().currentCity &&
+      rideData.data().destinationCity
+    )
       return {
         rideId: rideId,
         currentCity: rideData.data().currentCity,
@@ -75,11 +112,12 @@ const NotificationContextProvider = (props) => {
 
   const fetchRequestorData = async (requestorId) => {
     const requestorData = await getDoc(doc(db, "users", requestorId));
-    return {
-      requestorId: requestorId,
-      displayName: requestorData.data().displayName,
-      photoURL: requestorData.data().photoURL,
-    };
+    if (requestorData.data().displayName && requestorData.data().photoURL)
+      return {
+        requestorId: requestorId,
+        displayName: requestorData.data().displayName,
+        photoURL: requestorData.data().photoURL,
+      };
   };
 
   return (
