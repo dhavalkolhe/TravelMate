@@ -43,6 +43,7 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import "../../firebase/firebase";
 import { getAuth, signOut } from "firebase/auth";
 
+import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
 
 const notify = (type, message) => {
@@ -197,41 +198,43 @@ export const Nav = () => {
   const [user, setUser] = useContext(UserContext);
 
   const list = () => (
-    <Box
-      sx={{ width: 250 }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <List>
-        <ListItem button key={"home"}>
-          <Link to={"/"}>
-            <ListItemText primary={"Home"} />
-          </Link>
-        </ListItem>
-        {/* <ListItem button key={"about"}>
-          <Link to={`/#about`}>
-            <ListItemText primary={"About"} />
-          </Link>
-        </ListItem> */}
-        <ListItem button key={"dashboard"}>
-          <Link to={`/dashboard`}>
-            <ListItemText primary={"Dashboard"} />
-          </Link>
-        </ListItem>
-        <ListItem button key={"addRequest"}>
-          <Link to={`/addRequest`}>
-            <ListItemText primary={"Add Request"} />
-          </Link>
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button key={"logout"} onClick={logOut}>
-          <ListItemText primary={"Logout"} />
-        </ListItem>
-      </List>
-    </Box>
+    <>
+      <Box
+        sx={{ width: 250 }}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        <List>
+          <ListItem button key={"home"}>
+            <Link to={"/"}>
+              <ListItemText primary={"Home"} />
+            </Link>
+          </ListItem>
+          <ListItem button key={"about"}>
+            <a href="#about">
+              <ListItemText primary={"About"} />
+            </a>
+          </ListItem>
+          <ListItem button key={"dashboard"}>
+            <Link to={`/dashboard`}>
+              <ListItemText primary={"Dashboard"} />
+            </Link>
+          </ListItem>
+          <ListItem button key={"addRequest"}>
+            <Link to={`/addRequest`}>
+              <ListItemText primary={"Add Request"} />
+            </Link>
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key={"logout"} onClick={logOut}>
+            <ListItemText primary={"Logout"} />
+          </ListItem>
+        </List>
+      </Box>
+    </>
   );
 
   const { userLogged, loginDialog } = useContext(LoginContext);
@@ -316,9 +319,9 @@ export const Nav = () => {
               <Grid item component={Link} to="/">
                 Home
               </Grid>
-              {/* <Grid item component={Link} to="/#about">
-                About
-              </Grid> */}
+              <Grid item>
+                <a href="#about">About</a>
+              </Grid>
               <Grid item component={Link} to="/dashboard">
                 Dashboard
               </Grid>
@@ -374,7 +377,9 @@ export const Nav = () => {
                     <Link to="/chat">
                       {/* <img src={chatIconBlank} alt="Chat" /> */}
                       <IconButton size="medium">
-                        <ChatBubbleOutlineOutlinedIcon />
+                        <Badge color="secondary" variant="dot">
+                          <ChatBubbleOutlineOutlinedIcon />
+                        </Badge>
                       </IconButton>
                     </Link>
                   </Tooltip>
