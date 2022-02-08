@@ -333,10 +333,10 @@ export function SearchBox() {
             component={Link}
             to="/#"
             onClick={() =>
-              (window.location = "mailto:vitrendzvellore@gmail.com")
+              (window.location = "mailto:vitrendstechnical@gmail.com")
             }
           >
-            <u>Help?!</u>
+            <u>Help?</u>
           </Typography>
         </Box>
       </Stack>
