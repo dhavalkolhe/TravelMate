@@ -100,7 +100,7 @@ export function SearchBox() {
               xs: "flex-start",
               md: "flex-end",
             }}
-            sx={{ flexWrap: "wrap", width: "100%" }}
+            sx={{ flexWrap: "nowrap", width: "100%" }}
           >
             <Box className="location-container">
               <Typography class="subtitle1 location-subtitle">
