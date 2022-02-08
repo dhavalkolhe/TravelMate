@@ -173,7 +173,7 @@ export function WebsiteInfo() {
           image={websiteInfoIcon1}
           head={"Trust who you travel with"}
           data={
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            "Travelmate enforces strict privacy policies to protect members against disclosure, unauthorized access. The use of secured servers, designated data protection, implementation of appropriate security measures to prevent and protect personal data should put minds at ease."
           }
         />
         <Item

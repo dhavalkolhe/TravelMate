@@ -572,7 +572,7 @@ function AddRequest() {
 
           <Container maxWidth="lg">
             <About />
-            <MadeBy />
+            {/* <MadeBy /> */}
           </Container>
           <Footer />
         </div>
