@@ -53,7 +53,7 @@ export const Notification = () => {
     <Box sx={{ padding: "10px" }}>
       {/* Notifications: {notificationCount} */}
       {loading ? (
-        <Loader />
+        <Loader size={20} />
       ) : (
         <Box>{notificationCount ? cardData : <p>No Notifications!</p>}</Box>
       )}

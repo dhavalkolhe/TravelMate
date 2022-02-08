@@ -8,6 +8,7 @@ export const NotificationContext = createContext();
 
 const NotificationContextProvider = (props) => {
   const [user] = useContext(UserContext);
+  const [responseData, setResponseData] = useState([]);
   const [notificationData, setNotificationData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,21 +17,23 @@ const NotificationContextProvider = (props) => {
       fetchData();
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 2500);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  // useEffect(() => {
-  //   console.log(notificationData)
-  // }, [notificationData])
+  useEffect(() => {
+    // console.log(notificationData)
+    const x = responseData.filter((data) => data.status !== "active");
+    setNotificationData(x);
+  }, [responseData]);
 
   const fetchData = async () => {
     const unsub = onSnapshot(
       collection(db, "users", user.uid, "requests"),
       (recievedReqSnap) => {
-        setNotificationData([]);
+        setResponseData([]);
         recievedReqSnap.docs.forEach((snap) => {
           let masterObj = {
             reqId: snap.id,
@@ -48,7 +51,7 @@ const NotificationContextProvider = (props) => {
                   masterObj = { ...masterObj, ...res };
                 })
                 .then(() => {
-                  setNotificationData((prev) => [...prev, masterObj]);
+                  setResponseData((prev) => [...prev, masterObj]);
                 });
             });
         });
