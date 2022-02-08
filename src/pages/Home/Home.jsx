@@ -52,7 +52,7 @@ export function Home() {
       {/* <BottomNav /> */}
 
       <WebsiteInfo />
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" id="about">
         <About />
         {/* <MadeBy /> */}
       </Container>
