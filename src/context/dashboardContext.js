@@ -15,7 +15,7 @@ const DashboardContextProvider = (props) => {
   const [user] = useContext(UserContext);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         // const uid = user.uid;
         console.log("Authorised");
@@ -29,9 +29,6 @@ const DashboardContextProvider = (props) => {
     } catch (err) {
       console.log("Response Fetching Error: " + err.message);
     }
-    return () => {
-      unsub();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -68,6 +65,7 @@ const DashboardContextProvider = (props) => {
                         rideId={doc.rideId}
                       />
                     );
+                  return [];
                 });
                 setActiveOffers(x);
               });

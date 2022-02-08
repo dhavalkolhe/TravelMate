@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./NotificationCard.css";
 import { UserContext } from "../../context/userContext";
 import { NotificationContext } from "../../context/notificationContext";
-import Loader from "../../components/Loader/Loader";
 import { v4 as uuidv4 } from "uuid";
 
 import { db } from "../../firebase/db";
@@ -30,10 +29,11 @@ function NotificationCard({
   const [user] = useContext(UserContext);
   // const [accepted, setAccepted] = useState(false);
   // const [rejected, setRejected] = useState(false);
-  const { noti, load } = useContext(NotificationContext);
-  const [loading, setLoading] = load;
-  const [cardLoading, setCardLoading] = useState(false);
 
+  // eslint-disable-next-line
+  const { noti, load } = useContext(NotificationContext);
+  // eslint-disable-next-line
+  const [loading, setLoading] = load;
 
   const createChatRoom = async (roomId) => {
     await setDoc(doc(db, "rooms", roomId), {
@@ -69,7 +69,6 @@ function NotificationCard({
     }
   };
   const handleAccept = async () => {
-    setCardLoading(true);
     setLoading(true);
 
     let roomId = uuidv4();
@@ -84,7 +83,6 @@ function NotificationCard({
       updateUserRideRooms(roomId);
 
       setLoading(false);
-      setCardLoading(false);
       // setAccepted(true);
     } catch (err) {
       console.log("accept err : ", err);
@@ -92,7 +90,6 @@ function NotificationCard({
   };
 
   const handleReject = async () => {
-    setCardLoading(true);
     setLoading(true);
 
     try {
@@ -105,7 +102,6 @@ function NotificationCard({
       console.log(err);
     }
     setLoading(false);
-    // setCardLoading(false);    // setRejected(true);
   };
 
   return (
@@ -127,7 +123,7 @@ function NotificationCard({
         <Typography variant="caption">
           {currentCity} - {destinationCity}
         </Typography>
-        {loading && <Loader size={15} />}
+        {/* {loading && <Loader size={15} />} */}
         {/* {accepted ? (
           <div>
             <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>

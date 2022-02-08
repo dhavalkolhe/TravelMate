@@ -6,6 +6,7 @@ export const WindowContextProvider = (props) => {
   const [width, setWidth] = useState(null);
   const [height, setHeight] = useState(null);
 
+  // eslint-disable-next-line
   const handleWindowSizeEvent = useCallback((e) => {
     setWidth(window.innerWidth);
     setHeight(window.innerHeight);
@@ -19,6 +20,7 @@ export const WindowContextProvider = (props) => {
       window.addEventListener("resize", handleWindowSizeEvent);
       window.addEventListener("load", handleWindowSizeEvent);
     };
+    // eslint-disable-next-line
   }, []);
 
   return (

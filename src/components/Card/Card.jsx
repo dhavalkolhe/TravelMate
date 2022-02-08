@@ -42,6 +42,7 @@ function Card({
       setDisable(true)
       setSendText("Request sent ✅");
     }
+    // eslint-disable-next-line
   }, [sentReq])
 
 
