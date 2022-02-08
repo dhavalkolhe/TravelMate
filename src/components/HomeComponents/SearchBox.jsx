@@ -82,6 +82,7 @@ export function SearchBox() {
         padding: "1rem",
         alignItems: "flex-start",
         justifyContent: "center",
+        minWidth: "90vw",
       }}
     >
       <Stack direction="column" spacing={4}>

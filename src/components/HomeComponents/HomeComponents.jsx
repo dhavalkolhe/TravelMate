@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 // import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
 import { SearchBox } from "./SearchBox";
+import { WindowContext } from "../../context";
 
 import {
   Box,
@@ -30,6 +31,8 @@ export function SearchSection() {
   const handleSearchClose = () => {
     setSearchOpen(false);
   };
+
+  const { width, height } = useContext(WindowContext);
 
   return (
     <>
@@ -106,35 +109,37 @@ export function SearchSection() {
         </Box>
       </Container>
 
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "0px",
-          left: "0px",
-          display: "flex",
-          justifyContent: "flex-end",
-          pointerEvents: "none",
-        }}
-      >
-        <img src={bgvector1} alt="illus" />
-      </Box>
-      <Box>
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: "0px",
-            width: {
-              xs: "300px",
-              md: "40vw",
-            },
-            display: "flex",
-            justifyContent: "flex-end",
-            pointerEvents: "none",
-          }}
-        >
-          <img src={illustation1} alt="illus" />
-        </Box>
-      </Box>
+      {height > 600 && (
+        <>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: "0px",
+              left: "0px",
+              display: "flex",
+              justifyContent: "flex-end",
+              pointerEvents: "none",
+            }}
+          >
+            <img src={bgvector1} alt="illus" />
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: "0px",
+              width: {
+                xs: "300px",
+                md: "40vw",
+              },
+              display: "flex",
+              justifyContent: "flex-end",
+              pointerEvents: "none",
+            }}
+          >
+            <img src={illustation1} alt="illus" />
+          </Box>
+        </>
+      )}
     </>
   );
 }

@@ -48,6 +48,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
+import { MobileFullscreen } from "react-mobile-fullscreen";
+
 export const Navigation = () => {
   const [value, setValue] = useState(0);
 
@@ -71,8 +73,21 @@ export const Navigation = () => {
   );
 };
 
+const Mask = (props) => {
+  return (
+    <>
+      {/* {props.fullscreenType === "native"
+        ? "Click Me!"
+        : props.fullscreenType === "minimal-ui"
+        ? "Swipe Up!"
+        : "Mask won't be rendered"} */}
+    </>
+  );
+};
+
 function App() {
   return (
+    // <MobileFullscreen mask={Mask}>
     <WindowContextProvider>
       <ThemeContextProvider>
         <UserContextProvider>
@@ -130,6 +145,7 @@ function App() {
         </UserContextProvider>
       </ThemeContextProvider>
     </WindowContextProvider>
+    // </MobileFullscreen>
   );
 }
 
