@@ -54,18 +54,20 @@ export function Article() {
             alignItems="flex-end"
             width="100%"
           >
-            <Button
-              variant="contained"
-              endIcon={<KeyboardArrowRightIcon />}
-              sx={{
-                backgroundColor: "#001963",
-                "&:hover": {
-                  backgroundColor: "#062580",
-                },
-              }}
-            >
-              Read More
-            </Button>
+            <a href={link} rel="noreferrer" target="_blank">
+              <Button
+                variant="contained"
+                endIcon={<KeyboardArrowRightIcon />}
+                sx={{
+                  backgroundColor: "#001963",
+                  "&:hover": {
+                    backgroundColor: "#062580",
+                  },
+                }}
+              >
+                Read More
+              </Button>
+            </a>
           </Grid>
         </Grid>
       </Card>
@@ -95,17 +97,23 @@ export function Article() {
         }}
       >
         <ArticleCard
-          link={"https://www.cnbc.com/world/?region=world"}
+          link={
+            "https://www.cnbc.com/2017/07/24/7-tips-for-staying-safe-while-traveling.html"
+          }
           website={"www.cnbc.com"}
           title={"7 tips for staying safe while traveling"}
         />
         <ArticleCard
-          link={"https://www.cnbc.com/world/?region=world"}
+          link={
+            "https://health.clevelandclinic.org/how-to-protect-yourself-from-the-coronavirus-while-traveling/"
+          }
           website={"health.clevelandclinic.org"}
           title={"How to Protect Yourself From the Coronavirus While Traveling"}
         />
         <ArticleCard
-          link={"https://www.cnbc.com/world/?region=world"}
+          link={
+            "https://www.cdc.gov/coronavirus/2019-ncov/travelers/travel-during-covid19.html"
+          }
           website={"www.cdc.gov"}
           title={"Domestic Travel During COVID-19"}
         />
