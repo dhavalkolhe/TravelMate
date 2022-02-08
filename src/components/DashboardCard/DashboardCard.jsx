@@ -22,12 +22,13 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
 
   const catchError = (err) => {
     console.log("Error in deleting : ", err.message);
-    toast.update(tid, { render: "Failed to delete ride!", type: "error", isLoading: false, autoClose: 1000 });
+    // toast.update(tid, { render: "Failed to delete ride!", type: "error", isLoading: false, autoClose: 1000 });
+    notify("error", "Failed to delete ride!")
   };
   //Toast Function
-  // const notify = (type, message) => {
-  //   toast[type](message);
-  // };
+  const notify = (type, message) => {
+    toast[type](message);
+  };
   const delRequests = async (reqId) => {
     try {
       await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
@@ -80,8 +81,8 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
     }
   };
   const deleteRide = () => {
-    tid = toast.loading("Please wait...")
-    toast.update(tid, { render: "Deleting Ride..", type: "pending", isLoading: true });
+    // tid = toast.loading("Please wait...")
+    // toast.update(tid, { render: "Deleting Ride..", type: "pending", isLoading: true });
 
     deleteDoc(doc(db, "rides", rideId))
       .then(() => {
@@ -93,7 +94,8 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
         return deleteAllRideMisc()
       })
       .then(() => {
-        toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1500 });
+        // toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1500 });
+        notify("success", "Ride Deleted")
       })
       .catch((err) => {
         catchError(err);

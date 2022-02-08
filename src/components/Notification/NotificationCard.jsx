@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import "./NotificationCard.css";
 import { UserContext } from "../../context/userContext";
+import { NotificationContext } from "../../context/notificationContext";
 import Loader from "../../components/Loader/Loader";
 import { v4 as uuidv4 } from "uuid";
 
@@ -29,7 +30,9 @@ function NotificationCard({
   const [user] = useContext(UserContext);
   // const [accepted, setAccepted] = useState(false);
   // const [rejected, setRejected] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { noti, load } = useContext(NotificationContext);
+  const [loading, setLoading] = load;
+  const [cardLoading, setCardLoading] = useState(false);
 
 
   const createChatRoom = async (roomId) => {
@@ -66,6 +69,7 @@ function NotificationCard({
     }
   };
   const handleAccept = async () => {
+    setCardLoading(true);
     setLoading(true);
 
     let roomId = uuidv4();
@@ -80,6 +84,7 @@ function NotificationCard({
       updateUserRideRooms(roomId);
 
       setLoading(false);
+      setCardLoading(false);
       // setAccepted(true);
     } catch (err) {
       console.log("accept err : ", err);
@@ -87,7 +92,9 @@ function NotificationCard({
   };
 
   const handleReject = async () => {
+    setCardLoading(true);
     setLoading(true);
+
     try {
       await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
       const userRef = doc(db, "users", requestorId);
@@ -98,7 +105,7 @@ function NotificationCard({
       console.log(err);
     }
     setLoading(false);
-    // setRejected(true);
+    // setCardLoading(false);    // setRejected(true);
   };
 
   return (

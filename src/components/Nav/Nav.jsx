@@ -4,6 +4,7 @@ import "./Nav.css";
 
 import { UserContext } from "../../context/userContext";
 import { LoginContext } from "../../context";
+import { NotificationContext } from "../../context/notificationContext";
 
 import { LoginDialog } from "../Login";
 import { Notification } from "../../components/Notification";
@@ -30,9 +31,7 @@ import {
 import { styled } from "@mui/material/styles";
 
 import LoadingButton from "@mui/lab/LoadingButton";
-// import CloseIcon from "@mui/icons-material/Close";
 import Logout from "@mui/icons-material/Logout";
-
 import ListItemIcon from "@mui/material/ListItemIcon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
@@ -67,6 +66,13 @@ const UserInfo = ({ displayName, photoURL }) => {
 };
 
 export const Nav = () => {
+  const { noti, load } = useContext(NotificationContext);
+  const [notificationData] = noti;
+
+  useEffect(() => {
+    console.log("notificationData", notificationData);
+  }, [notificationData]);
+
   //User Menu
   const [userMenu, setUserMenu] = useState(null);
   const openUserMenu = Boolean(userMenu);
@@ -266,7 +272,7 @@ export const Nav = () => {
           loading={loginLoading}
           loadingPosition="start"
           color="primary"
-          // sx={{ color: "theme.palette.theme.text" }}
+        // sx={{ color: "theme.palette.theme.text" }}
         >
           Login
         </LoadingButton>
@@ -345,7 +351,7 @@ export const Nav = () => {
                   }}
                 >
                   <Tooltip title={"Notifications"}>
-                    <StyledBadge badgeContent={1} color="primary">
+                    <StyledBadge badgeContent={notificationData.length} color="primary">
                       <NotificationsNoneRoundedIcon />
                     </StyledBadge>
                   </Tooltip>
@@ -360,11 +366,11 @@ export const Nav = () => {
                       md: "block",
                     },
                   }}
-                  // sx={{
-                  //   // height: "32px",
-                  //   // width: "32px",
-                  //   cursor: "pointer",
-                  // }}
+                // sx={{
+                //   // height: "32px",
+                //   // width: "32px",
+                //   cursor: "pointer",
+                // }}
                 >
                   {/* <ButtonBase
                     sx={{
@@ -437,6 +443,7 @@ export const Nav = () => {
       <Drawer anchor={"right"} open={drawerState} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
+      <Toast />
     </>
   );
 };

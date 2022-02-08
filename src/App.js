@@ -114,12 +114,12 @@ function App() {
   return (
     // <MobileFullscreen mask={Mask}>
     <WindowContextProvider>
-      <ThemeContextProvider>
-        <SearchContextProvider>
-          <LoginContextProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <ChatContextProvider>
-                <NotificationContextProvider>
+      <NotificationContextProvider>
+        <ThemeContextProvider>
+          <SearchContextProvider>
+            <LoginContextProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <ChatContextProvider>
                   <SentReqContextProvider>
                     <Router>
                       <Switch>
@@ -161,12 +161,12 @@ function App() {
                       </Switch>
                     </Router>
                   </SentReqContextProvider>
-                </NotificationContextProvider>
-              </ChatContextProvider>
-            </LocalizationProvider>
-          </LoginContextProvider>
-        </SearchContextProvider>
-      </ThemeContextProvider>
+                </ChatContextProvider>
+              </LocalizationProvider>
+            </LoginContextProvider>
+          </SearchContextProvider>
+        </ThemeContextProvider>
+      </NotificationContextProvider>
     </WindowContextProvider>
     // </MobileFullscreen>
   );
