@@ -244,7 +244,7 @@ export function SearchBox() {
                 )}
               />
             </Box>
-            <Box className="mr pd-b" sx={{ width: "100%" }}>
+            <Box className="mr" sx={{ width: "100%" }}>
               <Typography class="subtitle1">Date</Typography>
               {/* <TextField
                 size="small"
