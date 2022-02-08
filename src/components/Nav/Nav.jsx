@@ -208,7 +208,7 @@ export const Nav = () => {
     >
       <List>
         <ListItem button key={"home"}>
-          <Link to={`/`}>
+          <Link to={"/"}>
             <ListItemText primary={"Home"} />
           </Link>
         </ListItem>
