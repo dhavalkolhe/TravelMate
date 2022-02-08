@@ -10,6 +10,8 @@ import {
   OutlinedInput,
 } from "@mui/material";
 
+import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
+
 import { RoomsContext } from "../../context/roomsContext";
 import { ChatContext } from "../../context/chatContext";
 import { WindowContext } from "../../context";
@@ -65,7 +67,14 @@ const Person = ({
               src={photoURL}
               sx={{ width: 48, height: 48, marginRight: "0.4rem" }}
             />
-            <Typography variant={"string"}>{displayName}</Typography>
+            <Stack direction="column">
+              <Typography variant={"body1"}>{displayName}</Typography>
+              <Typography variant="caption">
+                <>{currentCity.split(",")[0]}</>
+                <b> - </b>
+                <>{destinationCity.split(",")[0]}</>
+              </Typography>
+            </Stack>
           </Grid>
           {/* <Grid
             item
@@ -104,6 +113,8 @@ export const Conversations = () => {
   const [chatterInfo, setchatterInfo] = currChatterInfo;
   const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
   const [messageBoxOpenActive, setMessageBoxOpenActive] = useState(false);
+
+  const [searchResults, setSearchResults] = useState(null);
 
   const handleRoomChange = (roomId, displayName, photoURL) => {
     setRoomId(roomId);

@@ -11,7 +11,7 @@ export function Footer() {
   const NavLink = ({ title, srcLink }) => {
     return (
       <>
-        <Typography variant={"body1"} component={Link} to={"/" + srcLink}>
+        <Typography variant={"body1"} component={Link} to={srcLink}>
           {title}
         </Typography>
       </>
@@ -66,10 +66,10 @@ export function Footer() {
               display: { xs: "none", sm: "flex" },
             }}
           >
-            <NavLink title={"Home"} srcLink={"/Home"} />
+            <NavLink title={"Home"} srcLink={"/"} />
             {/* <NavLink title={"About"} srcLink={"/#about"} /> */}
             <NavLink title={"Dashboard"} srcLink={"/dashboard"} />
-            <NavLink title={"Add Request"} srcLink={"/addrequest"} />
+            <NavLink title={"Add Request"} srcLink={"/addRequest"} />
           </Stack>
         </Stack>
       </Box>

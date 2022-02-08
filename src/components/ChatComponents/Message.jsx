@@ -244,6 +244,7 @@ export function MessagesBox() {
               xs: "0",
               md: "0 1.5rem",
             },
+            margin: 0,
           }}
         >
           <Grid
