@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Components
@@ -47,8 +47,10 @@ import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { MobileFullscreen } from "react-mobile-fullscreen";
+
+const auth = getAuth();
 
 export const Navigation = () => {
   const [value, setValue] = useState(0);
@@ -86,6 +88,36 @@ const Mask = (props) => {
 };
 
 function App() {
+  const [u, setU] = useState(auth.currentUser);
+
+  useEffect(() => {
+    let userData = {};
+
+    onAuthStateChanged(auth, (userFound) => {
+      if (!userFound) {
+        userData = { authorized: false };
+        setU(userData);
+      } else {
+        userData = {
+          authorized: true,
+          uid: userFound.uid,
+          displayName: userFound.displayName,
+          photoURL: userFound.photoURL,
+          email: userFound.email,
+        };
+        setU(userData);
+      }
+    });
+  }, []);
+
+  window.addEventListener("storage", () => {
+    const changedData = JSON.parse(window.localStorage.getItem("user"));
+
+    if (JSON.stringify(u) != JSON.stringify(changedData)) {
+      localStorage.setItem("user", JSON.stringify(u));
+    }
+  });
+
   return (
     // <MobileFullscreen mask={Mask}>
     <WindowContextProvider>
