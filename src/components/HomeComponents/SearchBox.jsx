@@ -82,10 +82,13 @@ export function SearchBox() {
         padding: "1rem",
         alignItems: "flex-start",
         justifyContent: "center",
-        minWidth: "90vw",
+        minWidth: {
+          xs: "90vw",
+          md: "0px",
+        },
       }}
     >
-      <Stack direction="column" spacing={4}>
+      <Stack direction="column" spacing={4} sx={{ width: "100%" }}>
         <FormControl variant="outlined" sx={{ zIndex: "1" }}>
           <Stack
             direction={{
@@ -97,7 +100,7 @@ export function SearchBox() {
               xs: "flex-start",
               md: "flex-end",
             }}
-            sx={{ flexWrap: "wrap" }}
+            sx={{ flexWrap: "wrap", width: "100%" }}
           >
             <Box className="location-container">
               <Typography class="subtitle1 location-subtitle">
@@ -108,7 +111,13 @@ export function SearchBox() {
                 value={search.currentCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
-                sx={{ width: "140px" }}
+                sx={{
+                  width: {
+                    xs: "90%",
+                    sm: "60%",
+                    md: "140px",
+                  },
+                }}
                 options={city}
                 autoHighlight
                 disableClearable
@@ -173,7 +182,13 @@ export function SearchBox() {
                 value={search.destinationCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
-                sx={{ width: "140px" }}
+                sx={{
+                  width: {
+                    xs: "90%",
+                    sm: "60%",
+                    md: "140px",
+                  },
+                }}
                 options={city}
                 autoHighlight
                 disableClearable
@@ -182,7 +197,6 @@ export function SearchBox() {
                   option.name || search.destinationCity
                 }
                 onChange={(event, value) => {
-                  // console.log(value);
                   let selectedCity = value.name.concat(", ", value.state);
                   setSearch((prev) => {
                     return {
@@ -230,7 +244,7 @@ export function SearchBox() {
                 )}
               />
             </Box>
-            <Box className="mr pd-b">
+            <Box className="mr pd-b" sx={{ width: "100%" }}>
               <Typography class="subtitle1">Date</Typography>
               {/* <TextField
                 size="small"
@@ -268,7 +282,11 @@ export function SearchBox() {
                     size="small"
                     // placeholder="DD-MM-YYYY"
                     sx={{
-                      width: "160px",
+                      width: {
+                        xs: "90%",
+                        sm: "60%",
+                        md: "160px",
+                      },
                       height: "40px",
                       backgroundColor: "white",
                     }}

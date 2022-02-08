@@ -16,3 +16,7 @@
 .pd-b {
   padding-bottom: 5px !important;
 }
+
+.location-container {
+  width: 100%;
+}
