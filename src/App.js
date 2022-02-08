@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Components
@@ -11,7 +11,6 @@ import {
   WindowContextProvider,
   ThemeContextProvider,
 } from "./context";
-import UserContextProvider from "./context/userContext";
 import ResponseContextProvider from "./context/responseContext";
 import NotificationContextProvider from "./context/notificationContext";
 import RoomsContextProvider from "./context/roomsContext";
@@ -36,6 +35,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import { ChatPage } from "./pages/Chat";
 
 import { BottomNav } from "./components/Nav";
+import { UserContext } from "./context/userContext";
 
 // import { MessagesBox } from "./components/ChatComponents";
 
@@ -88,6 +88,7 @@ const Mask = (props) => {
 };
 
 function App() {
+  const [user, setUser] = useContext(UserContext);
   const [u, setU] = useState(auth.currentUser);
 
   useEffect(() => {
@@ -114,7 +115,13 @@ function App() {
     const changedData = JSON.parse(window.localStorage.getItem("user"));
 
     if (JSON.stringify(u) != JSON.stringify(changedData)) {
-      localStorage.setItem("user", JSON.stringify(u));
+      // localStorage.setItem("user", JSON.stringify(u));
+      setUser({
+        authorized: false,
+        displayName: "",
+        photoURL: "",
+        email: "",
+      });
     }
   });
 
@@ -122,59 +129,57 @@ function App() {
     // <MobileFullscreen mask={Mask}>
     <WindowContextProvider>
       <ThemeContextProvider>
-        <UserContextProvider>
-          <SearchContextProvider>
-            <LoginContextProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <ChatContextProvider>
-                  <NotificationContextProvider>
-                    <SentReqContextProvider>
-                      <Router>
-                        <Switch>
-                          <Route exact path="/addRequest">
-                            <AddRequest />
+        <SearchContextProvider>
+          <LoginContextProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <ChatContextProvider>
+                <NotificationContextProvider>
+                  <SentReqContextProvider>
+                    <Router>
+                      <Switch>
+                        <Route exact path="/addRequest">
+                          <AddRequest />
+                          <BottomNav />
+                        </Route>
+
+                        <Route exact path="/notifications">
+                          <Notification />
+                          <BottomNav />
+                        </Route>
+
+                        <Route exact path="/search">
+                          <ResponseContextProvider>
+                            <SearchResult />
                             <BottomNav />
-                          </Route>
+                          </ResponseContextProvider>
+                        </Route>
 
-                          <Route exact path="/notifications">
-                            <Notification />
+                        <Route exact path="/dashboard">
+                          <DashboardContextProvider>
+                            <Dashboard />
                             <BottomNav />
-                          </Route>
+                          </DashboardContextProvider>
+                        </Route>
 
-                          <Route exact path="/search">
-                            <ResponseContextProvider>
-                              <SearchResult />
-                              <BottomNav />
-                            </ResponseContextProvider>
-                          </Route>
-
-                          <Route exact path="/dashboard">
-                            <DashboardContextProvider>
-                              <Dashboard />
-                              <BottomNav />
-                            </DashboardContextProvider>
-                          </Route>
-
-                          <Route exact path="/chat">
-                            <RoomsContextProvider>
-                              <ChatPage />
-                              <BottomNav />
-                            </RoomsContextProvider>
-                          </Route>
-
-                          <Route exact path="/">
-                            <Home />
+                        <Route exact path="/chat">
+                          <RoomsContextProvider>
+                            <ChatPage />
                             <BottomNav />
-                          </Route>
-                        </Switch>
-                      </Router>
-                    </SentReqContextProvider>
-                  </NotificationContextProvider>
-                </ChatContextProvider>
-              </LocalizationProvider>
-            </LoginContextProvider>
-          </SearchContextProvider>
-        </UserContextProvider>
+                          </RoomsContextProvider>
+                        </Route>
+
+                        <Route exact path="/">
+                          <Home />
+                          <BottomNav />
+                        </Route>
+                      </Switch>
+                    </Router>
+                  </SentReqContextProvider>
+                </NotificationContextProvider>
+              </ChatContextProvider>
+            </LocalizationProvider>
+          </LoginContextProvider>
+        </SearchContextProvider>
       </ThemeContextProvider>
     </WindowContextProvider>
     // </MobileFullscreen>
