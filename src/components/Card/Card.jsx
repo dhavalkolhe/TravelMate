@@ -6,7 +6,7 @@ import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import "./Card.css";
 import PopUp from "../PopUp/PopUp";
-import Loader from "../../components/Loader/Loader";
+// import Loader from "../../components/Loader/Loader";
 
 import { db } from "../../firebase/db";
 import { setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -42,6 +42,7 @@ function Card({
       setDisable(true)
       setSendText("Request sent ✅");
     }
+    // eslint-disable-next-line
   }, [sentReq])
 
 
@@ -74,7 +75,10 @@ function Card({
           sentRequests: arrayUnion(rideId)
         }).then(() => {
           setLoading(false);
-          setSendText("Request sent ✅");
+
+          if (!loading)
+            setSendText("Request sent ✅");
+
           setDisable(true);
 
         })
@@ -166,7 +170,7 @@ function Card({
           onClick={sendRequest}
         >
           {sendText}
-          {loading && <Loader size={20} />}
+          {/* {loading && <Loader size={10} />} */}
         </button>
       </div>
     </div>

@@ -66,12 +66,9 @@ const UserInfo = ({ displayName, photoURL }) => {
 };
 
 export const Nav = () => {
+  // eslint-disable-next-line
   const { noti, load } = useContext(NotificationContext);
   const [notificationData] = noti;
-
-  useEffect(() => {
-    console.log("notificationData", notificationData);
-  }, [notificationData]);
 
   //User Menu
   const [userMenu, setUserMenu] = useState(null);
@@ -258,6 +255,7 @@ export const Nav = () => {
       if (loginDialogOpen) {
         setloginLoading(true);
       }
+      // eslint-disable-next-line
     }, [loginDialogOpen]);
 
     return (
@@ -272,7 +270,7 @@ export const Nav = () => {
           loading={loginLoading}
           loadingPosition="start"
           color="primary"
-        // sx={{ color: "theme.palette.theme.text" }}
+          // sx={{ color: "theme.palette.theme.text" }}
         >
           Login
         </LoadingButton>
@@ -295,7 +293,7 @@ export const Nav = () => {
       });
   };
 
-  const StyledBadge = styled(Badge)(({ theme }) => ({
+  const NotifBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       right: 1,
       top: 2,
@@ -303,6 +301,16 @@ export const Nav = () => {
       width: "16px",
       minWidth: "0",
       fontSize: "10px",
+    },
+  }));
+
+  const ChatBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: 1,
+      top: 2,
+      height: "10px",
+      width: "10px",
+      minWidth: "0",
     },
   }));
 
@@ -351,9 +359,12 @@ export const Nav = () => {
                   }}
                 >
                   <Tooltip title={"Notifications"}>
-                    <StyledBadge badgeContent={notificationData.length} color="primary">
+                    <NotifBadge
+                      badgeContent={notificationData.length}
+                      color="primary"
+                    >
                       <NotificationsNoneRoundedIcon />
-                    </StyledBadge>
+                    </NotifBadge>
                   </Tooltip>
                 </IconButton>
 
@@ -366,26 +377,13 @@ export const Nav = () => {
                       md: "block",
                     },
                   }}
-                // sx={{
-                //   // height: "32px",
-                //   // width: "32px",
-                //   cursor: "pointer",
-                // }}
                 >
-                  {/* <ButtonBase
-                    sx={{
-                      borderRadius: "25px",
-                      height: "120%",
-                      width: "110%",
-                    }}
-                  > */}
                   <Tooltip title={"Chat"}>
                     <Link to="/chat">
-                      {/* <img src={chatIconBlank} alt="Chat" /> */}
                       <IconButton size="medium">
-                        <Badge color="secondary" variant="dot">
+                        <ChatBadge color="secondary" variant="dot">
                           <ChatBubbleOutlineOutlinedIcon />
-                        </Badge>
+                        </ChatBadge>
                       </IconButton>
                     </Link>
                   </Tooltip>
