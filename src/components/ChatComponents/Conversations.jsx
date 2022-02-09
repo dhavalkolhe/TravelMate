@@ -163,7 +163,7 @@ export const Conversations = () => {
       setFilterResults(
         roomsData
           .filter((room) => {
-            return room.displayName.localeCompare(searchValue) > -1;
+            return (room.displayName.toLowerCase().includes(searchValue.toLowerCase()) || room.destinationCity.toLowerCase().includes(searchValue.toLowerCase()))
           })
           .map((room, i) => {
             return (
@@ -204,7 +204,7 @@ export const Conversations = () => {
       </Grid>
       <Grid item xs={1}>
         <OutlinedInput
-          placeholder="Search"
+          placeholder="Username or Destination City"
           sx={{ width: "100%" }}
           type="text"
           value={searchValue}

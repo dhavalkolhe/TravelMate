@@ -264,11 +264,12 @@ export function SearchBox() {
                 }}
               /> */}
 
-            
+
               <DatePicker
                 openTo="day"
                 views={["month", "day"]}
                 value={search.startDate}
+                minDate={new Date()}
                 onChange={(newValue) => {
                   console.log("mui date", new Date(newValue).toDateString())
                   setSearch((prev) => {
