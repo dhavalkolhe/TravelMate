@@ -17,7 +17,7 @@ export const Notification = () => {
 
   useEffect(() => {
     // console.log(notificationData);
-    setCardData([])
+    setCardData([]);
     if (notificationData.length) {
       const pendingReq = notificationData.filter(
         (notification) => notification.status === "pending"
@@ -47,7 +47,16 @@ export const Notification = () => {
   }, [notificationData]);
 
   return (
-    <Box sx={{ padding: "10px" }}>
+    <Box
+      sx={{
+        padding: "10px",
+        maxHeight: {
+          xs: "100%",
+          md: "50vh",
+        },
+        overflowY: "auto",
+      }}
+    >
       {/* Notifications: {notificationCount} */}
       {loading ? (
         <Loader size={20} />
