@@ -178,6 +178,7 @@ function SearchResult() {
     setDestinationCity(search.destinationCity);
     setStartDate(search.startDate);
     setEndDate(search.endDate);
+    // eslint-disable-next-line
   }, []);
 
   const OPTIONS_LIMIT = 3;

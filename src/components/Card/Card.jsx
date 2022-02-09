@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../context/userContext";
-import userIcon from "../../img/user.svg";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import "./Card.css";
 import PopUp from "../PopUp/PopUp";
 // import Loader from "../../components/Loader/Loader";
+import { Avatar } from '@mui/material';
 
 import { db } from "../../firebase/db";
 import { setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -97,7 +97,11 @@ function Card({
     >
       <div className="user__name">
         <i className="user__icon">
-          <img src={photoURL ? photoURL : userIcon} alt="user-icon" />
+          <Avatar
+            sx={{ width: 36, height: 36, marginRight: "0.2rem" }}
+            alt={displayName}
+            src={photoURL}
+          />
         </i>
         <span>{displayName ? displayName : "User Name"}</span>
       </div>

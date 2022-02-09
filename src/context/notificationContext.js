@@ -8,6 +8,7 @@ export const NotificationContext = createContext();
 
 const NotificationContextProvider = (props) => {
   const [user] = useContext(UserContext);
+  // eslint-disable-next-line
   const [responseData, setResponseData] = useState([]);
   const [notificationData, setNotificationData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,6 @@ const NotificationContextProvider = (props) => {
   }, [user]);
 
   useEffect(() => {
-    // console.log(notificationData)
     const x = responseData.filter((data) => data.status !== "active");
     setNotificationData(x);
   }, [responseData]);
@@ -33,32 +33,34 @@ const NotificationContextProvider = (props) => {
     const unsub = onSnapshot(
       collection(db, "users", user.uid, "requests"),
       (recievedReqSnap) => {
-        setResponseData([]);
-        setNotificationData([]);
-        recievedReqSnap.docs.forEach((snap) => {
-          let masterObj = {
-            reqId: snap.id,
-            status: snap.data().status,
-            roomId: snap.data().roomId,
-          };
+        recievedReqSnap.docChanges().forEach(
+          (change) => {
+            if (change.type === "added") {
+              let masterObj = {
+                reqId: change.doc.id,
+                status: change.doc.data().status,
+                roomId: change.doc.data().roomId,
+              };
 
-          fetchRequestorData(snap.data().requestorId)
-            .then((res) => {
-              masterObj = { ...masterObj, ...res };
-            })
-            .then(() => {
-              fetchRideData(snap.data().rideId)
+              fetchRequestorData(change.doc.data().requestorId)
                 .then((res) => {
                   masterObj = { ...masterObj, ...res };
                 })
                 .then(() => {
-                  setResponseData((prev) => [...prev, masterObj]);
+                  fetchRideData(change.doc.data().rideId)
+                    .then((res) => {
+                      masterObj = { ...masterObj, ...res };
+                    })
+                    .then(() => {
+                      setNotificationData((prev) => [...prev, masterObj]);
+                    });
                 });
-            });
-        });
-      },
-      (err) => {
-        console.log("notification data err : ", err);
+            }
+          },
+          (err) => {
+            console.log("notification data err : ", err);
+          }
+        );
       }
     );
     return unsub;
