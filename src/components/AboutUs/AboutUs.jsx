@@ -18,7 +18,14 @@ export function About() {
             alignItems: "flex-end",
           }}
         >
-          <Typography variant="h3">About Us</Typography>
+          <Typography variant="h3" sx={{
+            fontSize: {
+              xs: "2rem",
+              md: "3rem"
+            }
+          }}>
+            About Us
+          </Typography>
 
           <a
             href="https://vitrendz.com/"

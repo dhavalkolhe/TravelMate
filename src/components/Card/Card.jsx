@@ -65,7 +65,7 @@ function Card({
   };
   const sendRequest = () => {
     if (user.authorized) {
-      setSendText("");
+      // setSendText("");
       setLoading(true);
       try {
         addReq();
