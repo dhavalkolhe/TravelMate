@@ -568,11 +568,10 @@ function AddRequest() {
               <img src={addReqBg} alt="illus" />
             </Box>
           </Box>
-          <Box className="wave">
+          {/* <Box className="wave">
             <img src={wavesDesign} alt="illus" />
-          </Box>
-          <WebsiteInfo />
-
+          </Box> */}
+          {/* <WebsiteInfo /> */}
           <Container maxWidth="lg">
             <About />
             {/* <MadeBy /> */}
