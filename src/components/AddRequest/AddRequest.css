@@ -221,8 +221,11 @@ p {
   .react-confirm-alert-body {
     max-width: 300px;
   }
-  .icons {
+  .hide {
     display: none;
+  }
+  .pd-l {
+    padding-left: 0.8rem;
   }
 }
 

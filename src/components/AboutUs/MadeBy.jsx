@@ -38,10 +38,10 @@ export function MadeBy() {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <a href={linkedin} target="_blank">
+          <a href={linkedin} target="_blank" rel="noopener noreferrer">
             <LinkedInIcon fontSize="large" />
           </a>
-          <a href={github} target="_blank">
+          <a href={github} target="_blank" rel="noopener noreferrer">
             <GitHubIcon fontSize="large" />
           </a>
         </Stack>

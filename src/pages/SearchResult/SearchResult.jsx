@@ -26,7 +26,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
 import { LoginContext } from "../../context/loginContext";
 import { UserContext } from "../../context/userContext";
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
 /*
 <div>
           < Redirect to="/" />
@@ -36,6 +36,7 @@ import { Redirect } from "react-router-dom"
 function SearchResult() {
   const [user] = useContext(UserContext);
   const { loginDialog } = useContext(LoginContext);
+  // eslint-disable-next-line
   const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
 
   // eslint-disable-next-line
@@ -51,7 +52,9 @@ function SearchResult() {
   const [destinationCity, setDestinationCity] = useState("");
   const [time, setTime] = useState("Any");
   const [mode, setMode] = useState("Any");
-  const [startDate, setStartDate] = useState(new Date().setHours(0, 0, 0, 0));
+  const [startDate, setStartDate] = useState(
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
   const [endDate, setEndDate] = useState(
     new Date(new Date().setMonth(new Date().getMonth() + 6))
   );
@@ -60,20 +63,18 @@ function SearchResult() {
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line
   const [skeletonCount, setSkeletonCount] = useState(6);
-  const [filteredResponse, setFilteredResponse] = useState();
+  const [filteredResponse, setFilteredResponse] = useState([]);
   const [showFilterNav, setShowFilterNav] = useState(false);
 
   const handleFilterClick = () => {
     console.log("clicked");
     setShowFilterNav(true);
   };
-  useEffect(() => {
-    setCurrentCity(search.currentCity);
-    setDestinationCity(search.destinationCity);
-    setStartDate(search.startDate);
-    setEndDate(search.endDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+  // useEffect(() => {
+  //   console.log("startDate", startDate, startDate.getTime())
+  //   console.log("endDate", endDate, endDate.getTime())
+  // }, [startDate, endDate]);
 
   //loading
   useEffect(() => {
@@ -93,11 +94,18 @@ function SearchResult() {
     let g = [];
     let h = [];
 
-    x = response.filter(
-      (response) =>
-        new Date(response.props.date) >= new Date(startDate) &&
-        new Date(response.props.date) <= new Date(endDate)
-    );
+    x = response.filter((response) => {
+      let dayCheck =
+        new Date(response.props.date).getDate() >=
+        new Date(startDate).getDate();
+      let monthCheck =
+        new Date(response.props.date).getMonth() >=
+        new Date(startDate).getMonth();
+      let yearCheck =
+        new Date(response.props.date).getYear() >=
+        new Date(startDate).getYear();
+      return dayCheck && monthCheck && yearCheck;
+    });
 
     if (currentCity !== "" && x.length) {
       if (z.length === 0)
@@ -155,17 +163,23 @@ function SearchResult() {
     h.length
       ? setFilteredResponse(h)
       : g.length
-        ? setFilteredResponse(g)
-        : z.length
-          ? setFilteredResponse(z)
-          : y.length
-            ? setFilteredResponse(y)
-            : x.length
-              ? setFilteredResponse(x)
-              : setFilteredResponse([]);
+      ? setFilteredResponse(g)
+      : z.length
+      ? setFilteredResponse(z)
+      : y.length
+      ? setFilteredResponse(y)
+      : x.length
+      ? setFilteredResponse(x)
+      : setFilteredResponse([]);
+  }, [startDate, endDate, currentCity, destinationCity, time, mode, response]);
 
+  useEffect(() => {
+    setCurrentCity(search.currentCity);
+    setDestinationCity(search.destinationCity);
+    setStartDate(search.startDate);
+    setEndDate(search.endDate);
     // eslint-disable-next-line
-  }, [startDate, endDate, currentCity, destinationCity, time, mode]);
+  }, []);
 
   const OPTIONS_LIMIT = 3;
   const filterOptions = createFilterOptions({
@@ -224,10 +238,12 @@ function SearchResult() {
               <span className="filter-text">Filter</span>
             </span>
           </h2>
-          {!user.authorized ? (<div>
-            < Redirect to="/" />
-            {setLoginDialogOpen(true)}
-          </div>) : (
+          {!user.authorized ? (
+            <div>
+              <Redirect to="/" />
+              {setLoginDialogOpen(true)}
+            </div>
+          ) : (
             <div className="container">
               {showFilterNav ? (
                 <FilterResultsNav
@@ -256,7 +272,10 @@ function SearchResult() {
                     From
                     <DatePicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      onChange={(date) => {
+                        console.log("datepicker ", date);
+                        setStartDate(date);
+                      }}
                       minDate={new Date()}
                       dateFormat="dd-MMM-yyyy"
                       className="input"
@@ -341,7 +360,9 @@ function SearchResult() {
                       autoHighlight
                       disableClearable
                       freeSolo
-                      getOptionLabel={(option) => option.name || destinationCity}
+                      getOptionLabel={(option) =>
+                        option.name || destinationCity
+                      }
                       onChange={(event, value) => {
                         // console.log(value);
                         let selectedCity = value.name.concat(", ", value.state);
@@ -423,6 +444,8 @@ function SearchResult() {
               <div className="results">
                 {loading ? (
                   <SkeletonLoader skeletonCount={skeletonCount} />
+                ) : filteredResponse.length === 0 ? (
+                  <div>No Result Found</div>
                 ) : (
                   filteredResponse
                 )}
@@ -432,7 +455,6 @@ function SearchResult() {
         </div>
       </Container>
     </Box>
-
   );
 }
 

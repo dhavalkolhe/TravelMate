@@ -1,14 +1,7 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./chatComponenets.css";
 
-import {
-  Box,
-  Stack,
-  Avatar,
-  Grid,
-  Typography,
-  OutlinedInput,
-} from "@mui/material";
+import { Stack, Avatar, Grid, Typography, OutlinedInput } from "@mui/material";
 
 import { RoomsContext } from "../../context/roomsContext";
 import { ChatContext } from "../../context/chatContext";
@@ -65,7 +58,14 @@ const Person = ({
               src={photoURL}
               sx={{ width: 48, height: 48, marginRight: "0.4rem" }}
             />
-            <Typography variant={"string"}>{displayName}</Typography>
+            <Stack direction="column">
+              <Typography variant={"body1"}>{displayName}</Typography>
+              <Typography variant="caption">
+                <>{currentCity.split(",")[0]}</>
+                <b> - </b>
+                <>{destinationCity.split(",")[0]}</>
+              </Typography>
+            </Stack>
           </Grid>
           {/* <Grid
             item
@@ -95,12 +95,13 @@ export const Conversations = () => {
 
   const [cardData, setCardData] = useState([]);
   const [chatsCount, setChatsCount] = useState(0);
-
-  const { width, height } = useContext(WindowContext);
+  const { width } = useContext(WindowContext);
 
   const { currRoomId, currChatterInfo, messageBoxInfo } =
     useContext(ChatContext);
+  // eslint-disable-next-line
   const [roomId, setRoomId] = currRoomId;
+  // eslint-disable-next-line
   const [chatterInfo, setchatterInfo] = currChatterInfo;
   const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
   const [messageBoxOpenActive, setMessageBoxOpenActive] = useState(false);
@@ -126,6 +127,7 @@ export const Conversations = () => {
         setMessageBoxOpen(true);
       }
     };
+    // eslint-disable-next-line
   }, [messageBoxOpenActive, messageBoxOpen]);
 
   useEffect(() => {
@@ -148,7 +150,44 @@ export const Conversations = () => {
       setCardData(x);
       setChatsCount(x.length);
     }
+    // eslint-disable-next-line
   }, [roomsData]);
+
+  const [filterResults, setFilterResults] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+
+  const filterSearch = () => {
+    if (searchValue === null || searchValue === "") {
+      setFilterResults(null);
+    } else {
+      setFilterResults(
+        roomsData
+          .filter((room) => {
+            return (room.displayName.toLowerCase().includes(searchValue.toLowerCase()) || room.destinationCity.toLowerCase().includes(searchValue.toLowerCase()))
+          })
+          .map((room, i) => {
+            return (
+              <Person
+                key={i}
+                currentCity={room.currentCity}
+                destinationCity={room.destinationCity}
+                displayName={room.displayName}
+                photoURL={room.photoURL}
+                reqId={room.reqId}
+                roomId={room.roomId}
+                handleRoomChange={handleRoomChange}
+              />
+            );
+          })
+      );
+    }
+  };
+
+  useEffect(() => {
+    filterSearch();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
 
   return (
     <Grid
@@ -164,7 +203,19 @@ export const Conversations = () => {
         <Typography variant="h6">Conversations</Typography>
       </Grid>
       <Grid item xs={1}>
-        <OutlinedInput placeholder="Search" sx={{ width: "100%" }} />
+        <OutlinedInput
+          placeholder="Username or Destination City"
+          sx={{ width: "100%" }}
+          type="text"
+          value={searchValue}
+          onChange={(event) => {
+            setSearchValue(event.target.value);
+          }}
+          onKeyPress={(event) => {
+            event.key === "Enter" && filterSearch();
+          }}
+          autoFocus={true}
+        />
       </Grid>
       <Grid
         item
@@ -181,7 +232,13 @@ export const Conversations = () => {
         {roomLoading ? (
           <Loader />
         ) : (
-          <>{chatsCount ? <>{cardData}</> : <p>No Chats!</p>}</>
+          <>
+            {chatsCount ? (
+              <>{filterResults ? filterResults : cardData}</>
+            ) : (
+              <p>No Chats!</p>
+            )}
+          </>
         )}
       </Grid>
     </Grid>

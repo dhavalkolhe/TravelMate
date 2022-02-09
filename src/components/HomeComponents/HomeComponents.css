@@ -10,9 +10,13 @@
 }
 
 .mr {
-  margin-right: 15px !important;
+  /* margin-right: 15px !important; */
 }
 
 .pd-b {
-  padding-bottom: 5px !important;
+  padding-bottom: 2px !important;
+}
+
+.location-container {
+  width: 100%;
 }

@@ -1,31 +1,27 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Nav } from "../../components/Nav";
 import { Box, Container } from "@mui/material";
 import wave from "../../img/dashWave.svg";
 import dashBg from "../../img/dashBg.svg";
 import "./Dashboard.css";
+import Loader from "../../components/Loader/Loader";
 
 import { DashboardContext } from "../../context/dashboardContext";
 import { LoginContext } from "../../context/loginContext";
 import { UserContext } from "../../context/userContext";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Redirect } from "react-router-dom"
+import { Redirect } from "react-router-dom";
 
-const auth = getAuth();
+// eslint-disable-next-line
 
 function Dashboard() {
-  const activeOffers = useContext(DashboardContext);
+  const { activeOffers, loader } = useContext(DashboardContext);
+  const [loading] = loader;
   const { loginDialog } = useContext(LoginContext);
+  // eslint-disable-next-line
   const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
   // eslint-disable-next-line
 
   const [user] = useContext(UserContext);
-  const [authorized, setAuthorized] = useState(true);
-  const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
-
-
 
   return (
     <Box>
@@ -55,10 +51,15 @@ function Dashboard() {
           </div>
           <div className="activeOffersContainer">
             <span className="active-text">Active Offers</span>
-            {activeOffers.length === 0 ? (
-              <span className="noActiveText">No active Offers</span>
+            {loading ? (
+              <span className="noActiveText"><Loader size={20} /></span>
+
             ) : (
-              <div className="activeOffersCards">{activeOffers}</div>
+              activeOffers.length === 0 ? (
+                <span className="noActiveText">No active Offers</span>
+              ) : (
+                <div className="activeOffersCards">{activeOffers}</div>
+              )
             )}
           </div>
         </div>

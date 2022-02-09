@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Components
-import { Login } from "./components/Login";
+// import { Login } from "./components/Login";
 import AddRequest from "./components/AddRequest/AddRequest";
 
 // Contexts
@@ -11,7 +11,6 @@ import {
   WindowContextProvider,
   ThemeContextProvider,
 } from "./context";
-import UserContextProvider from "./context/userContext";
 import ResponseContextProvider from "./context/responseContext";
 import NotificationContextProvider from "./context/notificationContext";
 import RoomsContextProvider from "./context/roomsContext";
@@ -30,12 +29,11 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { Home } from "./pages/Home";
 import { Notification } from "./components/Notification";
 // import { ChatPage } from "./pages/Chat";
-import ChatList from "./components/ChatDemo/ChatList";
-import Chat from "./components/ChatDemo/Chat";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { ChatPage } from "./pages/Chat";
 
-import { BottomNav } from "./components/Nav";
+import { BottomNav, BottomNavPageContainer } from "./components/Nav";
+import { UserContext } from "./context/userContext";
 
 // import { MessagesBox } from "./components/ChatComponents";
 
@@ -47,6 +45,9 @@ import { Box, BottomNavigation, BottomNavigationAction } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
 
 export const Navigation = () => {
   const [value, setValue] = useState(0);
@@ -72,64 +73,123 @@ export const Navigation = () => {
 };
 
 function App() {
+  // eslint-disable-next-line
+  const [user, setUser] = useContext(UserContext);
+  const [u, setU] = useState(auth.currentUser);
+
+  useEffect(() => {
+    let userData = {};
+
+    onAuthStateChanged(auth, (userFound) => {
+      if (!userFound) {
+        userData = { authorized: false };
+        setU(userData);
+      } else {
+        userData = {
+          authorized: true,
+          uid: userFound.uid,
+          displayName: userFound.displayName,
+          photoURL: userFound.photoURL,
+          email: userFound.email,
+        };
+        setU(userData);
+      }
+    });
+  }, []);
+
+  window.addEventListener("storage", () => {
+    const changedData = JSON.parse(window.localStorage.getItem("user"));
+
+    if (JSON.stringify(u) !== JSON.stringify(changedData)) {
+      // localStorage.setItem("user", JSON.stringify(u));
+      setUser({
+        authorized: false,
+        displayName: "",
+        photoURL: "",
+        email: "",
+      });
+    }
+  });
+
   return (
+    // <MobileFullscreen mask={Mask}>
     <WindowContextProvider>
-      <ThemeContextProvider>
-        <UserContextProvider>
-          <SearchContextProvider>
-            <LoginContextProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <ChatContextProvider>
-                  <NotificationContextProvider>
-                    <SentReqContextProvider>
-                      <Router>
-                        <Switch>
-                          <Route exact path="/addRequest">
+      <NotificationContextProvider>
+        <SentReqContextProvider>
+          <ThemeContextProvider>
+            <SearchContextProvider>
+              <LoginContextProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <ChatContextProvider>
+                    <Router>
+                      <Switch>
+                        <Route exact path="/addRequest">
+                          <BottomNavPageContainer>
                             <AddRequest />
-                            <BottomNav />
-                          </Route>
+                          </BottomNavPageContainer>
+                          <BottomNav />
+                        </Route>
 
-                          <Route exact path="/notifications">
+                        <Route exact path="/notifications">
+                          <BottomNavPageContainer>
                             <Notification />
-                            <BottomNav />
-                          </Route>
+                          </BottomNavPageContainer>
+                          <BottomNav />
+                        </Route>
 
-                          <Route exact path="/search">
-                            <ResponseContextProvider>
+                        <Route exact path="/search">
+                          <ResponseContextProvider>
+                            <BottomNavPageContainer>
                               <SearchResult />
-                              <BottomNav />
-                            </ResponseContextProvider>
-                          </Route>
-
-                          <Route exact path="/dashboard">
-                            <DashboardContextProvider>
-                              <Dashboard />
-                              <BottomNav />
-                            </DashboardContextProvider>
-                          </Route>
-
-                          <Route exact path="/chat">
-                            <RoomsContextProvider>
-                              <ChatPage />
-                              <BottomNav />
-                            </RoomsContextProvider>
-                          </Route>
-
-                          <Route exact path="/">
-                            <Home />
+                            </BottomNavPageContainer>
                             <BottomNav />
-                          </Route>
-                        </Switch>
-                      </Router>
-                    </SentReqContextProvider>
-                  </NotificationContextProvider>
-                </ChatContextProvider>
-              </LocalizationProvider>
-            </LoginContextProvider>
-          </SearchContextProvider>
-        </UserContextProvider>
-      </ThemeContextProvider>
+                          </ResponseContextProvider>
+                        </Route>
+
+                        <Route exact path="/dashboard">
+                          <DashboardContextProvider>
+                            <BottomNavPageContainer>
+                              <Box
+                                sx={{
+                                  mb: {
+                                    xs: 3,
+                                    md: 0,
+                                  },
+                                }}
+                              >
+                                <Dashboard />
+                              </Box>
+                            </BottomNavPageContainer>
+                            <BottomNav />
+                          </DashboardContextProvider>
+                        </Route>
+
+                        <Route exact path="/chat">
+                          <RoomsContextProvider>
+                            <BottomNavPageContainer>
+                              <ChatPage />
+                            </BottomNavPageContainer>
+                            <BottomNav />
+                          </RoomsContextProvider>
+                        </Route>
+
+                        <Route exact path="/">
+                          <BottomNavPageContainer>
+                            <Home />
+                          </BottomNavPageContainer>
+                          <BottomNav />
+                        </Route>
+                      </Switch>
+                    </Router>
+                  </ChatContextProvider>
+                </LocalizationProvider>
+              </LoginContextProvider>
+            </SearchContextProvider>
+          </ThemeContextProvider>
+        </SentReqContextProvider>
+      </NotificationContextProvider>
     </WindowContextProvider>
+    // </MobileFullscreen>
   );
 }
 

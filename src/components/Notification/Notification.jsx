@@ -4,7 +4,7 @@ import Loader from "../../components/Loader/Loader";
 import NotificationCard from "./NotificationCard";
 
 //mui
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
 export const Notification = () => {
   const { noti, load } = useContext(NotificationContext);
@@ -17,6 +17,7 @@ export const Notification = () => {
 
   useEffect(() => {
     // console.log(notificationData);
+    setCardData([]);
     if (notificationData.length) {
       const pendingReq = notificationData.filter(
         (notification) => notification.status === "pending"
@@ -45,17 +46,36 @@ export const Notification = () => {
     }
   }, [notificationData]);
 
-  useEffect(() => {
-    console.log(cardData);
-  }, [cardData])
-
   return (
-    <Box sx={{ padding: "10px" }}>
+    <Box
+      sx={{
+        padding: "10px",
+        maxHeight: {
+          xs: "100%",
+          md: "50vh",
+        },
+        overflowY: "auto",
+      }}
+    >
       {/* Notifications: {notificationCount} */}
       {loading ? (
-        <Loader />
+        <Loader size={20} />
       ) : (
-        <Box>{notificationCount ? cardData : <p>No Notifications!</p>}</Box>
+        <Box>
+          {notificationCount ? (
+            <>
+              <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                Notifications
+              </Typography>
+              <Divider />
+              {cardData}
+            </>
+          ) : (
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+              No Notifications
+            </Typography>
+          )}
+        </Box>
       )}
       {/* {loading && <Loader />} */}
     </Box>

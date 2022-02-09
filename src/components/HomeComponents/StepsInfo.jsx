@@ -16,6 +16,7 @@ export function StepsInfo() {
         flexFlow="column nowrap"
         justifyContent="center"
         alignItems="center"
+        width="150px"
       >
         <img src={image} alt={num} />
         <Typography class="stepsInfoHead" variant="h4">
@@ -47,7 +48,11 @@ export function StepsInfo() {
           justifyContent="center"
           alignItems="center"
           flexWrap="wrap"
-          spacing={4}
+          spacing={{
+            xs: 2,
+            sm: 4,
+            md: 8,
+          }}
           sx={{ margin: "4rem 0 5rem 0" }}
         >
           <Step

@@ -7,7 +7,7 @@ import { Nav } from "../../components/Nav";
 import { Conversations, MessagesBox } from "../../components/ChatComponents";
 
 /* MUI */
-import { Container, Box, Stack, Grid } from "@mui/material";
+import { Container, Box, Grid } from "@mui/material";
 
 function DesktopChatSection() {
   const { currChatterInfo } = useContext(ChatContext);
@@ -74,11 +74,11 @@ export function ChatPage() {
         <Box
           sx={{
             position: "absolute",
-            height: "100vh",
+            height: "101vh",
             width: "100vw",
             backgroundColor: "white",
             zIndex: "5",
-            padding: "10px",
+            padding: "20px",
             margin: "0px",
           }}
         >

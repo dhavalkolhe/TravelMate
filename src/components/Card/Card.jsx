@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../context/userContext";
-import userIcon from "../../img/user.svg";
 import currentLocationIcon from "../../img/currentLocationIcon.svg";
 import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import "./Card.css";
 import PopUp from "../PopUp/PopUp";
-import Loader from "../../components/Loader/Loader";
+// import Loader from "../../components/Loader/Loader";
+import { Avatar } from '@mui/material';
 
 import { db } from "../../firebase/db";
 import { setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -39,12 +39,11 @@ function Card({
 
   useEffect(() => {
     if (sentReq.includes(rideId)) {
-      setDisable(true)
+      setDisable(true);
       setSendText("Request sent ✅");
     }
-  }, [sentReq])
-
-
+    // eslint-disable-next-line
+  }, [sentReq]);
 
   const updateuserRidesReq = async () => {
     const userRideRef = doc(db, "users", userId, "rides", rideId);
@@ -66,24 +65,22 @@ function Card({
   };
   const sendRequest = () => {
     if (user.authorized) {
-      setSendText("")
+      // setSendText("");
       setLoading(true);
       try {
         addReq();
         updateDoc(doc(db, "users", user.uid), {
-          sentRequests: arrayUnion(rideId)
+          sentRequests: arrayUnion(rideId),
         }).then(() => {
           setLoading(false);
-          setSendText("Request sent ✅");
+
+          if (!loading) setSendText("Request sent ✅");
+
           setDisable(true);
-
-        })
-
-
+        });
       } catch (e) {
         console.error("Error sending req : ", e);
       }
-
     } else {
       console.log("Not authorized");
     }
@@ -100,7 +97,11 @@ function Card({
     >
       <div className="user__name">
         <i className="user__icon">
-          <img src={photoURL ? photoURL : userIcon} alt="user-icon" />
+          <Avatar
+            sx={{ width: 36, height: 36, marginRight: "0.2rem" }}
+            alt={displayName}
+            src={photoURL}
+          />
         </i>
         <span>{displayName ? displayName : "User Name"}</span>
       </div>
@@ -166,7 +167,7 @@ function Card({
           onClick={sendRequest}
         >
           {sendText}
-          {loading && <Loader size={20} />}
+          {/* {loading && <Loader size={10} />} */}
         </button>
       </div>
     </div>

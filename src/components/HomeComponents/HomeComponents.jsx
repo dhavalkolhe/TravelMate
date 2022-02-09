@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 // import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
 import { SearchBox } from "./SearchBox";
+import { WindowContext } from "../../context";
 
 import {
   Box,
@@ -30,6 +31,8 @@ export function SearchSection() {
   const handleSearchClose = () => {
     setSearchOpen(false);
   };
+  // eslint-disable-next-line
+  const { width, height } = useContext(WindowContext);
 
   return (
     <>
@@ -106,35 +109,37 @@ export function SearchSection() {
         </Box>
       </Container>
 
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "0px",
-          left: "0px",
-          display: "flex",
-          justifyContent: "flex-end",
-          pointerEvents: "none",
-        }}
-      >
-        <img src={bgvector1} alt="illus" />
-      </Box>
-      <Box>
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: "0px",
-            width: {
-              xs: "300px",
-              md: "40vw",
-            },
-            display: "flex",
-            justifyContent: "flex-end",
-            pointerEvents: "none",
-          }}
-        >
-          <img src={illustation1} alt="illus" />
-        </Box>
-      </Box>
+      {height > 600 && (
+        <>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: { xs: "40px", md: "0px" },
+              left: "0px",
+              display: "flex",
+              justifyContent: "flex-end",
+              pointerEvents: "none",
+            }}
+          >
+            <img src={bgvector1} alt="illus" />
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: { xs: "40px", md: "0px" },
+              width: {
+                xs: "300px",
+                md: "40vw",
+              },
+              display: "flex",
+              justifyContent: "flex-end",
+              pointerEvents: "none",
+            }}
+          >
+            <img src={illustation1} alt="illus" />
+          </Box>
+        </>
+      )}
     </>
   );
 }
@@ -173,22 +178,25 @@ export function WebsiteInfo() {
           image={websiteInfoIcon1}
           head={"Trust who you travel with"}
           data={
-            "Travelmate enforces strict privacy policies to protect members against disclosure, unauthorized access. The use of secured servers, designated data protection, implementation of appropriate security measures to prevent and protect personal data should put minds at ease."
+            "Travelmate enforces strict privacy policies to protect members against disclosure, unauthorized access."
+            // The use of secured servers, designated data protection, implementation of appropriate security measures to prevent and protect personal data should put minds at ease.
           }
         />
         <Item
           image={websiteInfoIcon2}
           head={"Search, Connect and GO!"}
           data={
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            "Enter your travel location and connect with your travel buddy without any hassels. "
+            // All you need to do is enter your departure and arrival destination and push a request for your travel buddy to find you. Your request will be enlisted and your travel mate can connect with you only if you approve the request.
           }
         />
         <Item
           image={websiteInfoIcon3}
           head={"Chat within the Website"}
-          data={
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          }
+          data={`Travel mate is focused on providing a secure instant messaging chat platform to its users for them to connect. `}
+          // and share their travel details with each other.
+          // It comes in built-in security feature wherein an user's chat option is enabled only if your travel mate approves your request.
+          // Hence, ensuring safety and security.
         />
       </Grid>
     </Box>

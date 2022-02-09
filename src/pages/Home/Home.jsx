@@ -2,14 +2,20 @@ import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 
 /* Componenets */
-import { Nav, BottomNav } from "../../components/Nav";
+import {
+  Nav,
+  //  BottomNav
+} from "../../components/Nav";
 import {
   SearchSection,
   StepsInfo,
   Article,
   WebsiteInfo,
 } from "../../components/HomeComponents";
-import { About, MadeBy } from "../../components/AboutUs";
+import {
+  About,
+  //  MadeBy
+} from "../../components/AboutUs";
 import { Footer } from "../../components/Footer";
 
 import { Box, Container } from "@mui/material";
@@ -52,7 +58,7 @@ export function Home() {
       {/* <BottomNav /> */}
 
       <WebsiteInfo />
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" id="about">
         <About />
         {/* <MadeBy /> */}
       </Container>

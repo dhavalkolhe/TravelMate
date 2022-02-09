@@ -14,8 +14,7 @@ const UserContextProvider = (props) => {
   useEffect(() => {
     onAuthStateChanged(auth, (userFound) => {
       if (!userFound) {
-        setUser({});
-        setUser((prev) => ({ ...prev, authorized: false }));
+        setUser({ authorized: false });
       }
     });
   }, []);

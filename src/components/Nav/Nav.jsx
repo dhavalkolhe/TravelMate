@@ -4,6 +4,7 @@ import "./Nav.css";
 
 import { UserContext } from "../../context/userContext";
 import { LoginContext } from "../../context";
+import { NotificationContext } from "../../context/notificationContext";
 
 import { LoginDialog } from "../Login";
 import { Notification } from "../../components/Notification";
@@ -22,24 +23,20 @@ import {
   List,
   ListItem,
   ListItemText,
-  ButtonBase,
   Typography,
   IconButton,
-  Button,
+  Badge,
 } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-// import CloseIcon from "@mui/icons-material/Close";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
 
+import { styled } from "@mui/material/styles";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+import Logout from "@mui/icons-material/Logout";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import travelMateLogoSvg from "../../resources/images/travelMateLogoSvg.svg";
 import menuIcon from "../../resources/images/menuIcon.svg";
-import chatIconDot from "../../resources/images/chatIconDot.svg";
-import chatIconBlank from "../../resources/images/chatIconBlank.svg";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 import "../../firebase/firebase";
@@ -69,6 +66,10 @@ const UserInfo = ({ displayName, photoURL }) => {
 };
 
 export const Nav = () => {
+  // eslint-disable-next-line
+  const { noti, load } = useContext(NotificationContext);
+  const [notificationData] = noti;
+
   //User Menu
   const [userMenu, setUserMenu] = useState(null);
   const openUserMenu = Boolean(userMenu);
@@ -200,41 +201,43 @@ export const Nav = () => {
   const [user, setUser] = useContext(UserContext);
 
   const list = () => (
-    <Box
-      sx={{ width: 250 }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <List>
-        <ListItem button key={"home"}>
-          <Link to={`/`}>
-            <ListItemText primary={"Home"} />
-          </Link>
-        </ListItem>
-        <ListItem button key={"about"}>
-          <Link to={`/#about`}>
-            <ListItemText primary={"About"} />
-          </Link>
-        </ListItem>
-        <ListItem button key={"dashboard"}>
-          <Link to={`/dashboard`}>
-            <ListItemText primary={"Dashboard"} />
-          </Link>
-        </ListItem>
-        <ListItem button key={"addRequest"}>
-          <Link to={`/addRequest`}>
-            <ListItemText primary={"Add Request"} />
-          </Link>
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button key={"logout"} onClick={logOut}>
-          <ListItemText primary={"Logout"} />
-        </ListItem>
-      </List>
-    </Box>
+    <>
+      <Box
+        sx={{ width: 250 }}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        <List>
+          <ListItem button key={"home"}>
+            <Link to={"/"}>
+              <ListItemText primary={"Home"} />
+            </Link>
+          </ListItem>
+          {/* <ListItem button key={"about"}>
+            <a href="#about">
+              <ListItemText primary={"About"} />
+            </a>
+          </ListItem> */}
+          <ListItem button key={"dashboard"}>
+            <Link to={`/dashboard`}>
+              <ListItemText primary={"Dashboard"} />
+            </Link>
+          </ListItem>
+          <ListItem button key={"addRequest"}>
+            <Link to={`/addRequest`}>
+              <ListItemText primary={"Add Request"} />
+            </Link>
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key={"logout"} onClick={logOut}>
+            <ListItemText primary={"Logout"} />
+          </ListItem>
+        </List>
+      </Box>
+    </>
   );
 
   const { userLogged, loginDialog } = useContext(LoginContext);
@@ -252,6 +255,7 @@ export const Nav = () => {
       if (loginDialogOpen) {
         setloginLoading(true);
       }
+      // eslint-disable-next-line
     }, [loginDialogOpen]);
 
     return (
@@ -289,6 +293,27 @@ export const Nav = () => {
       });
   };
 
+  const NotifBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: 1,
+      top: 2,
+      height: "16px",
+      width: "16px",
+      minWidth: "0",
+      fontSize: "10px",
+    },
+  }));
+
+  const ChatBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: 1,
+      top: 2,
+      height: "10px",
+      width: "10px",
+      minWidth: "0",
+    },
+  }));
+
   return (
     <>
       <Box className="navContainer">
@@ -308,9 +333,9 @@ export const Nav = () => {
               <Grid item component={Link} to="/">
                 Home
               </Grid>
-              <Grid item component={Link} to="/#about">
-                About
-              </Grid>
+              {/* <Grid item>
+                <a href="#about">About</a>
+              </Grid> */}
               <Grid item component={Link} to="/dashboard">
                 Dashboard
               </Grid>
@@ -334,7 +359,12 @@ export const Nav = () => {
                   }}
                 >
                   <Tooltip title={"Notifications"}>
-                    <NotificationsNoneRoundedIcon />
+                    <NotifBadge
+                      badgeContent={notificationData.length}
+                      color="primary"
+                    >
+                      <NotificationsNoneRoundedIcon />
+                    </NotifBadge>
                   </Tooltip>
                 </IconButton>
 
@@ -347,24 +377,13 @@ export const Nav = () => {
                       md: "block",
                     },
                   }}
-                  // sx={{
-                  //   // height: "32px",
-                  //   // width: "32px",
-                  //   cursor: "pointer",
-                  // }}
                 >
-                  {/* <ButtonBase
-                    sx={{
-                      borderRadius: "25px",
-                      height: "120%",
-                      width: "110%",
-                    }}
-                  > */}
                   <Tooltip title={"Chat"}>
                     <Link to="/chat">
-                      {/* <img src={chatIconBlank} alt="Chat" /> */}
                       <IconButton size="medium">
-                        <ChatBubbleOutlineOutlinedIcon />
+                        <ChatBadge color="secondary" variant="dot">
+                          <ChatBubbleOutlineOutlinedIcon />
+                        </ChatBadge>
                       </IconButton>
                     </Link>
                   </Tooltip>
@@ -422,6 +441,7 @@ export const Nav = () => {
       <Drawer anchor={"right"} open={drawerState} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
+      <Toast />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React from "react";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -25,5 +25,10 @@ const theme = createTheme({
 });
 
 export const ThemeContextProvider = (props) => {
-  return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme} value={{ theme123: "theme123" }}>
+      {" "}
+      {props.children}
+    </ThemeProvider>
+  );
 };

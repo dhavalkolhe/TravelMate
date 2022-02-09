@@ -7,13 +7,16 @@ import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import addReqBg from "../../img/addReqBg.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import { UserContext } from "../../context/userContext";
-import wavesDesign from "../../img/wavesDesign.svg";
+// import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
 import minus from "../../img/minus.svg";
 import { Nav } from "../Nav/Nav";
-import { About, MadeBy } from "../AboutUs";
+import {
+  About,
+  // MadeBy
+} from "../AboutUs";
 import { Footer } from "../Footer/Footer";
-import { WebsiteInfo } from "../../components/HomeComponents";
+// import { WebsiteInfo } from "../../components/HomeComponents";
 import city from "../../resources/states.json";
 
 import { confirmAlert } from "react-confirm-alert";
@@ -267,7 +270,7 @@ function AddRequest() {
                     <img
                       src={currentLocationIcon}
                       alt="logo"
-                      className="icons"
+                      className="icons hide"
                     />
                     <Autocomplete
                       // className="location-input-field"
@@ -332,7 +335,7 @@ function AddRequest() {
                     <img
                       src={destinationLocationIcon}
                       alt="logo"
-                      className="icons"
+                      className="icons hide"
                     />
                     <Autocomplete
                       // className="location-input-field"
@@ -396,7 +399,7 @@ function AddRequest() {
                 >
                   <Typography class="textfieldHead">Date</Typography>
                   <div className="date-wrap">
-                    <img src={dateIcon} alt="logo" className="icons" />
+                    <img src={dateIcon} alt="logo" className="icons hide" />
                     <DatePicker
                       selected={date}
                       onChange={(date) => {
@@ -565,11 +568,10 @@ function AddRequest() {
               <img src={addReqBg} alt="illus" />
             </Box>
           </Box>
-          <Box className="wave">
+          {/* <Box className="wave">
             <img src={wavesDesign} alt="illus" />
-          </Box>
-          <WebsiteInfo />
-
+          </Box> */}
+          {/* <WebsiteInfo /> */}
           <Container maxWidth="lg">
             <About />
             {/* <MadeBy /> */}

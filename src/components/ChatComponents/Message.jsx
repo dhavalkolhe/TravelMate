@@ -51,10 +51,12 @@ function MessageOut({ messageContent }) {
             padding: "10px 20px",
             borderRadius: "20px 20px 0px 20px",
             marginBottom: "0.5rem",
-            maxWidth: "40%",
+            maxWidth: "45%",
           }}
         >
-          <Typography>{messageContent}</Typography>
+          <Typography display="inline" sx={{ overflowWrap: "break-word" }}>
+            {messageContent}
+          </Typography>
         </Grid>
       </Grid>
     </>
@@ -74,7 +76,9 @@ function MessageIn({ messageContent }) {
             marginBottom: "0.5rem",
           }}
         >
-          <Typography>{messageContent}</Typography>
+          <Typography display="inline" sx={{ overflowWrap: "break-word" }}>
+            {messageContent}
+          </Typography>
         </Grid>
       </Grid>
     </>
@@ -165,7 +169,7 @@ export function MessagesBox() {
     }
 
     if (limit > 0) {
-      if (limit == 1) {
+      if (limit === 1) {
         notify(
           "warning",
           "Message limit exceeded! We will delete the older messages."
@@ -216,6 +220,7 @@ export function MessagesBox() {
   }, [socket]);
 
   const { messageBoxInfo } = useContext(ChatContext);
+  // eslint-disable-next-line
   const [messageBoxOpen, setMessageBoxOpen] = messageBoxInfo;
 
   function handleMessageBoxClose() {
@@ -244,6 +249,7 @@ export function MessagesBox() {
               xs: "0",
               md: "0 1.5rem",
             },
+            margin: 0,
           }}
         >
           <Grid
@@ -269,9 +275,16 @@ export function MessagesBox() {
                   src={chatterInfo.photoURL}
                   sx={{ width: 48, height: 48, marginRight: "0.4rem" }}
                 />
-                <Typography variant={"string"}>
-                  {chatterInfo.displayName}
-                </Typography>
+                <Stack direction="column">
+                  <Typography variant={"body1"}>
+                    {chatterInfo.displayName}
+                  </Typography>
+                  {/* <Typography variant="caption">
+                    <>{currentCity.split(",")[0]}</>
+                    <b> - </b>
+                    <>{destinationCity.split(",")[0]}</>
+                  </Typography> */}
+                </Stack>
               </Stack>
               <IconButton onClick={handleMessageBoxClose}>
                 <CloseIcon fontSize="large" />

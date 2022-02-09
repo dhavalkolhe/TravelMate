@@ -1,21 +1,55 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
 //mui
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper,
+  Badge,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+
 import HomeIcon from "@mui/icons-material/Home";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+
+import { NotificationContext } from "../../context/notificationContext";
 
 export const BottomNav = () => {
   const [value, setValue] = React.useState("recents");
 
+  // eslint-disable-next-line
+  const { noti, load } = useContext(NotificationContext);
+  const [notificationData] = noti;
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const NotifBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: 1,
+      top: 2,
+      height: "14px",
+      width: "14px",
+      minWidth: "0",
+      fontSize: "9px",
+      lineHeight: "0px",
+    },
+  }));
+
+  const ChatBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: 1,
+      top: 2,
+      height: "6px",
+      width: "6px",
+      minWidth: "0",
+    },
+  }));
+
   return (
     <Paper
       sx={{
@@ -38,14 +72,22 @@ export const BottomNav = () => {
         />
         <BottomNavigationAction
           label="Notifications"
-          icon={<NotificationsIcon />}
+          icon={
+            <NotifBadge badgeContent={notificationData.length} color="primary">
+              <NotificationsIcon />
+            </NotifBadge>
+          }
           component={Link}
           to="/notifications"
         />
         {/* <BottomNavigationAction label="Add" icon={<AddCircleIcon />} /> */}
         <BottomNavigationAction
           label="Chat"
-          icon={<ChatBubbleIcon />}
+          icon={
+            <ChatBadge color="secondary" variant="dot">
+              <ChatBubbleIcon />
+            </ChatBadge>
+          }
           component={Link}
           to="/chat"
         />

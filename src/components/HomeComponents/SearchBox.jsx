@@ -21,8 +21,6 @@ import {
   TextField,
   createFilterOptions,
   Autocomplete,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
 
 import DatePicker from "@mui/lab/DatePicker";
@@ -82,23 +80,28 @@ export function SearchBox() {
         padding: "1rem",
         alignItems: "flex-start",
         justifyContent: "center",
+        minWidth: {
+          xs: "80vw",
+          sm: "70vw",
+          md: "0px",
+        },
       }}
     >
-      <Stack direction="column" spacing={4}>
+      <Stack direction="column" spacing={4} sx={{ width: "100%" }}>
         <FormControl variant="outlined" sx={{ zIndex: "1" }}>
           <Stack
             direction={{
               xs: "column",
               md: "row",
             }}
-            spacing={2}
+            spacing={3}
             alignItems={{
               xs: "flex-start",
               md: "flex-end",
             }}
-            sx={{ flexWrap: "wrap" }}
+            sx={{ flexWrap: "nowrap", width: "100%" }}
           >
-            <Box className="location-container">
+            <Box className="location-container mr">
               <Typography class="subtitle1 location-subtitle">
                 Traveling from
               </Typography>
@@ -107,7 +110,13 @@ export function SearchBox() {
                 value={search.currentCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
-                sx={{ width: "140px" }}
+                sx={{
+                  width: {
+                    xs: "90%",
+                    sm: "60%",
+                    md: "160px",
+                  },
+                }}
                 options={city}
                 autoHighlight
                 disableClearable
@@ -172,7 +181,13 @@ export function SearchBox() {
                 value={search.destinationCity}
                 filterOptions={filterOptions}
                 id="country-select-demo"
-                sx={{ width: "140px" }}
+                sx={{
+                  width: {
+                    xs: "90%",
+                    sm: "60%",
+                    md: "160px",
+                  },
+                }}
                 options={city}
                 autoHighlight
                 disableClearable
@@ -181,7 +196,6 @@ export function SearchBox() {
                   option.name || search.destinationCity
                 }
                 onChange={(event, value) => {
-                  // console.log(value);
                   let selectedCity = value.name.concat(", ", value.state);
                   setSearch((prev) => {
                     return {
@@ -229,7 +243,8 @@ export function SearchBox() {
                 )}
               />
             </Box>
-            <Box className="mr pd-b">
+
+            <Box className="mr" sx={{ width: "100%" }}>
               <Typography class="subtitle1">Date</Typography>
               {/* <TextField
                 size="small"
@@ -249,37 +264,45 @@ export function SearchBox() {
                 }}
               /> */}
 
+
               <DatePicker
                 openTo="day"
                 views={["month", "day"]}
-                value={search.date}
+                value={search.startDate}
+                minDate={new Date()}
                 onChange={(newValue) => {
+                  console.log("mui date", new Date(newValue).toDateString())
                   setSearch((prev) => {
                     return {
                       ...prev,
-                      date: newValue,
+                      startDate: newValue
                     };
                   });
                 }}
+                inputFormat="dd/MM/yyyy"
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     size="small"
                     // placeholder="DD-MM-YYYY"
                     sx={{
-                      width: "160px",
+                      width: {
+                        xs: "90%",
+                        sm: "60%",
+                        md: "160px",
+                      },
                       height: "40px",
                       backgroundColor: "white",
                     }}
-                    // InputProps={{
-                    //   startAdornment: (
-                    //     <InputAdornment position="start">
-                    //       <IconButton edge="start">
-                    //         <img src={dateIcon} alt={"logo"} />
-                    //       </IconButton>
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <IconButton edge="start">
+                  //         <img src={dateIcon} alt={"logo"} />
+                  //       </IconButton>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                   />
                 )}
               />
@@ -305,7 +328,11 @@ export function SearchBox() {
           </Stack>
         </FormControl>
 
-        <Box display="flex" justifyContent="space-between">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          sx={{ width: "100%" }}
+        >
           <Typography class="redText" component={Link} to="/addRequest">
             Add request
           </Typography>
@@ -314,10 +341,10 @@ export function SearchBox() {
             component={Link}
             to="/#"
             onClick={() =>
-              (window.location = "mailto:vitrendzvellore@gmail.com")
+              (window.location = "mailto:vitrendstechnical@gmail.com")
             }
           >
-            <u>Help?!</u>
+            <u>Help?</u>
           </Typography>
         </Box>
       </Stack>
