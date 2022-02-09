@@ -81,7 +81,8 @@ export function SearchBox() {
         alignItems: "flex-start",
         justifyContent: "center",
         minWidth: {
-          xs: "90vw",
+          xs: "80vw",
+          sm: "70vw",
           md: "0px",
         },
       }}
@@ -93,14 +94,14 @@ export function SearchBox() {
               xs: "column",
               md: "row",
             }}
-            spacing={2}
+            spacing={3}
             alignItems={{
               xs: "flex-start",
               md: "flex-end",
             }}
             sx={{ flexWrap: "nowrap", width: "100%" }}
           >
-            <Box className="location-container">
+            <Box className="location-container mr">
               <Typography class="subtitle1 location-subtitle">
                 Traveling from
               </Typography>
@@ -113,7 +114,7 @@ export function SearchBox() {
                   width: {
                     xs: "90%",
                     sm: "60%",
-                    md: "140px",
+                    md: "160px",
                   },
                 }}
                 options={city}
@@ -184,7 +185,7 @@ export function SearchBox() {
                   width: {
                     xs: "90%",
                     sm: "60%",
-                    md: "140px",
+                    md: "160px",
                   },
                 }}
                 options={city}
@@ -242,6 +243,7 @@ export function SearchBox() {
                 )}
               />
             </Box>
+
             <Box className="mr" sx={{ width: "100%" }}>
               <Typography class="subtitle1">Date</Typography>
               {/* <TextField
@@ -322,7 +324,11 @@ export function SearchBox() {
           </Stack>
         </FormControl>
 
-        <Box display="flex" justifyContent="space-between">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          sx={{ width: "100%" }}
+        >
           <Typography class="redText" component={Link} to="/addRequest">
             Add request
           </Typography>
