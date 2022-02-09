@@ -52,7 +52,9 @@ function SearchResult() {
   const [destinationCity, setDestinationCity] = useState("");
   const [time, setTime] = useState("Any");
   const [mode, setMode] = useState("Any");
-  const [startDate, setStartDate] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
+  const [startDate, setStartDate] = useState(
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
   const [endDate, setEndDate] = useState(
     new Date(new Date().setMonth(new Date().getMonth() + 6))
   );
@@ -61,15 +63,13 @@ function SearchResult() {
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line
   const [skeletonCount, setSkeletonCount] = useState(6);
-  const [filteredResponse, setFilteredResponse] = useState();
+  const [filteredResponse, setFilteredResponse] = useState([]);
   const [showFilterNav, setShowFilterNav] = useState(false);
 
   const handleFilterClick = () => {
     console.log("clicked");
     setShowFilterNav(true);
   };
-
-
 
   // useEffect(() => {
   //   console.log("startDate", startDate, startDate.getTime())
@@ -87,7 +87,6 @@ function SearchResult() {
     // eslint-disable-next-line
   }, [response]);
 
-
   useEffect(() => {
     let x = [];
     let y = [];
@@ -95,15 +94,18 @@ function SearchResult() {
     let g = [];
     let h = [];
 
-    x = response.filter(
-      (response) => {
-
-        let dayCheck = new Date(response.props.date).getDate() >= new Date(startDate).getDate();
-        let monthCheck = new Date(response.props.date).getMonth() >= new Date(startDate).getMonth();
-        let yearCheck = new Date(response.props.date).getYear() >= new Date(startDate).getYear();
-        return (dayCheck && monthCheck && yearCheck)
-      }
-    );
+    x = response.filter((response) => {
+      let dayCheck =
+        new Date(response.props.date).getDate() >=
+        new Date(startDate).getDate();
+      let monthCheck =
+        new Date(response.props.date).getMonth() >=
+        new Date(startDate).getMonth();
+      let yearCheck =
+        new Date(response.props.date).getYear() >=
+        new Date(startDate).getYear();
+      return dayCheck && monthCheck && yearCheck;
+    });
 
     if (currentCity !== "" && x.length) {
       if (z.length === 0)
@@ -161,16 +163,14 @@ function SearchResult() {
     h.length
       ? setFilteredResponse(h)
       : g.length
-        ? setFilteredResponse(g)
-        : z.length
-          ? setFilteredResponse(z)
-          : y.length
-            ? setFilteredResponse(y)
-            : x.length
-              ? setFilteredResponse(x)
-              : setFilteredResponse([]);
-
-
+      ? setFilteredResponse(g)
+      : z.length
+      ? setFilteredResponse(z)
+      : y.length
+      ? setFilteredResponse(y)
+      : x.length
+      ? setFilteredResponse(x)
+      : setFilteredResponse([]);
   }, [startDate, endDate, currentCity, destinationCity, time, mode, response]);
 
   useEffect(() => {
@@ -274,7 +274,7 @@ function SearchResult() {
                       selected={startDate}
                       onChange={(date) => {
                         console.log("datepicker ", date);
-                        setStartDate(date)
+                        setStartDate(date);
                       }}
                       minDate={new Date()}
                       dateFormat="dd-MMM-yyyy"
@@ -444,6 +444,8 @@ function SearchResult() {
               <div className="results">
                 {loading ? (
                   <SkeletonLoader skeletonCount={skeletonCount} />
+                ) : filteredResponse.length === 0 ? (
+                  <div>No Result Found</div>
                 ) : (
                   filteredResponse
                 )}
