@@ -67,6 +67,7 @@ export const Notification = () => {
               <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
                 Notifications
               </Typography>
+              <Divider />
               {cardData}
             </>
           ) : (

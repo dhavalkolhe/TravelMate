@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import "./NotificationCard.css";
 import { UserContext } from "../../context/userContext";
 import { NotificationContext } from "../../context/notificationContext";
 import { v4 as uuidv4 } from "uuid";
@@ -9,10 +8,10 @@ import {
   updateDoc,
   doc,
   setDoc,
-  arrayUnion, arrayRemove,
+  arrayUnion,
+  arrayRemove,
   deleteDoc,
 } from "firebase/firestore";
-
 
 //mui
 import { Box, Stack, Typography, Button } from "@mui/material";
@@ -48,8 +47,7 @@ function NotificationCard({
       await updateDoc(userRideRef, {
         rooms: arrayUnion(roomId),
       });
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
   };
@@ -68,16 +66,23 @@ function NotificationCard({
       console.log(err);
     }
   };
+
   const handleAccept = async () => {
     setLoading(true);
 
     let roomId = uuidv4();
-
     try {
       await updateDoc(doc(db, "users", user.uid, "requests", reqId), {
         status: "active",
         roomId,
       });
+      await updateDoc(doc(db, "users", requestorId), {
+        sentRequests: arrayRemove(rideId),
+      });
+      await updateDoc(doc(db, "users", requestorId), {
+        acceptedRequests: arrayUnion(rideId),
+      });
+
       createChatRoom(roomId);
       updateUserRooms(roomId);
       updateUserRideRooms(roomId);
@@ -98,7 +103,10 @@ function NotificationCard({
       await updateDoc(userRef, {
         sentRequests: arrayRemove(rideId),
       });
-      setRejected(false)
+      await updateDoc(doc(db, "users", requestorId), {
+        rejectedRequests: arrayUnion(rideId),
+      });
+      setRejected(false);
     } catch (err) {
       console.log(err);
     }
@@ -106,7 +114,7 @@ function NotificationCard({
   };
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" sx={{ mt: "0.2rem" }}>
       <Box
         sx={{
           width: 64,
@@ -127,22 +135,26 @@ function NotificationCard({
         {/* {loading && <Loader size={15} />} */}
         {accepted ? (
           <div>
-            <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
+            <Typography variant="caption" style={{ color: "green" }}>
+              Request Accepted
+            </Typography>
           </div>
         ) : rejected ? (
           <div>
-            <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
+            <Typography variant="caption" style={{ color: "red" }}>
+              Request Rejected
+            </Typography>
           </div>
-        ) : loading ? (<div></div>)
-          : (
-            <Box>
-              <Button onClick={handleAccept}>Accept</Button>
-              <Button onClick={handleReject}>Reject</Button>
-            </Box>
-          )
-        }
-      </Box >
-    </Stack >
+        ) : loading ? (
+          <div></div>
+        ) : (
+          <Box>
+            <Button onClick={handleAccept}>Accept</Button>
+            <Button onClick={handleReject}>Reject</Button>
+          </Box>
+        )}
+      </Box>
+    </Stack>
   );
 }
 
