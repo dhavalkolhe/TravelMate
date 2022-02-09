@@ -74,11 +74,11 @@ export function ChatPage() {
         <Box
           sx={{
             position: "absolute",
-            height: "100vh",
+            height: "101vh",
             width: "100vw",
             backgroundColor: "white",
             zIndex: "5",
-            // padding: "10px",
+            padding: "20px",
             margin: "0px",
           }}
         >

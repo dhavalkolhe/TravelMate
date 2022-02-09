@@ -6,7 +6,7 @@ import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import "./Card.css";
 import PopUp from "../PopUp/PopUp";
-import Loader from "../../components/Loader/Loader";
+// import Loader from "../../components/Loader/Loader";
 
 import { db } from "../../firebase/db";
 import { setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -39,13 +39,11 @@ function Card({
 
   useEffect(() => {
     if (sentReq.includes(rideId)) {
-      setDisable(true)
+      setDisable(true);
       setSendText("Request sent ✅");
     }
     // eslint-disable-next-line
-  }, [sentReq])
-
-
+  }, [sentReq]);
 
   const updateuserRidesReq = async () => {
     const userRideRef = doc(db, "users", userId, "rides", rideId);
@@ -67,27 +65,22 @@ function Card({
   };
   const sendRequest = () => {
     if (user.authorized) {
-      setSendText("")
+      setSendText("");
       setLoading(true);
       try {
         addReq();
         updateDoc(doc(db, "users", user.uid), {
-          sentRequests: arrayUnion(rideId)
+          sentRequests: arrayUnion(rideId),
         }).then(() => {
           setLoading(false);
 
-          if (!loading)
-            setSendText("Request sent ✅");
+          if (!loading) setSendText("Request sent ✅");
 
           setDisable(true);
-
-        })
-
-
+        });
       } catch (e) {
         console.error("Error sending req : ", e);
       }
-
     } else {
       console.log("Not authorized");
     }
