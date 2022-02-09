@@ -4,9 +4,6 @@ import DashboardCard from "../components/DashboardCard/DashboardCard";
 
 import { db } from "../firebase/db";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-const auth = getAuth();
 
 export const DashboardContext = createContext();
 
@@ -15,72 +12,58 @@ const DashboardContextProvider = (props) => {
   const [user] = useContext(UserContext);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // const uid = user.uid;
-        console.log("Authorised");
-      } else {
-        console.log("Not Authorised");
+    if (user.authorized) {
+      try {
+        fetchData();
+      } catch (err) {
+        console.log("Response Fetching Error: " + err.message);
       }
-    });
-
-    try {
-      fetchData();
-    } catch (err) {
-      console.log("Response Fetching Error: " + err.message);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchData = () => {
-    let activeRides = [];
-
-    onSnapshot(
-      doc(db, "users", user.uid),
-      { includeMetadataChanges: false },
-      (recievedReqSnap) => {
-        activeRides = [];
-        if (recievedReqSnap.data().rides.length) {
-          recievedReqSnap.data().rides.forEach((rideId) => {
-            fetchRideData(rideId)
-              .then((response) => {
-                activeRides.push(response);
-              })
-              .then(() => {
-                const x = activeRides.map((doc, i) => {
-                  if (
-                    doc.currentCity &&
-                    doc.destinationCity &&
-                    doc.date &&
-                    doc.nop &&
-                    doc.rideId
-                  )
-                    return (
-                      <DashboardCard
-                        key={Math.random(i + 1, 50 * i)}
-                        currentCity={doc.currentCity.split(",")[0]}
-                        destinationCity={doc.destinationCity.split(",")[0]}
-                        date={doc.date}
-                        nop={doc.nop}
-                        rideId={doc.rideId}
-                      />
-                    );
-                  return [];
-                });
-                setActiveOffers(x);
+    onSnapshot(doc(db, "users", user.uid), (recievedReqSnap) => {
+      let activeRides = [];
+      if (recievedReqSnap.data().rides.length) {
+        recievedReqSnap.data().rides.forEach((rideId) => {
+          fetchRideData(rideId)
+            .then((response) => {
+              activeRides.push(response);
+            })
+            .then(() => {
+              const x = activeRides.map((doc, i) => {
+                if (
+                  doc.currentCity &&
+                  doc.destinationCity &&
+                  doc.date &&
+                  doc.nop &&
+                  doc.rideId
+                )
+                  return (
+                    <DashboardCard
+                      key={Math.random(i + 1, 50 * i)}
+                      currentCity={doc.currentCity.split(",")[0]}
+                      destinationCity={doc.destinationCity.split(",")[0]}
+                      date={doc.date}
+                      nop={doc.nop}
+                      rideId={doc.rideId}
+                    />
+                  );
+                return undefined;
               });
-          });
-        }
-        //  else if (recievedReqSnap.data().rides.length === 0) {
-        //   setRideLoading(false);
-        // }
+              setActiveOffers(x);
+            });
+        });
       }
-    );
+      //  else if (recievedReqSnap.data().rides.length === 0) {
+      //   setRideLoading(false);
+      // }
+    });
   };
 
   const fetchRideData = async (rideId) => {
     const rideData = await getDoc(doc(db, "rides", rideId));
-    console.log(rideId);
     if (
       rideData.data().currentCity &&
       rideData.data().destinationCity &&

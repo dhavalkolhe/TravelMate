@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./NotificationCard.css";
 import { UserContext } from "../../context/userContext";
 import { NotificationContext } from "../../context/notificationContext";
@@ -27,8 +27,8 @@ function NotificationCard({
   rideId,
 }) {
   const [user] = useContext(UserContext);
-  // const [accepted, setAccepted] = useState(false);
-  // const [rejected, setRejected] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [rejected, setRejected] = useState(false);
 
   // eslint-disable-next-line
   const { noti, load } = useContext(NotificationContext);
@@ -83,7 +83,7 @@ function NotificationCard({
       updateUserRideRooms(roomId);
 
       setLoading(false);
-      // setAccepted(true);
+      setAccepted(true);
     } catch (err) {
       console.log("accept err : ", err);
     }
@@ -98,6 +98,7 @@ function NotificationCard({
       await updateDoc(userRef, {
         sentRequests: arrayRemove(rideId),
       });
+      setRejected(false)
     } catch (err) {
       console.log(err);
     }
@@ -124,7 +125,7 @@ function NotificationCard({
           {currentCity} - {destinationCity}
         </Typography>
         {/* {loading && <Loader size={15} />} */}
-        {/* {accepted ? (
+        {accepted ? (
           <div>
             <Typography variant="caption" style={{ color: "green" }}>Request Accepted</Typography>
           </div>
@@ -133,13 +134,13 @@ function NotificationCard({
             <Typography variant="caption" style={{ color: "red" }}>Request Rejected</Typography>
           </div>
         ) : loading ? (<div></div>)
-          : ( */}
-        <Box>
-          <Button onClick={handleAccept}>Accept</Button>
-          <Button onClick={handleReject}>Reject</Button>
-        </Box>
-        {/* )
-        } */}
+          : (
+            <Box>
+              <Button onClick={handleAccept}>Accept</Button>
+              <Button onClick={handleReject}>Reject</Button>
+            </Box>
+          )
+        }
       </Box >
     </Stack >
   );

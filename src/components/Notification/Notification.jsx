@@ -4,7 +4,7 @@ import Loader from "../../components/Loader/Loader";
 import NotificationCard from "./NotificationCard";
 
 //mui
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
 export const Notification = () => {
   const { noti, load } = useContext(NotificationContext);
@@ -51,7 +51,20 @@ export const Notification = () => {
       {loading ? (
         <Loader size={20} />
       ) : (
-        <Box>{notificationCount ? cardData : <p>No Notifications!</p>}</Box>
+        <Box>
+          {notificationCount ? (
+            <>
+              <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                Notifications
+              </Typography>
+              {cardData}
+            </>
+          ) : (
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+              No Notifications
+            </Typography>
+          )}
+        </Box>
       )}
       {/* {loading && <Loader />} */}
     </Box>
