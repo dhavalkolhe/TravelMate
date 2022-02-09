@@ -4,6 +4,7 @@ import { Box, Container } from "@mui/material";
 import wave from "../../img/dashWave.svg";
 import dashBg from "../../img/dashBg.svg";
 import "./Dashboard.css";
+import Loader from "../../components/Loader/Loader";
 
 import { DashboardContext } from "../../context/dashboardContext";
 import { LoginContext } from "../../context/loginContext";
@@ -13,7 +14,8 @@ import { Redirect } from "react-router-dom";
 // eslint-disable-next-line
 
 function Dashboard() {
-  const activeOffers = useContext(DashboardContext);
+  const { activeOffers, loader } = useContext(DashboardContext);
+  const [loading] = loader;
   const { loginDialog } = useContext(LoginContext);
   // eslint-disable-next-line
   const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
@@ -49,10 +51,15 @@ function Dashboard() {
           </div>
           <div className="activeOffersContainer">
             <span className="active-text">Active Offers</span>
-            {activeOffers.length === 0 ? (
-              <span className="noActiveText">No active Offers</span>
+            {loading ? (
+              <span className="noActiveText"><Loader size={20} /></span>
+
             ) : (
-              <div className="activeOffersCards">{activeOffers}</div>
+              activeOffers.length === 0 ? (
+                <span className="noActiveText">No active Offers</span>
+              ) : (
+                <div className="activeOffersCards">{activeOffers}</div>
+              )
             )}
           </div>
         </div>

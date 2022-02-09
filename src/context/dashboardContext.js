@@ -10,11 +10,15 @@ export const DashboardContext = createContext();
 const DashboardContextProvider = (props) => {
   const [activeOffers, setActiveOffers] = useState([]);
   const [user] = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user.authorized) {
       try {
         fetchData();
+        setTimeout(() => {
+          setLoading(false);
+        }, 2300);
       } catch (err) {
         console.log("Response Fetching Error: " + err.message);
       }
@@ -81,7 +85,12 @@ const DashboardContextProvider = (props) => {
   };
 
   return (
-    <DashboardContext.Provider value={activeOffers}>
+    <DashboardContext.Provider
+      value={{
+        activeOffers,
+        loader: [loading, setLoading],
+      }}
+    >
       {props.children}
     </DashboardContext.Provider>
   );

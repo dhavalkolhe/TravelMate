@@ -33,34 +33,32 @@ const NotificationContextProvider = (props) => {
     const unsub = onSnapshot(
       collection(db, "users", user.uid, "requests"),
       (recievedReqSnap) => {
-        recievedReqSnap.docChanges().forEach(
-          (change) => {
-            if (change.type === "added") {
-              let masterObj = {
-                reqId: change.doc.id,
-                status: change.doc.data().status,
-                roomId: change.doc.data().roomId,
-              };
+        setResponseData([]);
+        setNotificationData([]);
+        recievedReqSnap.docs.forEach((snap) => {
+          let masterObj = {
+            reqId: snap.id,
+            status: snap.data().status,
+            roomId: snap.data().roomId,
+          };
 
-              fetchRequestorData(change.doc.data().requestorId)
+          fetchRequestorData(snap.data().requestorId)
+            .then((res) => {
+              masterObj = { ...masterObj, ...res };
+            })
+            .then(() => {
+              fetchRideData(snap.data().rideId)
                 .then((res) => {
                   masterObj = { ...masterObj, ...res };
                 })
                 .then(() => {
-                  fetchRideData(change.doc.data().rideId)
-                    .then((res) => {
-                      masterObj = { ...masterObj, ...res };
-                    })
-                    .then(() => {
-                      setNotificationData((prev) => [...prev, masterObj]);
-                    });
+                  setResponseData((prev) => [...prev, masterObj]);
                 });
-            }
-          },
-          (err) => {
-            console.log("notification data err : ", err);
-          }
-        );
+            });
+        });
+      },
+      (err) => {
+        console.log("notification data err : ", err);
       }
     );
     return unsub;

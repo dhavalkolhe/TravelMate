@@ -15,15 +15,19 @@ import {
 import { UserContext } from "../../context/userContext";
 import Toast from "../Toast/Toast";
 import { toast } from "react-toastify";
+import { DashboardContext } from "../../context/dashboardContext";
+
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
 function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const [user] = useContext(UserContext);
+  const { loader } = useContext(DashboardContext);
+  // eslint-disable-next-line
+  const [loading, setLoading] = loader;
 
   const catchError = (err) => {
-    console.log("Error in deleting : ", err.message);
     // toast.update(tid, { render: "Failed to delete ride!", type: "error", isLoading: false, autoClose: 1000 });
     notify("error", "Failed to delete ride!");
   };
@@ -34,7 +38,6 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const delRequests = async (reqId) => {
     try {
       await deleteDoc(doc(db, "users", user.uid, "requests", reqId));
-      console.log("deleted req from user req db");
     } catch (error) {
       catchError(error);
     }
@@ -57,7 +60,6 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
         await deleteDoc(doc(db, "rooms", roomId, "messages", msg.id));
       });
       await deleteDoc(doc(db, "rooms", roomId));
-      console.log("deleted room from room db");
     } catch (error) {
       catchError(error);
     }
@@ -86,6 +88,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const deleteRide = () => {
     // tid = toast.loading("Please wait...")
     // toast.update(tid, { render: "Deleting Ride..", type: "pending", isLoading: true });
+    setLoading(true);
 
     deleteDoc(doc(db, "rides", rideId))
       .then(() => {
@@ -98,6 +101,7 @@ function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
       })
       .then(() => {
         // toast.update(tid, { render: "Ride Deleted", type: "success", isLoading: false, autoClose: 1500 });
+        setLoading(false);
         notify("success", "Ride Deleted");
       })
       .catch((err) => {
