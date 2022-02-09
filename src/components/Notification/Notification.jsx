@@ -17,6 +17,7 @@ export const Notification = () => {
 
   useEffect(() => {
     // console.log(notificationData);
+    setCardData([])
     if (notificationData.length) {
       const pendingReq = notificationData.filter(
         (notification) => notification.status === "pending"

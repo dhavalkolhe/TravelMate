@@ -97,14 +97,11 @@ function SearchResult() {
 
     x = response.filter(
       (response) => {
-        console.log("startDate : " + startDate + " : " + new Date(startDate));
-        console.log("prop Date : " + response.props.date + " " + new Date(response.props.date));
-        console.log("endDate : " + endDate + " : " + new Date(endDate));
 
-        console.log(new Date(response.props.date) >= new Date(startDate))
-
-        return (new Date(response.props.date) >= new Date(startDate) &&
-          new Date(response.props.date) <= new Date(endDate))
+        let dayCheck = new Date(response.props.date).getDate() >= new Date(startDate).getDate();
+        let monthCheck = new Date(response.props.date).getMonth() >= new Date(startDate).getMonth();
+        let yearCheck = new Date(response.props.date).getYear() >= new Date(startDate).getYear();
+        return (dayCheck && monthCheck && yearCheck)
       }
     );
 
@@ -181,7 +178,6 @@ function SearchResult() {
     setDestinationCity(search.destinationCity);
     setStartDate(search.startDate);
     setEndDate(search.endDate);
-
   }, []);
 
   const OPTIONS_LIMIT = 3;

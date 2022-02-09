@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./HomeComponents.css";
 
@@ -264,6 +264,7 @@ export function SearchBox() {
                 }}
               /> */}
 
+            
               <DatePicker
                 openTo="day"
                 views={["month", "day"]}
