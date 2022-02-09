@@ -66,12 +66,9 @@ const UserInfo = ({ displayName, photoURL }) => {
 };
 
 export const Nav = () => {
+  // eslint-disable-next-line
   const { noti, load } = useContext(NotificationContext);
   const [notificationData] = noti;
-
-  useEffect(() => {
-    console.log("notificationData", notificationData);
-  }, [notificationData]);
 
   //User Menu
   const [userMenu, setUserMenu] = useState(null);
@@ -258,6 +255,7 @@ export const Nav = () => {
       if (loginDialogOpen) {
         setloginLoading(true);
       }
+      // eslint-disable-next-line
     }, [loginDialogOpen]);
 
     return (

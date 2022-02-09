@@ -45,10 +45,6 @@ export const Notification = () => {
     }
   }, [notificationData]);
 
-  useEffect(() => {
-    console.log(cardData);
-  }, [cardData])
-
   return (
     <Box sx={{ padding: "10px" }}>
       {/* Notifications: {notificationCount} */}

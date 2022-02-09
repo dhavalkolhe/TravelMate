@@ -127,6 +127,7 @@ export const Conversations = () => {
         setMessageBoxOpen(true);
       }
     };
+    // eslint-disable-next-line
   }, [messageBoxOpenActive, messageBoxOpen]);
 
   useEffect(() => {
@@ -149,6 +150,7 @@ export const Conversations = () => {
       setCardData(x);
       setChatsCount(x.length);
     }
+    // eslint-disable-next-line
   }, [roomsData]);
 
   return (

@@ -21,7 +21,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 function DashboardCard({ currentCity, destinationCity, date, nop, rideId }) {
   const [user] = useContext(UserContext);
-  let tid;
 
   const catchError = (err) => {
     console.log("Error in deleting : ", err.message);

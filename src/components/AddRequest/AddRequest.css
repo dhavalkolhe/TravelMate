@@ -224,6 +224,9 @@ p {
   .icons {
     display: none;
   }
+  .pd-l {
+    padding-left: 0.8rem;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 1024px) {
