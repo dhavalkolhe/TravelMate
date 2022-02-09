@@ -6,7 +6,7 @@ import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import "./Card.css";
 import PopUp from "../PopUp/PopUp";
-import Loader from "../../components/Loader/Loader";
+// import Loader from "../../components/Loader/Loader";
 
 import { db } from "../../firebase/db";
 import { setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
