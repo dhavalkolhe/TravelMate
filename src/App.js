@@ -32,7 +32,7 @@ import { Notification } from "./components/Notification";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { ChatPage } from "./pages/Chat";
 
-import { BottomNav } from "./components/Nav";
+import { BottomNav, BottomNavPageContainer } from "./components/Nav";
 import { UserContext } from "./context/userContext";
 
 // import { MessagesBox } from "./components/ChatComponents";
@@ -115,57 +115,78 @@ function App() {
     // <MobileFullscreen mask={Mask}>
     <WindowContextProvider>
       <NotificationContextProvider>
-        <ThemeContextProvider>
-          <SearchContextProvider>
-            <LoginContextProvider>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <ChatContextProvider>
-                  <SentReqContextProvider>
+        <SentReqContextProvider>
+          <ThemeContextProvider>
+            <SearchContextProvider>
+              <LoginContextProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <ChatContextProvider>
                     <Router>
                       <Switch>
                         <Route exact path="/addRequest">
-                          <AddRequest />
+                          <BottomNavPageContainer>
+                            <AddRequest />
+                          </BottomNavPageContainer>
                           <BottomNav />
                         </Route>
 
                         <Route exact path="/notifications">
-                          <Notification />
+                          <BottomNavPageContainer>
+                            <Notification />
+                          </BottomNavPageContainer>
                           <BottomNav />
                         </Route>
 
                         <Route exact path="/search">
                           <ResponseContextProvider>
-                            <SearchResult />
+                            <BottomNavPageContainer>
+                              <SearchResult />
+                            </BottomNavPageContainer>
                             <BottomNav />
                           </ResponseContextProvider>
                         </Route>
 
                         <Route exact path="/dashboard">
                           <DashboardContextProvider>
-                            <Dashboard />
+                            <BottomNavPageContainer>
+                              <Box
+                                sx={{
+                                  mb: {
+                                    xs: 3,
+                                    md: 0,
+                                  },
+                                }}
+                              >
+                                <Dashboard />
+                              </Box>
+                            </BottomNavPageContainer>
                             <BottomNav />
                           </DashboardContextProvider>
                         </Route>
 
                         <Route exact path="/chat">
                           <RoomsContextProvider>
-                            <ChatPage />
+                            <BottomNavPageContainer>
+                              <ChatPage />
+                            </BottomNavPageContainer>
                             <BottomNav />
                           </RoomsContextProvider>
                         </Route>
 
                         <Route exact path="/">
-                          <Home />
+                          <BottomNavPageContainer>
+                            <Home />
+                          </BottomNavPageContainer>
                           <BottomNav />
                         </Route>
                       </Switch>
                     </Router>
-                  </SentReqContextProvider>
-                </ChatContextProvider>
-              </LocalizationProvider>
-            </LoginContextProvider>
-          </SearchContextProvider>
-        </ThemeContextProvider>
+                  </ChatContextProvider>
+                </LocalizationProvider>
+              </LoginContextProvider>
+            </SearchContextProvider>
+          </ThemeContextProvider>
+        </SentReqContextProvider>
       </NotificationContextProvider>
     </WindowContextProvider>
     // </MobileFullscreen>

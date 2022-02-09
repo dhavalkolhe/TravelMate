@@ -114,7 +114,7 @@ export function SearchSection() {
           <Box
             sx={{
               position: "absolute",
-              bottom: "0px",
+              bottom: { xs: "40px", md: "0px" },
               left: "0px",
               display: "flex",
               justifyContent: "flex-end",
@@ -126,7 +126,7 @@ export function SearchSection() {
           <Box
             sx={{
               position: "absolute",
-              bottom: "0px",
+              bottom: { xs: "40px", md: "0px" },
               width: {
                 xs: "300px",
                 md: "40vw",
@@ -194,9 +194,9 @@ export function WebsiteInfo() {
           image={websiteInfoIcon3}
           head={"Chat within the Website"}
           data={`Travel mate is focused on providing a secure instant messaging chat platform to its users for them to connect. `}
-        // and share their travel details with each other.
-        // It comes in built-in security feature wherein an user's chat option is enabled only if your travel mate approves your request.
-        // Hence, ensuring safety and security.
+          // and share their travel details with each other.
+          // It comes in built-in security feature wherein an user's chat option is enabled only if your travel mate approves your request.
+          // Hence, ensuring safety and security.
         />
       </Grid>
     </Box>

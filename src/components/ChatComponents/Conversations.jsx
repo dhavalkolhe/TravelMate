@@ -153,6 +153,42 @@ export const Conversations = () => {
     // eslint-disable-next-line
   }, [roomsData]);
 
+  const [filterResults, setFilterResults] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+
+  const filterSearch = () => {
+    if (searchValue === null || searchValue === "") {
+      setFilterResults(null);
+    } else {
+      setFilterResults(
+        roomsData
+          .filter((room) => {
+            return room.displayName.localeCompare(searchValue) > -1;
+          })
+          .map((room, i) => {
+            return (
+              <Person
+                key={i}
+                currentCity={room.currentCity}
+                destinationCity={room.destinationCity}
+                displayName={room.displayName}
+                photoURL={room.photoURL}
+                reqId={room.reqId}
+                roomId={room.roomId}
+                handleRoomChange={handleRoomChange}
+              />
+            );
+          })
+      );
+    }
+  };
+
+  useEffect(() => {
+    filterSearch();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
+
   return (
     <Grid
       container
@@ -167,7 +203,19 @@ export const Conversations = () => {
         <Typography variant="h6">Conversations</Typography>
       </Grid>
       <Grid item xs={1}>
-        <OutlinedInput placeholder="Search" sx={{ width: "100%" }} />
+        <OutlinedInput
+          placeholder="Search"
+          sx={{ width: "100%" }}
+          type="text"
+          value={searchValue}
+          onChange={(event) => {
+            setSearchValue(event.target.value);
+          }}
+          onKeyPress={(event) => {
+            event.key === "Enter" && filterSearch();
+          }}
+          autoFocus={true}
+        />
       </Grid>
       <Grid
         item
@@ -184,7 +232,13 @@ export const Conversations = () => {
         {roomLoading ? (
           <Loader />
         ) : (
-          <>{chatsCount ? <>{cardData}</> : <p>No Chats!</p>}</>
+          <>
+            {chatsCount ? (
+              <>{filterResults ? filterResults : cardData}</>
+            ) : (
+              <p>No Chats!</p>
+            )}
+          </>
         )}
       </Grid>
     </Grid>
