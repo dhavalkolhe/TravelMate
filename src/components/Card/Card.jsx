@@ -33,8 +33,6 @@ function Card({
   const [loading, setLoading] = useState(false);
   const [sentReq] = useContext(SentReqContext);
 
-  const pending = "Pending";
-
   useEffect(() => {
     userId === user.uid ? setDisable(true) : setDisable(false);
   }, [user, userId]);
@@ -42,7 +40,7 @@ function Card({
   useEffect(() => {
     if (sentReq.includes(rideId)) {
       setDisable(true);
-      setSendText(pending);
+      setSendText("Request sent ✅");
     }
     // eslint-disable-next-line
   }, [sentReq]);
@@ -76,7 +74,7 @@ function Card({
         }).then(() => {
           setLoading(false);
 
-          if (!loading) setSendText(pending);
+          if (!loading) setSendText("Request sent ✅");
 
           setDisable(true);
         });

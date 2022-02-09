@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
@@ -10,6 +10,9 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 export const BottomNav = () => {
   const [value, setValue] = React.useState("recents");
+  // eslint-disable-next-line
+  const { noti, load } = useContext(NotificationContext);
+  const [notificationData] = noti;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
