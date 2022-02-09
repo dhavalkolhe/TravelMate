@@ -51,12 +51,20 @@ export const Notification = () => {
       {loading ? (
         <Loader size={20} />
       ) : (
-        <Box>{notificationCount ? (
-          <>
-            <Typography variant="caption">Notifications</Typography>
-            {cardData}
-          </>
-        ) : <Typography variant="caption">No Notifications</Typography>}</Box>
+        <Box>
+          {notificationCount ? (
+            <>
+              <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                Notifications
+              </Typography>
+              {cardData}
+            </>
+          ) : (
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+              No Notifications
+            </Typography>
+          )}
+        </Box>
       )}
       {/* {loading && <Loader />} */}
     </Box>
