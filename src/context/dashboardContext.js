@@ -23,10 +23,8 @@ const DashboardContextProvider = (props) => {
   }, []);
 
   const fetchData = () => {
-    let activeRides = [];
-
     onSnapshot(doc(db, "users", user.uid), (recievedReqSnap) => {
-      activeRides = [];
+      let activeRides = [];
       if (recievedReqSnap.data().rides.length) {
         recievedReqSnap.data().rides.forEach((rideId) => {
           fetchRideData(rideId)
