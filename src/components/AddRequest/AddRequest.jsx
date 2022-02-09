@@ -270,7 +270,7 @@ function AddRequest() {
                     <img
                       src={currentLocationIcon}
                       alt="logo"
-                      className="icons"
+                      className="icons hide"
                     />
                     <Autocomplete
                       // className="location-input-field"
@@ -335,7 +335,7 @@ function AddRequest() {
                     <img
                       src={destinationLocationIcon}
                       alt="logo"
-                      className="icons"
+                      className="icons hide"
                     />
                     <Autocomplete
                       // className="location-input-field"
@@ -399,7 +399,7 @@ function AddRequest() {
                 >
                   <Typography class="textfieldHead">Date</Typography>
                   <div className="date-wrap">
-                    <img src={dateIcon} alt="logo" className="icons" />
+                    <img src={dateIcon} alt="logo" className="icons hide" />
                     <DatePicker
                       selected={date}
                       onChange={(date) => {
