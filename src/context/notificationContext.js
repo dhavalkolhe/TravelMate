@@ -34,6 +34,7 @@ const NotificationContextProvider = (props) => {
       collection(db, "users", user.uid, "requests"),
       (recievedReqSnap) => {
         setResponseData([]);
+        setNotificationData([]);
         recievedReqSnap.docs.forEach((snap) => {
           let masterObj = {
             reqId: snap.id,

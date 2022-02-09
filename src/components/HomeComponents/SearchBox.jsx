@@ -267,12 +267,13 @@ export function SearchBox() {
               <DatePicker
                 openTo="day"
                 views={["month", "day"]}
-                value={search.date}
+                value={search.startDate}
                 onChange={(newValue) => {
+                  console.log("mui date", new Date(newValue).toDateString())
                   setSearch((prev) => {
                     return {
                       ...prev,
-                      date: newValue,
+                      startDate: newValue
                     };
                   });
                 }}
@@ -291,15 +292,15 @@ export function SearchBox() {
                       height: "40px",
                       backgroundColor: "white",
                     }}
-                    // InputProps={{
-                    //   startAdornment: (
-                    //     <InputAdornment position="start">
-                    //       <IconButton edge="start">
-                    //         <img src={dateIcon} alt={"logo"} />
-                    //       </IconButton>
-                    //     </InputAdornment>
-                    //   ),
-                    // }}
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <IconButton edge="start">
+                  //         <img src={dateIcon} alt={"logo"} />
+                  //       </IconButton>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                   />
                 )}
               />

@@ -7,7 +7,7 @@ import destinationLocationIcon from "../../img/destinationLocationIcon.svg";
 import addReqBg from "../../img/addReqBg.svg";
 import dateIcon from "../../img/dateIcon.svg";
 import { UserContext } from "../../context/userContext";
-import wavesDesign from "../../img/wavesDesign.svg";
+// import wavesDesign from "../../img/wavesDesign.svg";
 import plus from "../../img/plus.svg";
 import minus from "../../img/minus.svg";
 import { Nav } from "../Nav/Nav";
@@ -16,7 +16,7 @@ import {
   // MadeBy
 } from "../AboutUs";
 import { Footer } from "../Footer/Footer";
-import { WebsiteInfo } from "../../components/HomeComponents";
+// import { WebsiteInfo } from "../../components/HomeComponents";
 import city from "../../resources/states.json";
 
 import { confirmAlert } from "react-confirm-alert";

@@ -21,6 +21,12 @@ const SearchContextProvider = (props) => {
     });
   }, [search.startDate]);
 
+  useEffect(() => {
+    console.log(search);
+    // console.log("startDate", search.startDate, search.startDate.getTime())
+    // console.log("endDate", search.endDate, search.endDate.getTime())
+  }, [search]);
+
   return (
     <SearchContext.Provider value={[search, setSearch]}>
       {props.children}

@@ -52,7 +52,7 @@ function SearchResult() {
   const [destinationCity, setDestinationCity] = useState("");
   const [time, setTime] = useState("Any");
   const [mode, setMode] = useState("Any");
-  const [startDate, setStartDate] = useState(new Date().setHours(0, 0, 0, 0));
+  const [startDate, setStartDate] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
   const [endDate, setEndDate] = useState(
     new Date(new Date().setMonth(new Date().getMonth() + 6))
   );
@@ -68,13 +68,13 @@ function SearchResult() {
     console.log("clicked");
     setShowFilterNav(true);
   };
-  useEffect(() => {
-    setCurrentCity(search.currentCity);
-    setDestinationCity(search.destinationCity);
-    setStartDate(search.startDate);
-    setEndDate(search.endDate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+
+
+  // useEffect(() => {
+  //   console.log("startDate", startDate, startDate.getTime())
+  //   console.log("endDate", endDate, endDate.getTime())
+  // }, [startDate, endDate]);
 
   //loading
   useEffect(() => {
@@ -87,6 +87,7 @@ function SearchResult() {
     // eslint-disable-next-line
   }, [response]);
 
+
   useEffect(() => {
     let x = [];
     let y = [];
@@ -95,9 +96,16 @@ function SearchResult() {
     let h = [];
 
     x = response.filter(
-      (response) =>
-        new Date(response.props.date) >= new Date(startDate) &&
-        new Date(response.props.date) <= new Date(endDate)
+      (response) => {
+        console.log("startDate : " + startDate + " : " + new Date(startDate));
+        console.log("prop Date : " + response.props.date + " " + new Date(response.props.date));
+        console.log("endDate : " + endDate + " : " + new Date(endDate));
+
+        console.log(new Date(response.props.date) >= new Date(startDate))
+
+        return (new Date(response.props.date) >= new Date(startDate) &&
+          new Date(response.props.date) <= new Date(endDate))
+      }
     );
 
     if (currentCity !== "" && x.length) {
@@ -156,17 +164,25 @@ function SearchResult() {
     h.length
       ? setFilteredResponse(h)
       : g.length
-      ? setFilteredResponse(g)
-      : z.length
-      ? setFilteredResponse(z)
-      : y.length
-      ? setFilteredResponse(y)
-      : x.length
-      ? setFilteredResponse(x)
-      : setFilteredResponse([]);
+        ? setFilteredResponse(g)
+        : z.length
+          ? setFilteredResponse(z)
+          : y.length
+            ? setFilteredResponse(y)
+            : x.length
+              ? setFilteredResponse(x)
+              : setFilteredResponse([]);
 
-    // eslint-disable-next-line
-  }, [startDate, endDate, currentCity, destinationCity, time, mode]);
+
+  }, [startDate, endDate, currentCity, destinationCity, time, mode, response]);
+
+  useEffect(() => {
+    setCurrentCity(search.currentCity);
+    setDestinationCity(search.destinationCity);
+    setStartDate(search.startDate);
+    setEndDate(search.endDate);
+
+  }, []);
 
   const OPTIONS_LIMIT = 3;
   const filterOptions = createFilterOptions({
@@ -259,7 +275,10 @@ function SearchResult() {
                     From
                     <DatePicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      onChange={(date) => {
+                        console.log("datepicker ", date);
+                        setStartDate(date)
+                      }}
                       minDate={new Date()}
                       dateFormat="dd-MMM-yyyy"
                       className="input"
