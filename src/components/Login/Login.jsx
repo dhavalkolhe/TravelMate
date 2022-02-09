@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/userContext";
 import Recaptcha from "react-recaptcha";
+import "./Login.css";
 
 // firebase
 import "../../firebase/firebase";
@@ -134,12 +135,17 @@ export const Login = () => {
           onloadCallback={onloadCallback}
           verifyCallback={verifyCallback}
         />
-        {/* <Typography variant="subtitle2" sx={{ fontSize: "11px" }}>
+        <Typography variant="subtitle2" sx={{ fontSize: "11px" }}>
           By signing in you agree to the{" "}
-          <b>
-            <a href="https://www.google.co.in/">Terms and Conditions</a>
-          </b>
-        </Typography> */}
+          <a
+            href="https://drive.google.com/file/d/1bX2XdsHL997EpHdh-StR4jvHbI1XtsFW/view"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tcanchor"
+          >
+            Terms and Conditions
+          </a>
+        </Typography>
 
         <Stack width="100%" alignItems="flex-end">
           <Button variant="contained" onClick={login}>

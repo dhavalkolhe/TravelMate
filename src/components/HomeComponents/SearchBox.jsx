@@ -276,6 +276,7 @@ export function SearchBox() {
                     };
                   });
                 }}
+                inputFormat="dd/MM/yyyy"
                 renderInput={(params) => (
                   <TextField
                     {...params}
