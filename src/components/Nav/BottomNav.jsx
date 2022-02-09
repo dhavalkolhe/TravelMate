@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Nav.css";
 
@@ -19,7 +19,7 @@ import { NotificationContext } from "../../context/notificationContext";
 
 export const BottomNav = () => {
   const [value, setValue] = React.useState("recents");
-
+  // eslint-disable-next-line
   const { noti, load } = useContext(NotificationContext);
   const [notificationData] = noti;
 
