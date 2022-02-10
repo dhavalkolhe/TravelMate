@@ -495,7 +495,9 @@ function AddRequest() {
                     <img
                       src={plus}
                       alt="locationIcon"
-                      onClick={() => setNop(nop + 1)}
+                      onClick={() => {
+                        setNop(nop + 1);
+                      }}
                     />
                   </button>
                   <button className="text__icon">
@@ -503,7 +505,9 @@ function AddRequest() {
                       src={minus}
                       alt="locationIcon"
                       onClick={() => {
-                        if (nop - 1) setNop(nop - 1);
+                        if (nop - 1) {
+                          setNop(nop - 1);
+                        }
                       }}
                     />
                   </button>
