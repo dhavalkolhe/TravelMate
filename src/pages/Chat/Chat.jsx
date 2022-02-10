@@ -117,7 +117,7 @@ export function ChatPage() {
             width: "100vw",
             backgroundColor: "white",
             zIndex: "5",
-            padding: "20px",
+            padding: "20px 0 0 0",
             margin: "0px",
           }}
         >

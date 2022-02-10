@@ -259,6 +259,10 @@ export function MessagesBox() {
             className="messageHead"
             sx={{
               alignItems: "center",
+              position: {
+                xs: "fixed",
+                md: "relative",
+              },
             }}
           >
             <Stack
@@ -303,6 +307,7 @@ export function MessagesBox() {
               overflowX: "hidden",
               overflowY: "scroll",
               flexWrap: "nowrap",
+              padding: "0 20px",
             }}
           >
             {messageList
@@ -334,6 +339,12 @@ export function MessagesBox() {
             className="messageInput"
             alignItems="center"
             direction="row"
+            sx={{
+              padding: {
+                xs: "10px",
+                md: "0px",
+              },
+            }}
           >
             {/* <Avatar sx={{ width: 42, height: 42 }} /> */}
 
@@ -353,6 +364,7 @@ export function MessagesBox() {
 
             <IconButton
               fontSize="large"
+              size="large"
               sx={{
                 backgroundColor: "#001963",
                 "&:hover": {

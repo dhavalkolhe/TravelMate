@@ -37,7 +37,7 @@ body {
 .filter__results {
   min-width: 262px;
   width: 17vw;
-  height: fit-content;
+  height: 100%;
   padding: 20px 25px;
   margin-right: 10px;
   background: #e5e5f3;
