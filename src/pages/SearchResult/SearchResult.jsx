@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import "./SearchResult.css";
 import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 import DatePicker from "react-datepicker";
-import subDays from "date-fns/subDays";
 import "react-datepicker/dist/react-datepicker.css";
 // import SearchBox from "../../components/SearchBox/SearchBox";
 // import currentLocationIcon from "../../img/currentLocationIcon.svg";
@@ -58,7 +57,7 @@ function SearchResult() {
   const [time, setTime] = useState("Any");
   const [mode, setMode] = useState("Any");
   const [startDate, setStartDate] = useState(
-    new Date(new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0))
   );
   const [endDate, setEndDate] = useState(
     new Date(new Date().setMonth(new Date().getMonth() + 6))
@@ -182,14 +181,14 @@ function SearchResult() {
     h.length
       ? setFilteredResponse(h)
       : g.length
-        ? setFilteredResponse(g)
-        : z.length
-          ? setFilteredResponse(z)
-          : y.length
-            ? setFilteredResponse(y)
-            : x.length
-              ? setFilteredResponse(x)
-              : setFilteredResponse([]);
+      ? setFilteredResponse(g)
+      : z.length
+      ? setFilteredResponse(z)
+      : y.length
+      ? setFilteredResponse(y)
+      : x.length
+      ? setFilteredResponse(x)
+      : setFilteredResponse([]);
   }, [startDate, endDate, currentCity, destinationCity, time, mode, response]);
 
   useEffect(() => {
@@ -295,7 +294,7 @@ function SearchResult() {
                         console.log("datepicker ", date);
                         setStartDate(date);
                       }}
-                      minDate={subDays(new Date(new Date().setDate(new Date().getDate() + 1)), 0)}
+                      minDate={new Date()}
                       dateFormat="dd-MMM-yyyy"
                       className="input"
                     />

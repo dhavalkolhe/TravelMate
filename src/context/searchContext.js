@@ -6,9 +6,7 @@ const SearchContextProvider = (props) => {
   const [search, setSearch] = useState({
     currentCity: "",
     destinationCity: "",
-    startDate: new Date(
-      new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0, 0, 0)
-    ),
+    startDate: new Date(new Date().setHours(0, 0, 0)),
     endDate: new Date(new Date().setMonth(new Date().getMonth() + 6)),
   });
 
