@@ -386,6 +386,7 @@ export function MessagesBox() {
                 event.key === "Enter" && sendMessage();
               }}
               autoFocus={true}
+              inputProps={{ maxLength: 300 }}
             />
 
             <IconButton
