@@ -40,15 +40,15 @@ export const BottomNav = () => {
     },
   }));
 
-  const ChatBadge = styled(Badge)(({ theme }) => ({
-    "& .MuiBadge-badge": {
-      right: 1,
-      top: 2,
-      height: "6px",
-      width: "6px",
-      minWidth: "0",
-    },
-  }));
+  // const ChatBadge = styled(Badge)(({ theme }) => ({
+  //   "& .MuiBadge-badge": {
+  //     right: 1,
+  //     top: 2,
+  //     height: "6px",
+  //     width: "6px",
+  //     minWidth: "0",
+  //   },
+  // }));
 
   return (
     <Paper
@@ -84,9 +84,9 @@ export const BottomNav = () => {
         <BottomNavigationAction
           label="Chat"
           icon={
-            <ChatBadge color="secondary" variant="dot">
-              <ChatBubbleIcon />
-            </ChatBadge>
+            // <ChatBadge color="secondary" variant="dot">
+            <ChatBubbleIcon />
+            // </ChatBadge>
           }
           component={Link}
           to="/chat"

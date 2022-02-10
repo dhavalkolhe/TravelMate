@@ -304,15 +304,15 @@ export const Nav = () => {
     },
   }));
 
-  const ChatBadge = styled(Badge)(({ theme }) => ({
-    "& .MuiBadge-badge": {
-      right: 1,
-      top: 2,
-      height: "10px",
-      width: "10px",
-      minWidth: "0",
-    },
-  }));
+  // const ChatBadge = styled(Badge)(({ theme }) => ({
+  //   "& .MuiBadge-badge": {
+  //     right: 1,
+  //     top: 2,
+  //     height: "10px",
+  //     width: "10px",
+  //     minWidth: "0",
+  //   },
+  // }));
 
   return (
     <>
@@ -381,9 +381,9 @@ export const Nav = () => {
                   <Tooltip title={"Chat"}>
                     <Link to="/chat">
                       <IconButton size="medium">
-                        <ChatBadge color="secondary" variant="dot">
-                          <ChatBubbleOutlineOutlinedIcon />
-                        </ChatBadge>
+                        {/* <ChatBadge color="secondary" variant="dot"> */}
+                        <ChatBubbleOutlineOutlinedIcon />
+                        {/* </ChatBadge> */}
                       </IconButton>
                     </Link>
                   </Tooltip>
