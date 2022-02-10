@@ -78,7 +78,7 @@ function DesktopChatSection() {
                 <Divider />
                 <Stack direction="column" alignItems="center" width="80%">
                   <Box sx={{ height: "240px", opacity: "0.8" }}>
-                    <img src={chatIllus1} />
+                    <img src={chatIllus1} alt="Chat Section" />
                   </Box>
                   <Chip label="v1.0" />
                   <Typography variant="overline" fontSize="2rem">
@@ -117,7 +117,7 @@ export function ChatPage() {
             width: "100vw",
             backgroundColor: "white",
             zIndex: "5",
-            padding: "20px",
+            padding: "20px 0 0 0",
             margin: "0px",
           }}
         >

@@ -1,13 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./chatComponenets.css";
 
-import { Stack, Avatar, Grid, Typography, OutlinedInput } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Avatar,
+  Grid,
+  Typography,
+  OutlinedInput,
+  CircularProgress,
+} from "@mui/material";
 
 import { RoomsContext } from "../../context/roomsContext";
 import { ChatContext } from "../../context/chatContext";
 import { WindowContext } from "../../context";
 
-import Loader from "../../components/Loader/Loader";
+// import Loader from "../../components/Loader/Loader";
 
 const Person = ({
   displayName,
@@ -163,7 +171,14 @@ export const Conversations = () => {
       setFilterResults(
         roomsData
           .filter((room) => {
-            return (room.displayName.toLowerCase().includes(searchValue.toLowerCase()) || room.destinationCity.toLowerCase().includes(searchValue.toLowerCase()))
+            return (
+              room.displayName
+                .toLowerCase()
+                .includes(searchValue.toLowerCase()) ||
+              room.destinationCity
+                .toLowerCase()
+                .includes(searchValue.toLowerCase())
+            );
           })
           .map((room, i) => {
             return (
@@ -230,13 +245,38 @@ export const Conversations = () => {
         }}
       >
         {roomLoading ? (
-          <Loader />
+          // <Loader />
+          // <Stack direction="row">
+          //   <Skeleton variant="circular" height={"48px"} width={"48px"} />
+          //   <Skeleton variant="rectangular" height={"74px"} width="100%" />
+          // </Stack>
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress color="secondary" />
+          </Box>
         ) : (
           <>
             {chatsCount ? (
               <>{filterResults ? filterResults : cardData}</>
             ) : (
-              <p>No Chats!</p>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography variant="button">No Chats!</Typography>
+              </Box>
             )}
           </>
         )}

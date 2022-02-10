@@ -17,13 +17,17 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import {
   Box,
+  Stack,
   Container,
   Autocomplete,
   TextField,
   createFilterOptions,
+  Typography,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterResultsNav from "../../components/FilterResultsNav/FilterResultsNav";
+import noResultsIllus1 from "../../resources/images/noResultsIllus1.svg";
+
 import { LoginContext } from "../../context/loginContext";
 import { UserContext } from "../../context/userContext";
 import { Redirect } from "react-router-dom";
@@ -134,8 +138,6 @@ function SearchResult() {
       y = [];
     }
 
-
-
     if (destinationCity !== "" && y.length) {
       if (y.length === 0) {
         z = x.filter((response) =>
@@ -176,18 +178,17 @@ function SearchResult() {
       h = [];
     }
 
-
     h.length
       ? setFilteredResponse(h)
       : g.length
-        ? setFilteredResponse(g)
-        : z.length
-          ? setFilteredResponse(z)
-          : y.length
-            ? setFilteredResponse(y)
-            : x.length
-              ? setFilteredResponse(x)
-              : setFilteredResponse([]);
+      ? setFilteredResponse(g)
+      : z.length
+      ? setFilteredResponse(z)
+      : y.length
+      ? setFilteredResponse(y)
+      : x.length
+      ? setFilteredResponse(x)
+      : setFilteredResponse([]);
   }, [startDate, endDate, currentCity, destinationCity, time, mode, response]);
 
   useEffect(() => {
@@ -462,7 +463,22 @@ function SearchResult() {
                 {loading ? (
                   <SkeletonLoader skeletonCount={skeletonCount} />
                 ) : filteredResponse.length === 0 ? (
-                  <div>No Result Found</div>
+                  <Box
+                    sx={{
+                      height: "100%",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Stack direction="column" alignItems="center" width="80%">
+                      <Box sx={{ height: "240px", opacity: "0.7" }}>
+                        <img src={noResultsIllus1} alt="No Results!" />
+                      </Box>
+                      <Typography>No Result Found</Typography>
+                    </Stack>
+                  </Box>
                 ) : (
                   filteredResponse
                 )}
