@@ -68,7 +68,7 @@ const UserInfo = ({ displayName, photoURL }) => {
 export const Nav = () => {
   // eslint-disable-next-line
   const { noti, load } = useContext(NotificationContext);
-  const [notificationData] = noti;
+  const [notificationData, setNotificationData] = noti;
 
   //User Menu
   const [userMenu, setUserMenu] = useState(null);
@@ -270,7 +270,7 @@ export const Nav = () => {
           loading={loginLoading}
           loadingPosition="start"
           color="primary"
-          // sx={{ color: "theme.palette.theme.text" }}
+        // sx={{ color: "theme.palette.theme.text" }}
         >
           Login
         </LoadingButton>
@@ -286,6 +286,7 @@ export const Nav = () => {
           displayName: "",
           photoURL: "",
         });
+        setNotificationData([]);
       })
       .catch((error) => {
         notify("error", "Error signing out user");

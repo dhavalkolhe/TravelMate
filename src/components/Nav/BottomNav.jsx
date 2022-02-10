@@ -16,16 +16,32 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 import { NotificationContext } from "../../context/notificationContext";
+import { UserContext } from "../../context/userContext";
+import { LoginContext } from "../../context/loginContext";
 
 export const BottomNav = () => {
   const [value, setValue] = React.useState("recents");
+  const [user] = useContext(UserContext);
 
   // eslint-disable-next-line
   const { noti, load } = useContext(NotificationContext);
   const [notificationData] = noti;
 
+  const { loginDialog } = useContext(LoginContext);
+  // eslint-disable-next-line
+  const [loginDialogOpen, setLoginDialogOpen] = loginDialog;
+  // eslint-disable-next-line
+
+  React.useEffect(() => {
+    if ((!user.authorized) && (value === 1 || value === 2)) {
+      setLoginDialogOpen(true);
+    }
+    // eslint-disable-next-line
+  }, [value])
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
+
   };
 
   const NotifBadge = styled(Badge)(({ theme }) => ({
@@ -78,7 +94,7 @@ export const BottomNav = () => {
             </NotifBadge>
           }
           component={Link}
-          to="/notifications"
+          to={user.authorized ? "/notifications" : "/"}
         />
         {/* <BottomNavigationAction label="Add" icon={<AddCircleIcon />} /> */}
         <BottomNavigationAction
@@ -89,7 +105,7 @@ export const BottomNav = () => {
             // </ChatBadge>
           }
           component={Link}
-          to="/chat"
+          to={user.authorized ? "/chat" : "/"}
         />
         {/* <BottomNavigationAction label="Dashboard" icon={<DashboardIcon />} /> */}
       </BottomNavigation>

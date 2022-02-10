@@ -119,6 +119,10 @@ export function ChatPage() {
             zIndex: "5",
             padding: "20px 0 0 0",
             margin: "0px",
+            display: {
+              xs: "block",
+              md: "none",
+            },
           }}
         >
           <MessagesBox />

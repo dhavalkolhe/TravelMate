@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./chatComponenets.css";
 
 import {
+  Box,
   Grid,
   Stack,
   Avatar,
@@ -234,9 +235,9 @@ export function MessagesBox() {
   return (
     <>
       {!joined ? (
-        <div>
-          <h1>This doesn't seem correct!</h1>
-        </div>
+        <Box>
+          <Typography variant="caption">This doesn't seem correct!</Typography>
+        </Box>
       ) : (
         <Grid
           container
@@ -263,6 +264,7 @@ export function MessagesBox() {
                 xs: "fixed",
                 md: "relative",
               },
+              zIndex: 10,
             }}
           >
             <Stack
@@ -297,17 +299,29 @@ export function MessagesBox() {
           </Grid>
 
           <Grid
-            item
             container
             xs
             className="messageBox"
             direction="column-reverse"
             sx={{
               height: "100%",
-              overflowX: "hidden",
-              overflowY: "scroll",
               flexWrap: "nowrap",
               padding: "0 20px",
+              position: {
+                xs: "fixed",
+                md: "relative",
+              },
+              bottom: {
+                xs: "70px",
+                md: "0",
+              },
+              // zIndex: -1,
+              overflowY: "scroll",
+              overflowX: "hidden",
+              paddingTop: {
+                xs: "170px",
+                md: "10px",
+              },
             }}
           >
             {messageList
@@ -344,6 +358,11 @@ export function MessagesBox() {
                 xs: "10px",
                 md: "0px",
               },
+              position: {
+                xs: "fixed",
+                md: "relative",
+              },
+              bottom: 0,
             }}
           >
             {/* <Avatar sx={{ width: 42, height: 42 }} /> */}

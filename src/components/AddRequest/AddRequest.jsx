@@ -491,20 +491,22 @@ function AddRequest() {
                     }}
                     required
                   />
-                  <button className="text__icon">
+                  <button className="text__icon"
+                    onClick={() => setNop(nop + 1)}
+                  >
                     <img
                       src={plus}
                       alt="locationIcon"
-                      onClick={() => setNop(nop + 1)}
                     />
                   </button>
-                  <button className="text__icon">
+                  <button className="text__icon"
+                    onClick={() => {
+                      if (nop - 1) setNop(nop - 1);
+                    }}>
                     <img
                       src={minus}
                       alt="locationIcon"
-                      onClick={() => {
-                        if (nop - 1) setNop(nop - 1);
-                      }}
+
                     />
                   </button>
                 </Stack>

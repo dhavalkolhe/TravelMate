@@ -229,7 +229,7 @@ export const Conversations = () => {
           onKeyPress={(event) => {
             event.key === "Enter" && filterSearch();
           }}
-          autoFocus={true}
+          autoFocus={false}
         />
       </Grid>
       <Grid
