@@ -139,21 +139,26 @@ export const Conversations = () => {
   }, [messageBoxOpenActive, messageBoxOpen]);
 
   useEffect(() => {
+    setCardData([]);
+
     if (roomsData.length) {
-      const x = roomsData.map((room, i) => {
-        return (
-          <Person
-            key={i}
-            currentCity={room.currentCity}
-            destinationCity={room.destinationCity}
-            displayName={room.displayName}
-            photoURL={room.photoURL}
-            reqId={room.reqId}
-            roomId={room.roomId}
-            handleRoomChange={handleRoomChange}
-          />
-        );
-      });
+      const x = roomsData
+        .slice(0)
+        .reverse()
+        .map((room, i) => {
+          return (
+            <Person
+              key={i}
+              currentCity={room.currentCity}
+              destinationCity={room.destinationCity}
+              displayName={room.displayName}
+              photoURL={room.photoURL}
+              reqId={room.reqId}
+              roomId={room.roomId}
+              handleRoomChange={handleRoomChange}
+            />
+          );
+        });
 
       setCardData(x);
       setChatsCount(x.length);
@@ -170,6 +175,8 @@ export const Conversations = () => {
     } else {
       setFilterResults(
         roomsData
+          .slice(0)
+          .reverse()
           .filter((room) => {
             return (
               room.displayName
