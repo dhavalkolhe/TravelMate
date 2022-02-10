@@ -8,13 +8,16 @@ export const RoomsContext = createContext();
 
 const RoomsContextProvider = (props) => {
   const [user] = useContext(UserContext);
+  const [responseData, setResponseData] = useState([]);
   const [roomData, setRoomData] = useState([]);
   const [roomLoading, setRoomLoading] = useState(true);
 
   useEffect(() => {
     if (user.authorized) {
       try {
-        fetchData();
+        fetchData().then(() => {
+          setRoomData(responseData);
+        });
         setTimeout(() => {
           setRoomLoading(false);
         }, 2000);
@@ -32,7 +35,8 @@ const RoomsContextProvider = (props) => {
   const fetchData = async () => {
     const unsub = onSnapshot(doc(db, "users", user.uid), (recievedReqSnap) => {
       setRoomData([]);
-      if (recievedReqSnap.data().rooms.length) {
+      setResponseData([]);
+      if (recievedReqSnap.data().rooms && recievedReqSnap.data().rooms.length) {
         recievedReqSnap.data().rooms.forEach((roomId) => {
           fetchRoomData(roomId);
         });

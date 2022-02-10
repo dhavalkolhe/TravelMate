@@ -139,6 +139,8 @@ export const Conversations = () => {
   }, [messageBoxOpenActive, messageBoxOpen]);
 
   useEffect(() => {
+    setCardData([]);
+
     if (roomsData.length) {
       const x = roomsData
         .slice(0)
