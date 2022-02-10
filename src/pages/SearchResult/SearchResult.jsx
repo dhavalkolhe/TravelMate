@@ -94,18 +94,32 @@ function SearchResult() {
     let g = [];
     let h = [];
 
-    x = response.filter((response) => {
-      let dayCheck =
-        new Date(response.props.date).getDate() >=
-        new Date(startDate).getDate();
-      let monthCheck =
-        new Date(response.props.date).getMonth() >=
-        new Date(startDate).getMonth();
-      let yearCheck =
-        new Date(response.props.date).getYear() >=
-        new Date(startDate).getYear();
-      return dayCheck && monthCheck && yearCheck;
-    });
+    x = response.filter(
+      (response) =>
+        new Date(response.props.date) >= new Date(startDate) &&
+        new Date(response.props.date) <= new Date(endDate)
+    );
+
+    // x = response.filter((eachResponse) => {
+    //   console.log("prop:", new Date(eachResponse.props.date), new Date(eachResponse.props.date).getDate())
+    //   console.log("start:", new Date(startDate), new Date(startDate).getDate())
+    //   console.log("end:", new Date(endDate), new Date(startDate).getDate())
+
+    //   let dayCheck =
+    //     (new Date(eachResponse.props.date).getDate() >=
+    //       new Date(startDate).getDate() && new Date(eachResponse.props.date).getDate() <=
+    //       new Date(endDate).getDate());
+    //   let monthCheck =
+    //     (new Date(eachResponse.props.date).getMonth() >=
+    //       new Date(startDate).getMonth() && new Date(eachResponse.props.date).getMonth() <=
+    //       new Date(endDate).getMonth());
+    //   let yearCheck =
+    //     (new Date(eachResponse.props.date).getYear() >=
+    //       new Date(startDate).getYear() && new Date(eachResponse.props.date).getYear() <=
+    //       new Date(endDate).getYear());
+
+    //   return dayCheck && monthCheck && yearCheck;
+    // });
 
     if (currentCity !== "" && x.length) {
       if (z.length === 0)
@@ -119,6 +133,8 @@ function SearchResult() {
     } else {
       y = [];
     }
+
+
 
     if (destinationCity !== "" && y.length) {
       if (y.length === 0) {
@@ -160,17 +176,18 @@ function SearchResult() {
       h = [];
     }
 
+
     h.length
       ? setFilteredResponse(h)
       : g.length
-      ? setFilteredResponse(g)
-      : z.length
-      ? setFilteredResponse(z)
-      : y.length
-      ? setFilteredResponse(y)
-      : x.length
-      ? setFilteredResponse(x)
-      : setFilteredResponse([]);
+        ? setFilteredResponse(g)
+        : z.length
+          ? setFilteredResponse(z)
+          : y.length
+            ? setFilteredResponse(y)
+            : x.length
+              ? setFilteredResponse(x)
+              : setFilteredResponse([]);
   }, [startDate, endDate, currentCity, destinationCity, time, mode, response]);
 
   useEffect(() => {

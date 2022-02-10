@@ -17,23 +17,13 @@ const ResponseContextProvider = (props) => {
   // const [lastCard, setLastCard] = useState(null);
   // const [isEmpty, setIsEmpty] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(response);
-  // }, [response])
-
   useEffect(() => {
-    let unsubscribe;
     try {
-      loadData().then((res) => {
-        unsubscribe = res;
-      });
+      loadData();
     } catch (err) {
       console.log("Response Fetching Error: " + err.message);
     }
 
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -70,7 +60,7 @@ const ResponseContextProvider = (props) => {
       // const lastCard = querySnapshot.docs[querySnapshot.docs.length - 1];
       let y = [...response, ...x];
       y = y.filter((e) => e.props.userId !== user.uid);
-      setResponse((response) => [...new Set(y)]);
+      setResponse(y);
       // setLastCard(lastCard);
       // setScrollResponse(false);
 
