@@ -32,7 +32,7 @@ const RoomsContextProvider = (props) => {
   const fetchData = async () => {
     const unsub = onSnapshot(doc(db, "users", user.uid), (recievedReqSnap) => {
       setRoomData([]);
-      if (recievedReqSnap.data().rooms.length) {
+      if (recievedReqSnap.data().rooms && recievedReqSnap.data().rooms.length) {
         recievedReqSnap.data().rooms.forEach((roomId) => {
           fetchRoomData(roomId);
         });
