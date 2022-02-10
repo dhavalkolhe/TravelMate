@@ -22,6 +22,12 @@
   color: #2b2c34 !important;
 }
 
+.desc_container {
+  display: flex;
+  font-size: 0.9rem !important;
+  color: #2b2c34 !important;
+}
+
 .icons {
   width: 20px;
   margin: 0px 10px 15px 0px;

@@ -133,7 +133,7 @@ const PopUp = ({
         </DialogContentText>
         <DialogContentText
           id="alert-dialog-slide-description"
-          className="info_container desc_box"
+          className="desc_container desc_box"
         >
           <span>{description ? description : "No description available"}</span>
         </DialogContentText>
