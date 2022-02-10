@@ -88,10 +88,6 @@ function SearchResult() {
   }, [response]);
 
   useEffect(() => {
-    console.log("filteredResponse:", filteredResponse)
-  }, [filteredResponse])
-
-  useEffect(() => {
     let x = [];
     let y = [];
     let z = [];
@@ -124,7 +120,6 @@ function SearchResult() {
 
     //   return dayCheck && monthCheck && yearCheck;
     // });
-    console.log("X:", x)
 
     if (currentCity !== "" && x.length) {
       if (z.length === 0)
@@ -139,7 +134,6 @@ function SearchResult() {
       y = [];
     }
 
-    console.log("y:", y)
 
 
     if (destinationCity !== "" && y.length) {
@@ -156,8 +150,6 @@ function SearchResult() {
       z = [];
     }
 
-    console.log("z:", z)
-
     if (time && time !== "Any") {
       if (z.length) {
         g = z.filter((response) => response.props.time === time);
@@ -169,7 +161,6 @@ function SearchResult() {
     } else {
       g = [];
     }
-    console.log("g:", g)
 
     if (mode && mode !== "Any") {
       if (g.length) {
@@ -184,8 +175,6 @@ function SearchResult() {
     } else {
       h = [];
     }
-
-    console.log("h:", h)
 
 
     h.length

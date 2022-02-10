@@ -18,10 +18,6 @@ const ResponseContextProvider = (props) => {
   // const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
-    console.log(response);
-  }, [response]);
-
-  useEffect(() => {
     try {
       loadData();
     } catch (err) {
