@@ -7,7 +7,17 @@ import { Nav } from "../../components/Nav";
 import { Conversations, MessagesBox } from "../../components/ChatComponents";
 
 /* MUI */
-import { Container, Box, Grid } from "@mui/material";
+import {
+  Container,
+  Box,
+  Grid,
+  Stack,
+  Typography,
+  Divider,
+  Chip,
+} from "@mui/material";
+
+import chatIllus1 from "../../resources/images/chatIllus1.svg";
 
 function DesktopChatSection() {
   const { currChatterInfo } = useContext(ChatContext);
@@ -53,7 +63,36 @@ function DesktopChatSection() {
             xs={12}
             sx={{ display: { xs: "none", md: "block" } }}
           >
-            {chatterInfo.displayName && <MessagesBox />}
+            {chatterInfo.displayName ? (
+              <MessagesBox />
+            ) : (
+              <Box
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Divider />
+                <Stack direction="column" alignItems="center" width="80%">
+                  <Box sx={{ height: "240px", opacity: "0.8" }}>
+                    <img src={chatIllus1} />
+                  </Box>
+                  <Chip label="v1.0" />
+                  <Typography variant="overline" fontSize="2rem">
+                    Chat Section
+                  </Typography>
+                  <Typography variant="body1">
+                    Send And Receive Messages.
+                  </Typography>
+                  <Typography variant="caption">
+                    Latest 50 Messages are stored only
+                  </Typography>
+                </Stack>
+              </Box>
+            )}
           </Grid>
         </Grid>
       </Container>
@@ -73,7 +112,7 @@ export function ChatPage() {
       {messageBoxOpen && (
         <Box
           sx={{
-            position: "absolute",
+            position: "fixed",
             height: "101vh",
             width: "100vw",
             backgroundColor: "white",
