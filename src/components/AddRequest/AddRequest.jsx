@@ -492,25 +492,25 @@ function AddRequest() {
                     }}
                     required
                   />
-                  <button
-                    className="text__icon"
-                    onClick={() => {
-                      setNop(nop + 1);
-                      console.log(nop);
-                    }}
-                  >
-                    <img src={plus} alt="locationIcon" />
+                  <button className="text__icon">
+                    <img
+                      src={plus}
+                      alt="locationIcon"
+                      onClick={() => {
+                        setNop(nop + 1);
+                      }}
+                    />
                   </button>
-                  <button
-                    className="text__icon"
-                    onClick={() => {
-                      if (nop - 1) {
-                        setNop(nop - 1);
-                        console.log(nop);
-                      }
-                    }}
-                  >
-                    <img src={minus} alt="locationIcon" />
+                  <button className="text__icon">
+                    <img
+                      src={minus}
+                      alt="locationIcon"
+                      onClick={() => {
+                        if (nop - 1) {
+                          setNop(nop - 1);
+                        }
+                      }}
+                    />
                   </button>
                 </Stack>
                 <FormGroup>
