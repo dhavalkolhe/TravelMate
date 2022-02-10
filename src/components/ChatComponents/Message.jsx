@@ -52,7 +52,10 @@ function MessageOut({ messageContent }) {
             padding: "10px 20px",
             borderRadius: "20px 20px 0px 20px",
             marginBottom: "0.5rem",
-            maxWidth: "45%",
+            maxWidth: {
+              xs: "65%",
+              md: "45%",
+            },
           }}
         >
           <Typography display="inline" sx={{ overflowWrap: "break-word" }}>
@@ -75,6 +78,10 @@ function MessageIn({ messageContent }) {
             padding: "10px 20px",
             borderRadius: "20px 20px 20px 0px",
             marginBottom: "0.5rem",
+            maxWidth: {
+              xs: "65%",
+              md: "45%",
+            },
           }}
         >
           <Typography display="inline" sx={{ overflowWrap: "break-word" }}>
