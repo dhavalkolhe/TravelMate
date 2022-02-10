@@ -269,7 +269,7 @@ export function SearchBox() {
                 openTo="day"
                 views={["month", "day"]}
                 value={search.startDate}
-                minDate={new Date()}
+                minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                 onChange={(newValue) => {
                   console.log("mui date", new Date(newValue).toDateString())
                   setSearch((prev) => {

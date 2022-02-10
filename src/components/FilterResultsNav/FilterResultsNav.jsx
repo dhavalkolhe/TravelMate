@@ -1,5 +1,5 @@
 import React from "react";
-
+import subDays from "date-fns/subDays";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import SearchBox from "../../components/SearchBox/SearchBox";
@@ -100,7 +100,7 @@ const FilterResultsNav = ({
               onChange={(date) => {
                 setStartDate(date);
               }} //
-              minDate={new Date()}
+              minDate={subDays(new Date(new Date().setDate(new Date().getDate() + 1)), 0)}
               dateFormat="dd-MMM-yyyy"
               className="input"
             />

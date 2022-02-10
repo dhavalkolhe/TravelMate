@@ -70,7 +70,7 @@ function AddRequest() {
     draftData = {
       currentCity: "",
       destinationCity: "",
-      date: new Date(),
+      date: new Date(new Date().setDate(new Date().getDate() + 1)),
       time: "Any",
       mode: "Any",
       nop: 1,
@@ -103,7 +103,7 @@ function AddRequest() {
   const formValidation = () => {
     if (currentCity && destinationCity && date && time && nop && mode) {
       setDate(new Date(date.setHours(0, 0, 0, 0)));
-      if (date >= new Date(new Date().setHours(0, 0, 0, 0))) return true;
+      if (date > new Date(new Date().setHours(0, 0, 0, 0))) return true;
       else notify("warning", "Date cannot be in past");
     } else return false;
   };
@@ -122,10 +122,11 @@ function AddRequest() {
       };
       localStorage.setItem("TravelmateRideDrafts", JSON.stringify(draft));
     } else {
+      const dayAhead = new Date(new Date().setDate(new Date().getDate() + 1));
       draftData = {
         currentCity: "",
         destinationCity: "",
-        date: new Date(),
+        date: dayAhead,
         time: "Any",
         mode: "Any",
         nop: 1,
@@ -233,7 +234,7 @@ function AddRequest() {
         setDestinationCity("");
         setNop(1);
         setDescription("");
-        setDate(new Date());
+        setDate(new Date(new Date().setDate(new Date().getDate() + 1)));
         setMode(draftData.mode);
         setTime(draftData.time);
       }
@@ -407,7 +408,7 @@ function AddRequest() {
                       }}
                       closeOnScroll={true}
                       dateFormat="dd/MM/yyyy"
-                      minDate={subDays(new Date(), 0)}
+                      minDate={subDays(new Date(new Date().setDate(new Date().getDate() + 1)), 0)}
                       className="date-picker"
                     />
                   </div>
