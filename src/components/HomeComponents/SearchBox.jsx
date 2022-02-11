@@ -245,7 +245,7 @@ export function SearchBox() {
             </Box>
 
             <Box className="mr" sx={{ width: "100%" }}>
-              <Typography class="subtitle1">Date</Typography>
+              <Typography class="subtitle1">Date of Travel</Typography>
               {/* <TextField
                 size="small"
                 placeholder="DD-MM-YYYY"
