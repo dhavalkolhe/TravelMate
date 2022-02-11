@@ -271,7 +271,6 @@ export function SearchBox() {
                 value={search.startDate}
                 minDate={new Date()}
                 onChange={(newValue) => {
-                  console.log("mui date", new Date(newValue).toDateString())
                   setSearch((prev) => {
                     return {
                       ...prev,

@@ -20,7 +20,7 @@ const RoomsContextProvider = (props) => {
         });
         setTimeout(() => {
           setRoomLoading(false);
-        }, 2000);
+        }, 2500);
       } catch (err) {
         console.log(err);
       }

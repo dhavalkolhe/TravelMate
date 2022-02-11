@@ -132,7 +132,7 @@ export const Nav = () => {
   const openNotifMenu = Boolean(notifMenu);
   const handleClickNotifMenu = (event) => {
     setNotifMenu(event.currentTarget);
-    console.log(notifMenu);
+    // console.log(notifMenu);
   };
   const handleCloseNotifMenu = () => setNotifMenu(null);
   const NotifMenu = () => {
