@@ -97,7 +97,14 @@ function App() {
     });
   }, []);
 
-  window.addEventListener("storage", () => {
+  window.addEventListener("storage", (e) => {
+    if (e.key === "openpages") {
+      // Listen if anybody else is opening the same page!
+      console.log("openpages");
+    }
+    if (e.key === "page_available") {
+      console.log("One more page already open");
+    }
     const changedData = JSON.parse(window.localStorage.getItem("user"));
 
     if (JSON.stringify(u) !== JSON.stringify(changedData)) {
