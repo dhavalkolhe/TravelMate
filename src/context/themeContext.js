@@ -27,7 +27,6 @@ const theme = createTheme({
 export const ThemeContextProvider = (props) => {
   return (
     <ThemeProvider theme={theme} value={{ theme123: "theme123" }}>
-      {" "}
       {props.children}
     </ThemeProvider>
   );

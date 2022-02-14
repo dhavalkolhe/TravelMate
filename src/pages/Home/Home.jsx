@@ -12,10 +12,7 @@ import {
   Article,
   WebsiteInfo,
 } from "../../components/HomeComponents";
-import {
-  About,
-  //  MadeBy
-} from "../../components/AboutUs";
+import { About, MadeBy } from "../../components/AboutUs";
 import { Footer } from "../../components/Footer";
 
 import { Box, Container } from "@mui/material";
@@ -60,7 +57,7 @@ export function Home() {
       <WebsiteInfo />
       <Container maxWidth="lg" id="about">
         <About />
-        {/* <MadeBy /> */}
+        <MadeBy />
       </Container>
       <Footer />
     </homeContext.Provider>

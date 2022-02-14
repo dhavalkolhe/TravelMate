@@ -1,29 +1,55 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-import { Box, Stack, Typography } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Card,
+  Avatar,
+  Grid,
+  IconButton,
+} from "@mui/material";
 
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-import avatar1 from "../../resources/images/avatar1.png";
-import avatar2 from "../../resources/images/avatar2.png";
+import dhaval4 from "../../resources/images/madeBy/dhaval4.png";
+import vansh2 from "../../resources/images/madeBy/vansh2.png";
+import monalisa2 from "../../resources/images/madeBy/monalisa2.png";
+import anushka2 from "../../resources/images/madeBy/anushka2.png";
 
 export function MadeBy() {
   const Person = ({ image, pname, contribution, linkedin, github }) => {
     return (
-      <Stack
-        direction="column"
-        spacing={1}
+      <Card
+        // direction="row"
+        // spacing={1}
+        raised
         sx={{
           display: "flex",
+          flexFlow: "column noWrap",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
+          width: "450px",
+          height: "250px",
+          margin: {
+            xs: "1rem",
+            md: "1rem 0.8rem",
+            lg: "2rem",
+          },
+          padding: "0.5rem",
+          borderRadius: "15px",
         }}
       >
-        <Box>
+        <Avatar
+          sx={{
+            height: "100px",
+            width: "100px",
+            // border: "0.4px solid #001963",
+            // borderRadius: "50%",
+          }}
+        >
           <img src={image} alt={pname} />
-        </Box>
+        </Avatar>
 
         <Stack
           direction="column"
@@ -33,25 +59,41 @@ export function MadeBy() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4">{pname}</Typography>
-          <Typography variant="subtitle1">{contribution}</Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              fontSize: {
+                xs: "1.5rem",
+                md: "2rem",
+              },
+            }}
+          >
+            {pname}
+          </Typography>
+          <Typography variant="subtitle1" color="primary.light">
+            {contribution}
+          </Typography>
         </Stack>
 
-        <Stack direction="row" spacing={4}>
+        <Stack direction="row" spacing={1}>
           <a href={linkedin} target="_blank" rel="noopener noreferrer">
-            <LinkedInIcon fontSize="large" />
+            <IconButton>
+              <LinkedInIcon fontSize="small" />
+            </IconButton>
           </a>
           <a href={github} target="_blank" rel="noopener noreferrer">
-            <GitHubIcon fontSize="large" />
+            <IconButton>
+              <GitHubIcon fontSize="medium" />
+            </IconButton>
           </a>
         </Stack>
-      </Stack>
+      </Card>
     );
   };
 
   return (
     <>
-      <Stack direction="column" spacing={4} sx={{ width: "100%" }}>
+      <Grid item direction="column" spacing={4} sx={{ width: "100%" }}>
         <Stack
           direction="row"
           sx={{
@@ -60,53 +102,67 @@ export function MadeBy() {
             alignItems: "flex-end",
           }}
         >
-          <Typography variant="h3">Made By</Typography>
-          <Typography variant="subtitle1" color="#F03E51" component={Link}>
-            <u>travelmateVIT.com</u>
+          <Typography
+            variant="h3"
+            sx={{
+              fontSize: {
+                xs: "2rem",
+                md: "3rem",
+              },
+            }}
+          >
+            Made By
           </Typography>
+          <a href="https://travelmate.vitrendz.com" rel="noopener noreferrer">
+            <Typography variant="subtitle1" color="#F03E51">
+              <u>travelmate.vitrendz.com</u>
+            </Typography>
+          </a>
         </Stack>
 
-        <Stack
+        <Grid
+          container
           direction="row"
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
             flexWrap: "wrap",
+            margin: "1rem 0",
           }}
         >
           <Person
-            image={avatar1}
-            pname="Anushka"
-            contribution="Development"
+            image={anushka2}
+            pname="Kumari Anushka"
+            contribution="Backend Development"
             linkedin="https://www.linkedin.com/in/kumari-anushka-1410"
             github="https://github.com/anuxoxo"
           />
           <Person
-            image={avatar2}
-            pname="Dhaval"
-            contribution="Development"
+            image={dhaval4}
+            pname="Dhaval Kolhe"
+            contribution="Front-end Development"
             linkedin="https://www.linkedin.com/in/dhaval-kolhe"
             github="https://github.com/dhavalkolhe"
           />
 
           <Person
-            image={avatar1}
-            pname="Monalisa"
-            contribution="Design"
+            image={monalisa2}
+            pname="Monalisa Maiti"
+            contribution="Product Design"
             linkedin="https://www.linkedin.com/in/monalisa-maiti-4b789b1b8"
             github="https://github.com/monalisamaiti"
           />
 
           <Person
-            image={avatar2}
-            pname="Vansh"
+            image={vansh2}
+            pname="Vansh Chinda"
             contribution="Design & Development"
             linkedin="https://www.linkedin.com/in/vansh-chinda-310884189/"
             github="https://github.com/vanshchinda"
           />
-        </Stack>
-      </Stack>
+        </Grid>
+      </Grid>
     </>
   );
 }
