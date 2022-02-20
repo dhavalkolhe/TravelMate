@@ -54,10 +54,12 @@ export function Home() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            // backgroundColor: "red",
+            marginBottom: "3rem",
           }}
           format="auto"
           responsive="true"
-          // layoutKey="-gw-1+2a-9x+5c"
+          layoutKey="-gw-1+2a-9x+5c"
         />
         <Article />
         {/* <div>
@@ -80,10 +82,11 @@ export function Home() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            // backgroundColor: "red",
           }}
           format="auto"
           responsive="true"
-          // layoutKey="-gw-1+2a-9x+5c"
+          layoutKey="-gw-1+2a-9x+5c"
         />
         {/* <MadeBy /> */}
       </Container>
