@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AdSense from "react-adsense";
 // import { Link } from "react-router-dom";
 
 /* Componenets */
@@ -46,6 +47,18 @@ export function Home() {
           <SearchSection />
         </Box>
         <StepsInfo />
+        <AdSense.Google
+          client="ca-pub-3524193275174890"
+          slot="4162029724"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          format="auto"
+          responsive="true"
+          // layoutKey="-gw-1+2a-9x+5c"
+        />
         <Article />
         {/* <div>
         <Link to="/addRequest">Add Request</Link>
@@ -60,6 +73,18 @@ export function Home() {
       <WebsiteInfo />
       <Container maxWidth="lg" id="about">
         <About />
+        <AdSense.Google
+          client="ca-pub-3524193275174890"
+          slot="4162029724"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          format="auto"
+          responsive="true"
+          // layoutKey="-gw-1+2a-9x+5c"
+        />
         {/* <MadeBy /> */}
       </Container>
       <Footer />
