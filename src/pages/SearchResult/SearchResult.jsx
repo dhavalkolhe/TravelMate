@@ -71,7 +71,7 @@ function SearchResult() {
   const [showFilterNav, setShowFilterNav] = useState(false);
 
   const handleFilterClick = () => {
-    console.log("clicked");
+    // console.log("clicked");
     setShowFilterNav(true);
   };
 
@@ -181,14 +181,14 @@ function SearchResult() {
     h.length
       ? setFilteredResponse(h)
       : g.length
-      ? setFilteredResponse(g)
-      : z.length
-      ? setFilteredResponse(z)
-      : y.length
-      ? setFilteredResponse(y)
-      : x.length
-      ? setFilteredResponse(x)
-      : setFilteredResponse([]);
+        ? setFilteredResponse(g)
+        : z.length
+          ? setFilteredResponse(z)
+          : y.length
+            ? setFilteredResponse(y)
+            : x.length
+              ? setFilteredResponse(x)
+              : setFilteredResponse([]);
   }, [startDate, endDate, currentCity, destinationCity, time, mode, response]);
 
   useEffect(() => {
@@ -291,7 +291,6 @@ function SearchResult() {
                     <DatePicker
                       selected={startDate}
                       onChange={(date) => {
-                        console.log("datepicker ", date);
                         setStartDate(date);
                       }}
                       minDate={new Date()}

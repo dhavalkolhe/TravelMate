@@ -245,7 +245,7 @@ export function SearchBox() {
             </Box>
 
             <Box className="mr" sx={{ width: "100%" }}>
-              <Typography class="subtitle1">Date</Typography>
+              <Typography class="subtitle1">Date of Travel</Typography>
               {/* <TextField
                 size="small"
                 placeholder="DD-MM-YYYY"
@@ -271,7 +271,6 @@ export function SearchBox() {
                 value={search.startDate}
                 minDate={new Date()}
                 onChange={(newValue) => {
-                  console.log("mui date", new Date(newValue).toDateString())
                   setSearch((prev) => {
                     return {
                       ...prev,

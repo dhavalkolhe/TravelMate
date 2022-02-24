@@ -84,7 +84,7 @@ export function Footer() {
         }}
       >
         <Typography sx={{ color: "#001963" }} variant="caption">
-          All Rights Reserved © 2021
+          All Rights Reserved © {new Date().getFullYear()}
         </Typography>
       </Box>
     </>
