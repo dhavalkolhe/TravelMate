@@ -132,7 +132,7 @@ export const Nav = () => {
   const openNotifMenu = Boolean(notifMenu);
   const handleClickNotifMenu = (event) => {
     setNotifMenu(event.currentTarget);
-    console.log(notifMenu);
+    // console.log(notifMenu);
   };
   const handleCloseNotifMenu = () => setNotifMenu(null);
   const NotifMenu = () => {
@@ -209,26 +209,26 @@ export const Nav = () => {
         onKeyDown={toggleDrawer(false)}
       >
         <List>
-          <ListItem button key={"home"}>
-            <Link to={"/"}>
+          <Link to={"/"}>
+            <ListItem button key={"home"}>
               <ListItemText primary={"Home"} />
-            </Link>
-          </ListItem>
+            </ListItem>
+          </Link>
           {/* <ListItem button key={"about"}>
             <a href="#about">
               <ListItemText primary={"About"} />
             </a>
           </ListItem> */}
-          <ListItem button key={"dashboard"}>
-            <Link to={`/dashboard`}>
+          <Link to={`/dashboard`}>
+            <ListItem button key={"dashboard"}>
               <ListItemText primary={"Dashboard"} />
-            </Link>
-          </ListItem>
-          <ListItem button key={"addRequest"}>
-            <Link to={`/addRequest`}>
+            </ListItem>
+          </Link>
+          <Link to={`/addRequest`}>
+            <ListItem button key={"addRequest"}>
               <ListItemText primary={"Add Request"} />
-            </Link>
-          </ListItem>
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>
@@ -270,7 +270,7 @@ export const Nav = () => {
           loading={loginLoading}
           loadingPosition="start"
           color="primary"
-        // sx={{ color: "theme.palette.theme.text" }}
+          // sx={{ color: "theme.palette.theme.text" }}
         >
           Login
         </LoadingButton>

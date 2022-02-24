@@ -26,6 +26,8 @@ import { toast } from "react-toastify";
 
 import { makeStyles } from "@material-ui/core/styles";
 
+import AdSense from "react-adsense";
+
 import {
   Box,
   Container,
@@ -491,23 +493,19 @@ function AddRequest() {
                     }}
                     required
                   />
-                  <button className="text__icon"
+                  <button
+                    className="text__icon"
                     onClick={() => setNop(nop + 1)}
                   >
-                    <img
-                      src={plus}
-                      alt="locationIcon"
-                    />
+                    <img src={plus} alt="locationIcon" />
                   </button>
-                  <button className="text__icon"
+                  <button
+                    className="text__icon"
                     onClick={() => {
                       if (nop - 1) setNop(nop - 1);
-                    }}>
-                    <img
-                      src={minus}
-                      alt="locationIcon"
-
-                    />
+                    }}
+                  >
+                    <img src={minus} alt="locationIcon" />
                   </button>
                 </Stack>
                 <FormGroup>
@@ -576,6 +574,19 @@ function AddRequest() {
           {/* <WebsiteInfo /> */}
           <Container maxWidth="lg">
             <About />
+            <AdSense.Google
+              client="ca-pub-3524193275174890"
+              slot="4162029724"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // backgroundColor: "red",
+              }}
+              format="auto"
+              responsive="true"
+              // layoutKey="-gw-1+2a-9x+5c"
+            />
             {/* <MadeBy /> */}
           </Container>
           <Footer />
