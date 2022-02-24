@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 // firestore
 import { db } from "../../firebase/db";
-import { setDoc, doc, getDoc } from "firebase/firestore";
+import { setDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 
 //mui + UI
 import { Box, Stack, Card, Button, Typography } from "@mui/material";
@@ -29,11 +29,12 @@ export const Login = () => {
     toast[type](message);
   };
 
-  const addUser = async (displayName, photoURL, uid) => {
+  const addUser = async (displayName, photoURL, uid, email) => {
     try {
       setDoc(doc(db, "users", uid), {
         displayName,
         photoURL,
+        email,
         rooms: [],
         rides: [],
       });
@@ -53,10 +54,21 @@ export const Login = () => {
     }
   };
 
+  const addEmail = async (uid, email) => {
+    try {
+      updateDoc(doc(db, "users", uid), {
+        email
+      });
+    } catch (e) {
+      console.error("Error adding email: ", e);
+    }
+  }
+
   const signIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const { displayName, photoURL, uid, email } = result.user;
+        console.log(uid)
         const authorized = result.user.accessToken ? true : false;
 
         setUser({
@@ -69,8 +81,9 @@ export const Login = () => {
 
         userExists(uid).then((res) => {
           if (!res) {
-            addUser(displayName, photoURL, uid);
+            addUser(displayName, photoURL, uid, email);
           } else {
+            addEmail(uid, email);
             console.log("User already exists!");
           }
         });

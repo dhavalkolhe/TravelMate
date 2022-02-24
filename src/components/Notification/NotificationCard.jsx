@@ -2,10 +2,12 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../context/userContext";
 import { NotificationContext } from "../../context/notificationContext";
 import { v4 as uuidv4 } from "uuid";
+import axios from 'axios';
 
 import { db } from "../../firebase/db";
 import {
   updateDoc,
+  getDoc,
   doc,
   setDoc,
   arrayUnion,
@@ -66,7 +68,22 @@ function NotificationCard({
       console.log(err);
     }
   };
-
+  const sendMailToUser = async () => {
+    try {
+      const userData = await getDoc(doc(db, "users", requestorId));
+      const toEmail = userData.data().email;
+      const toName = userData.data().displayName;
+      const choice = 2;
+      const fromName = user.displayName;
+      // axios.post(`${process.env.REACT_APP_BACKEND_URL}${actionName.toLowerCase()}`, { email, password })
+      axios.post(`http://localhost:8000/send-mail`, { toEmail, toName, fromName, choice })
+        .catch((error) => {
+          console.log(error)
+        });
+    } catch (err) {
+      console.log(err)
+    }
+  }
   const handleAccept = async () => {
     setLoading(true);
 
@@ -86,9 +103,9 @@ function NotificationCard({
       createChatRoom(roomId);
       updateUserRooms(roomId);
       updateUserRideRooms(roomId);
-
       setLoading(false);
       setAccepted(true);
+      sendMailToUser();
     } catch (err) {
       console.log("accept err : ", err);
     }

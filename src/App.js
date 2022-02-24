@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { db } from "./firebase/db";
+import { doc, updateDoc } from "firebase/firestore";
 
 // Components
 // import { Login } from "./components/Login";
@@ -77,6 +79,16 @@ function App() {
   const [user, setUser] = useContext(UserContext);
   const [u, setU] = useState(auth.currentUser);
 
+  const addEmail = async (uid, email) => {
+    try {
+      updateDoc(doc(db, "users", uid), {
+        email,
+      });
+    } catch (e) {
+      console.error("Error adding email: ", e);
+    }
+  };
+
   useEffect(() => {
     let userData = {};
 
@@ -85,6 +97,7 @@ function App() {
         userData = { authorized: false };
         setU(userData);
       } else {
+        addEmail(userFound.uid, userFound.email);
         userData = {
           authorized: true,
           uid: userFound.uid,

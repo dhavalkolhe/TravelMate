@@ -7,10 +7,13 @@ import "./Card.css";
 import PopUp from "../PopUp/PopUp";
 // import Loader from "../../components/Loader/Loader";
 import { Avatar } from '@mui/material';
+import axios from 'axios';
+
 
 import { db } from "../../firebase/db";
-import { setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { setDoc, getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { SentReqContext } from "../../context/sentRequests";
+// import { sendMailNoti } from "../../utils/nodeMailer";
 
 function Card({
   currentCity,
@@ -63,6 +66,22 @@ function Card({
     );
     updateuserRidesReq();
   };
+  const sendMailToUser = async () => {
+    try {
+      const userData = await getDoc(doc(db, "users", userId));
+      const toEmail = userData.data().email;
+      const toName = userData.data().displayName;
+      const choice = 1;
+      const fromName = user.displayName;
+      // axios.post(`${process.env.REACT_APP_BACKEND_URL}${actionName.toLowerCase()}`, { email, password })
+      axios.post(`http://localhost:8000/send-mail`, { toEmail, toName, fromName, choice })
+        .catch((error) => {
+          console.log(error)
+        });
+    } catch (err) {
+      console.log(err)
+    }
+  }
   const sendRequest = () => {
     if (user.authorized) {
       // setSendText("");
@@ -77,6 +96,8 @@ function Card({
           if (!loading) setSendText("Request sent ✅");
 
           setDisable(true);
+          sendMailToUser()
+
         });
       } catch (e) {
         console.error("Error sending req : ", e);
