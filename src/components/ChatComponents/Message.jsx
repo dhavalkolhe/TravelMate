@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./chatComponenets.css";
+import axios from 'axios';
 
 import {
   Box,
@@ -133,6 +134,42 @@ export function MessagesBox() {
     //eslint-disable-next-line
   }, [roomId]);
 
+  const fetchMemData = async (memId) => {
+    const memData = await getDoc(doc(db, "users", memId));
+    return {
+      memId,
+      displayName: memData.data().displayName,
+      email: memData.data().email,
+    };
+  };
+
+  const sendMailToUser = async (toEmail, toName, fromName, choice) => {
+    try {
+      // axios.post(`${process.env.REACT_APP_BACKEND_URL}${actionName.toLowerCase()}`, { email, password })
+      axios.post(`http://localhost:8000/send-mail`, { toEmail, toName, fromName, choice })
+        .then(() => {
+          console.log("email sent")
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const findOtherMem = async () => {
+    const roomData = await getDoc(doc(db, "rooms", roomId));
+    if (roomData.exists()) {
+      let otherID = 0;
+      if (roomData.data().members[0] === user.uid) otherID = 1;
+
+      fetchMemData(roomData.data().members[otherID])
+        .then((memData) => {
+          sendMailToUser(memData.email, memData.displayName, user.displayName, 3)
+        })
+    }
+  }
   const fetchSavedMessages = async () => {
     let masterArr = [];
     const q = collection(db, "rooms", roomId, "messages");
@@ -214,6 +251,7 @@ export function MessagesBox() {
         setMessageList((list) => [...list, messageData]);
         setCurrentMessage("");
         saveMessage(messageData);
+        findOtherMem();
       }
     } catch (err) {
       console.log(err);
