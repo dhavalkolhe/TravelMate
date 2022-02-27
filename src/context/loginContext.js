@@ -6,7 +6,7 @@ export const LoginContext = createContext();
 
 export const LoginContextProvider = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [loginDialogOpen, setLoginDialogOpen] = useState(true);
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const [user] = useContext(UserContext);
 
   useEffect(() => {
