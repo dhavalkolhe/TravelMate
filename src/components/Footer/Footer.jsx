@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 /* MUI */
 import { Box, Stack, Typography } from "@mui/material";
 
-import vitrendzLogo from "../../resources/images/vitrendzLogo.png";
+import vitrendzLogo from "../../resources/images/vitrendzLogo.webp";
 import travelMateFullLogo from "../../resources/images/travelMateFullLogo.svg";
 
 export function Footer() {
@@ -51,7 +51,12 @@ export function Footer() {
             }}
           >
             <Box width="200px">
-              <img src={vitrendzLogo} alt="VITrendz" />
+              <img
+                src={vitrendzLogo}
+                alt="VITrendz"
+                width="236px"
+                height="80px"
+              />
             </Box>
 
             <Box width="200px">

@@ -12,13 +12,20 @@ import {
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-import dhaval4 from "../../resources/images/madeBy/dhaval4.png";
-import vansh2 from "../../resources/images/madeBy/vansh2.png";
-import monalisa2 from "../../resources/images/madeBy/monalisa2.png";
-import anushka2 from "../../resources/images/madeBy/anushka2.png";
+import dhaval4 from "../../resources/images/madeBy/dhaval4.webp";
+import vansh2 from "../../resources/images/madeBy/vansh2.webp";
+import monalisa2 from "../../resources/images/madeBy/monalisa2.webp";
+import anushka2 from "../../resources/images/madeBy/anushka2.webp";
 
 export function MadeBy() {
-  const Person = ({ image, pname, contribution, linkedin, github }) => {
+  const Person = ({
+    image,
+    pname,
+    contribution,
+    linkedin,
+    github,
+    imgProps,
+  }) => {
     return (
       <Card
         // direction="row"
@@ -48,7 +55,12 @@ export function MadeBy() {
             // borderRadius: "50%",
           }}
         >
-          <img src={image} alt={pname} />
+          <img
+            src={image}
+            alt={pname}
+            height={imgProps.height}
+            width={imgProps.width}
+          />
         </Avatar>
 
         <Stack
@@ -137,6 +149,10 @@ export function MadeBy() {
             contribution="Backend Development"
             linkedin="https://www.linkedin.com/in/kumari-anushka-1410"
             github="https://github.com/anuxoxo"
+            imgProps={{
+              heigth: "557px",
+              width: "557px",
+            }}
           />
           <Person
             image={dhaval4}
@@ -144,6 +160,10 @@ export function MadeBy() {
             contribution="Front-end Development"
             linkedin="https://www.linkedin.com/in/dhaval-kolhe"
             github="https://github.com/dhavalkolhe"
+            imgProps={{
+              heigth: "600px",
+              width: "600px",
+            }}
           />
 
           <Person
@@ -152,6 +172,10 @@ export function MadeBy() {
             contribution="Product Design"
             linkedin="https://www.linkedin.com/in/monalisa-maiti-4b789b1b8"
             github="https://github.com/monalisamaiti"
+            imgProps={{
+              heigth: "244px",
+              width: "244px",
+            }}
           />
 
           <Person
@@ -160,6 +184,10 @@ export function MadeBy() {
             contribution="Design & Development"
             linkedin="https://www.linkedin.com/in/vansh-chinda-310884189/"
             github="https://github.com/vanshchinda"
+            imgProps={{
+              heigth: "543px",
+              width: "543px",
+            }}
           />
         </Grid>
       </Grid>
