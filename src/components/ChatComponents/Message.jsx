@@ -139,14 +139,17 @@ export function MessagesBox() {
     return {
       memId,
       displayName: memData.data().displayName,
+      photoURL: memData.data().photoURL,
       email: memData.data().email,
     };
   };
 
-  const sendMailToUser = async (toEmail, toName, fromName, choice) => {
+  const sendMailToUser = async (other, text) => {
     try {
+      const choice = 3;
+
       // axios.post(`${process.env.REACT_APP_BACKEND_URL}${actionName.toLowerCase()}`, { email, password })
-      axios.post(`http://localhost:8000/send-mail`, { toEmail, toName, fromName, choice })
+      axios.post(`http://localhost:8000/send-mail`, { other, user, choice, text })
         .then(() => {
           console.log("email sent")
         })
@@ -158,7 +161,7 @@ export function MessagesBox() {
     }
   }
 
-  const findOtherMem = async () => {
+  const findOtherMem = async (text) => {
     const roomData = await getDoc(doc(db, "rooms", roomId));
     if (roomData.exists()) {
       let otherID = 0;
@@ -166,7 +169,7 @@ export function MessagesBox() {
 
       fetchMemData(roomData.data().members[otherID])
         .then((memData) => {
-          sendMailToUser(memData.email, memData.displayName, user.displayName, 3)
+          sendMailToUser(memData, text)
         })
     }
   }
@@ -251,7 +254,7 @@ export function MessagesBox() {
         setMessageList((list) => [...list, messageData]);
         setCurrentMessage("");
         saveMessage(messageData);
-        findOtherMem();
+        findOtherMem(messageData.message);
       }
     } catch (err) {
       console.log(err);

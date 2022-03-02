@@ -68,13 +68,12 @@ function Card({
   };
   const sendMailToUser = async () => {
     try {
-      const userData = await getDoc(doc(db, "users", userId));
-      const toEmail = userData.data().email;
-      const toName = userData.data().displayName;
+      const reqData = await getDoc(doc(db, "users", userId));
+      const other = reqData.data();
       const choice = 1;
-      const fromName = user.displayName;
+
       // axios.post(`${process.env.REACT_APP_BACKEND_URL}${actionName.toLowerCase()}`, { email, password })
-      axios.post(`http://localhost:8000/send-mail`, { toEmail, toName, fromName, choice })
+      axios.post(`http://localhost:8000/send-mail`, { other, user, choice })
         .catch((error) => {
           console.log(error)
         });

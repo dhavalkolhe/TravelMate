@@ -70,13 +70,12 @@ function NotificationCard({
   };
   const sendMailToUser = async () => {
     try {
-      const userData = await getDoc(doc(db, "users", requestorId));
-      const toEmail = userData.data().email;
-      const toName = userData.data().displayName;
+      const reqData = await getDoc(doc(db, "users", requestorId));
+      const other = reqData.data();
       const choice = 2;
-      const fromName = user.displayName;
+
       // axios.post(`${process.env.REACT_APP_BACKEND_URL}${actionName.toLowerCase()}`, { email, password })
-      axios.post(`http://localhost:8000/send-mail`, { toEmail, toName, fromName, choice })
+      axios.post(`http://localhost:8000/send-mail`, { other, user, choice })
         .catch((error) => {
           console.log(error)
         });
@@ -102,10 +101,11 @@ function NotificationCard({
 
       createChatRoom(roomId);
       updateUserRooms(roomId);
-      updateUserRideRooms(roomId);
+      updateUserRideRooms(roomId).then(() => {
+        sendMailToUser();
+      });
       setLoading(false);
       setAccepted(true);
-      sendMailToUser();
     } catch (err) {
       console.log("accept err : ", err);
     }
