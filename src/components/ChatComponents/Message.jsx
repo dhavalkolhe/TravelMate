@@ -149,7 +149,7 @@ export function MessagesBox() {
       const choice = 3;
 
       // axios.post(`${process.env.REACT_APP_BACKEND_URL}${actionName.toLowerCase()}`, { email, password })
-      axios.post(`https://travelmate-backend-main.herokuapp.com/send-mail`, { other, user, choice, text })
+      axios.post(`https://travelmate-back-end.herokuapp.com/send-mail`, { other, user, choice, text })
         .then(() => {
           console.log("email sent")
         })
