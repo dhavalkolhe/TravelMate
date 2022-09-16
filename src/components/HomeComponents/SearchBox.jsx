@@ -23,7 +23,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 
-import DatePicker from "@mui/lab/DatePicker";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 export function SearchBox() {
   const [search, setSearch] = useContext(SearchContext);

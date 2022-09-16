@@ -24,9 +24,8 @@ import SentReqContextProvider from "./context/sentRequests";
 import "./firebase/firebase";
 
 import SearchResult from "./pages/SearchResult/SearchResult";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 // Pages
 import { Home } from "./pages/Home";
 import { Notification } from "./components/Notification";
