@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AdSense from "react-adsense";
 // import { Link } from "react-router-dom";
 
 /* Componenets */
@@ -17,6 +16,8 @@ import { About, MadeBy } from "../../components/AboutUs";
 import { Footer } from "../../components/Footer";
 
 import { Box, Container } from "@mui/material";
+
+import AdSenseComp from "../../components/AdSenseComp/AdSenseComp";
 
 export function Home() {
   const [overlayDisplay, setoverlayDisplay] = useState("none");
@@ -44,20 +45,7 @@ export function Home() {
           <SearchSection />
         </Box>
         <StepsInfo />
-        <AdSense.Google
-          client="ca-pub-5878196353426013"
-          slot="6221557440"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            // backgroundColor: "red",
-            marginBottom: "3rem",
-          }}
-          format="auto"
-          responsive="true"
-          layoutKey="-gw-1+2a-9x+5c"
-        />
+        <AdSenseComp />
         <Article />
         {/* <div>
         <Link to="/addRequest">Add Request</Link>
@@ -73,19 +61,7 @@ export function Home() {
       <Container maxWidth="lg" id="about">
         <About />
         <MadeBy />
-        <AdSense.Google
-          client="ca-pub-5878196353426013"
-          slot="6221557440"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            // backgroundColor: "red",
-          }}
-          format="auto"
-          responsive="true"
-          layoutKey="-gw-1+2a-9x+5c"
-        />
+        <AdSenseComp />
         {/* <MadeBy /> */}
       </Container>
       <Footer />

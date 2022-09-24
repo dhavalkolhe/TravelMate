@@ -26,7 +26,7 @@ import { toast } from "react-toastify";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import AdSense from "react-adsense";
+import AdSenseComp from "../AdSenseComp/AdSenseComp"
 
 import {
   Box,
@@ -574,19 +574,7 @@ function AddRequest() {
           {/* <WebsiteInfo /> */}
           <Container maxWidth="lg">
             <About />
-            <AdSense.Google
-              client="ca-pub-5878196353426013"
-              slot="6221557440"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                // backgroundColor: "red",
-              }}
-              format="auto"
-              responsive="true"
-              // layoutKey="-gw-1+2a-9x+5c"
-            />
+            <AdSenseComp />
             {/* <MadeBy /> */}
           </Container>
           <Footer />
