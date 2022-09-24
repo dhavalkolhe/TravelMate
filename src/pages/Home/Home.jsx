@@ -45,8 +45,8 @@ export function Home() {
         </Box>
         <StepsInfo />
         <AdSense.Google
-          client="ca-pub-3524193275174890"
-          slot="4162029724"
+          client="ca-pub-5878196353426013"
+          slot="6221557440"
           style={{
             display: "flex",
             justifyContent: "center",
@@ -74,8 +74,8 @@ export function Home() {
         <About />
         <MadeBy />
         <AdSense.Google
-          client="ca-pub-3524193275174890"
-          slot="4162029724"
+          client="ca-pub-5878196353426013"
+          slot="6221557440"
           style={{
             display: "flex",
             justifyContent: "center",
