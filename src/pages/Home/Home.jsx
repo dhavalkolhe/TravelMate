@@ -60,7 +60,7 @@ export function Home() {
       <WebsiteInfo />
       <Container maxWidth="lg" id="about">
         <About />
-        <MadeBy />
+        {/* <MadeBy /> */}
         <AdSenseComp />
         {/* <MadeBy /> */}
       </Container>
