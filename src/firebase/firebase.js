@@ -2,13 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics, logEvent } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAPYdubf7dZtT279DRkoVkdrrNCmO8r_tM",
-  authDomain: "travelmate-d6764.firebaseapp.com",
-  projectId: "travelmate-d6764",
-  storageBucket: "travelmate-d6764.appspot.com",
-  messagingSenderId: "488973057926",
-  appId: "1:488973057926:web:e92d314fa854f9837ff607",
-  measurementId: "G-H50X7PVX8F",
+  apiKey: "AIzaSyDLl5Kgb2RE4JNwhPayiVghYcca8-zi98c",
+  authDomain: "travelmate-68913.firebaseapp.com",
+  projectId: "travelmate-68913",
+  storageBucket: "travelmate-68913.appspot.com",
+  messagingSenderId: "644389157992",
+  appId: "1:644389157992:web:cb9a45e403282390c38fdd",
 };
 
 // Initialize Firebase
